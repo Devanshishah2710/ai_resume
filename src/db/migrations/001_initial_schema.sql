@@ -59,10 +59,15 @@ BEGIN
     NEW.id,
     COALESCE(NEW.raw_user_meta_data->>'full_name', ''),
     NEW.raw_user_meta_data->>'avatar_url'
-  );
+  )
+  ON CONFLICT (id) DO NOTHING;
   RETURN NEW;
+EXCEPTION
+  WHEN others THEN
+    -- Never let a profile-creation failure block signup.
+    RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
@@ -138,10 +143,14 @@ CREATE TRIGGER user_settings_updated_at
 CREATE OR REPLACE FUNCTION handle_new_user_settings()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO user_settings (user_id) VALUES (NEW.id);
+  INSERT INTO user_settings (user_id) VALUES (NEW.id)
+  ON CONFLICT (user_id) DO NOTHING;
   RETURN NEW;
+EXCEPTION
+  WHEN others THEN
+    RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 CREATE TRIGGER on_auth_user_created_settings
   AFTER INSERT ON auth.users

@@ -34,9 +34,13 @@ export const authService = {
   /**
    * Create a new account with email and password.
    * Supabase sends a verification email automatically.
+   *
+   * The DB trigger (handle_new_user) normally creates the profile row, but
+   * if that trigger fails or is missing we create it explicitly as a fallback
+   * so signup never hard-fails on a profile insert race.
    */
   async signUp(email: string, password: string, fullName: string): Promise<void> {
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -45,6 +49,17 @@ export const authService = {
       },
     })
     if (error) throw new Error(error.message)
+
+    // Best-effort profile creation — ignore failures here; the trigger
+    // (or a later refresh) will reconcile. Never blocks signup success.
+    const userId = data.user?.id
+    if (userId) {
+      const { error: profileError } = await (supabase.from('profiles') as any).upsert(
+        { id: userId, full_name: fullName },
+        { onConflict: 'id' }
+      )
+      if (profileError) console.warn('[signUp] profile upsert skipped:', profileError.message)
+    }
   },
 
   /**

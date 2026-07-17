@@ -12,14 +12,18 @@
 
 import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, Check, Loader2, Download, Palette } from 'lucide-react'
+import { ArrowLeft, Check, Loader2, Download, Palette, PanelLeft } from 'lucide-react'
 import { useResumeBuilderStore, useIsSaving, useIsDirty } from '@/store/resume-builder.store'
 import { Button } from '@/components/ui/Button'
 import { Tooltip } from '@/components/ui/Tooltip'
 import { usePdfExport } from '@/features/pdf/hooks/usePdfExport'
 import { ROUTES } from '@/constants'
 
-export function BuilderTopBar() {
+type BuilderTopBarProps = {
+  onToggleEditor?: () => void
+}
+
+export function BuilderTopBar({ onToggleEditor }: BuilderTopBarProps) {
   const resume = useResumeBuilderStore((s) => s.resume)
   const setTitle = useResumeBuilderStore((s) => s.setTitle)
   const setActivePanel = useResumeBuilderStore((s) => s.setActivePanel)
@@ -54,6 +58,19 @@ export function BuilderTopBar() {
     <header className="h-[var(--topbar-height)] shrink-0 flex items-center justify-between gap-3 px-4 border-b border-[var(--color-border)] bg-[var(--color-bg-elevated)] z-30">
       {/* Left */}
       <div className="flex items-center gap-3 min-w-0">
+        {/* Editor toggle (mobile / tablet) */}
+        {onToggleEditor && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onToggleEditor}
+            className="lg:hidden shrink-0"
+            aria-label="Open editor"
+          >
+            <PanelLeft className="h-4 w-4" />
+          </Button>
+        )}
+
         <Tooltip content="Back to dashboard">
           <Link
             to={ROUTES.DASHBOARD}

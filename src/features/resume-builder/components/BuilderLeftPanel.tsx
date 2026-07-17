@@ -23,7 +23,7 @@ export function BuilderLeftPanel() {
   const setActivePanel = useResumeBuilderStore((s) => s.setActivePanel)
 
   return (
-    <aside className="w-[var(--sidebar-width)] shrink-0 flex flex-col border-r border-[var(--color-border)] bg-[var(--color-bg-elevated)] overflow-hidden">
+    <aside className="w-full lg:w-[var(--sidebar-width)] shrink-0 lg:shrink-0 flex flex-col border-r border-[var(--color-border)] bg-[var(--color-bg-elevated)] overflow-hidden">
       {/* Tab bar */}
       <div className="flex border-b border-[var(--color-border)] shrink-0">
         {TABS.map(({ id, label, icon: Icon }) => (
