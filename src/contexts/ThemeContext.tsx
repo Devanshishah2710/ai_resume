@@ -3,18 +3,8 @@
  * Applies data-theme attribute to document root for CSS variable switching.
  */
 
-import { createContext, useContext, useEffect, useState, useCallback } from 'react'
-
-type ThemeMode = 'light' | 'dark' | 'system'
-type ResolvedTheme = 'light' | 'dark'
-
-type ThemeContextValue = {
-  theme: ThemeMode
-  resolvedTheme: ResolvedTheme
-  setTheme: (theme: ThemeMode) => void
-}
-
-const ThemeContext = createContext<ThemeContextValue | null>(null)
+import { useEffect, useState, useCallback } from 'react'
+import { ThemeContext, type ThemeMode, type ResolvedTheme } from '@/contexts/theme-context'
 
 const STORAGE_KEY = 'rf-theme'
 
@@ -64,10 +54,4 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       {children}
     </ThemeContext.Provider>
   )
-}
-
-export function useTheme(): ThemeContextValue {
-  const ctx = useContext(ThemeContext)
-  if (!ctx) throw new Error('useTheme must be used within ThemeProvider')
-  return ctx
 }

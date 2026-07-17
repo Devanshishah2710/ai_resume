@@ -13,6 +13,7 @@
 import type { TemplateProps } from '@/types/template'
 import { formatDateRange, formatMonthYear } from '@/utils/date'
 import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
+import { renderRichText } from '@/utils/sanitize'
 
 const FONT_SIZE_MAP = { sm: '11px', md: '11.5px', lg: '12.5px' }
 const LINE_HEIGHT_MAP = { tight: 1.3, normal: 1.5, relaxed: 1.65 }
@@ -179,7 +180,7 @@ export default function ModernMinimalTemplate({ data, theme, sections }: Templat
                       </p>
                       {exp.description && (
                         <div style={{ marginTop: '5px', color: '#475569', lineHeight }}
-                          dangerouslySetInnerHTML={{ __html: exp.description.replace(/\n/g, '<br/>') }}
+                          dangerouslySetInnerHTML={{ __html: renderRichText(exp.description) }}
                         />
                       )}
                     </div>

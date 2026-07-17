@@ -272,7 +272,9 @@ export const useResumeBuilderStore = create<ResumeBuilderState & ResumeBuilderAc
       const sectionId = `custom-${customId}`
       set((s) => {
         if (!s.resume) return s
-        const maxOrder = Math.max(...s.resume.sections.map((sec) => sec.order))
+        const maxOrder = s.resume.sections.length
+          ? Math.max(...s.resume.sections.map((sec) => sec.order))
+          : -1
         const newSection: SectionConfig = {
           id: sectionId,
           type: 'custom' as SectionType,

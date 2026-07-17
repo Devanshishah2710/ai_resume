@@ -16,6 +16,7 @@
 import type { TemplateProps } from '@/types/template'
 import { formatDateRange, formatMonthYear } from '@/utils/date'
 import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
+import { renderRichText } from '@/utils/sanitize'
 
 // ─── Typography scale maps ────────────────────────────────────────────────────
 
@@ -128,7 +129,7 @@ export default function ClassicProfessionalTemplate({ data, theme, sections }: T
                     {exp.description && (
                       <div
                         style={{ marginTop: '5px', lineHeight }}
-                        dangerouslySetInnerHTML={{ __html: exp.description.replace(/\n/g, '<br/>') }}
+                        dangerouslySetInnerHTML={{ __html: renderRichText(exp.description) }}
                       />
                     )}
                   </div>

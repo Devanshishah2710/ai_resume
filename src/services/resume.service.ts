@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase'
 import type { Resume, ResumeData, ResumeTheme, SectionConfig } from '@/types/resume'
 import { DEFAULT_RESUME_DATA, DEFAULT_SECTION_CONFIGS, DEFAULT_THEME } from '@/types/resume'
 import { generateSlug } from '@/utils/slug'
+import { generateId } from '@/utils/id'
 
 type ResumeRow = {
   id: string; user_id: string; title: string; slug: string; template_id: string
@@ -25,9 +26,7 @@ function rowToResume(row: ResumeRow): Resume {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const resumeTable = () => supabase.from('resumes') as any
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const downloadTable = () => supabase.from('downloads') as any
 
 export const resumeService = {
@@ -102,7 +101,7 @@ export const resumeService = {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
     await downloadTable().insert({ user_id: user.id, resume_id: resumeId, format })
-    await resumeTable().update({ last_exported_at: new Date().toISOString() }).eq('id', resumeId)
+    await resumeTable().update({ last_exported_at: new Date().toISOString() }).eq('id', resumeId).eq('user_id', user.id)
   },
 }
 
@@ -110,10 +109,12 @@ async function generateUniqueSlug(title: string, userId: string): Promise<string
   const base = generateSlug(title)
   let slug = base
   let attempt = 0
-  while (true) {
+  while (attempt < 50) {
     const { data } = await resumeTable().select('id').eq('user_id', userId).eq('slug', slug).single()
     if (!data) return slug
     attempt++
     slug = `${base}-${attempt}`
   }
+  // Fallback: collisions exhausted, use a random suffix
+  return `${base}-${generateId().slice(0, 8)}`
 }

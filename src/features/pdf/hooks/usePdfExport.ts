@@ -21,7 +21,6 @@ export function usePdfExport() {
     const toastId = toast.loading('Generating PDF…')
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const html2pdf = ((await import('html2pdf.js')) as any).default ?? (await import('html2pdf.js'))
 
       const element = document.getElementById('resume-preview-root')

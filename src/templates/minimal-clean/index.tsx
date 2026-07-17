@@ -7,6 +7,7 @@
 import type { TemplateProps } from '@/types/template'
 import { formatDateRange, formatMonthYear } from '@/utils/date'
 import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
+import { renderRichText } from '@/utils/sanitize'
 
 const FONT_SIZE_MAP = { sm: '11px', md: '12px', lg: '13px' }
 const LINE_HEIGHT_MAP = { tight: 1.4, normal: 1.6, relaxed: 1.8 }
@@ -91,7 +92,7 @@ export default function MinimalCleanTemplate({ data, theme, sections }: Template
                       <p style={{ color: theme.primaryColor, fontSize: `calc(${fontSize} * 0.95)` }}>{exp.company}{exp.location && ` · ${exp.location}`}</p>
                       {exp.description && (
                         <div style={{ color: '#374151', lineHeight, marginTop: '5px' }}
-                          dangerouslySetInnerHTML={{ __html: exp.description.replace(/\n/g, '<br/>') }} />
+                          dangerouslySetInnerHTML={{ __html: renderRichText(exp.description) }} />
                       )}
                     </div>
                   </div>

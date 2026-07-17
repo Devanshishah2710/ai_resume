@@ -7,6 +7,7 @@
 import type { TemplateProps } from '@/types/template'
 import { formatDateRange, formatMonthYear } from '@/utils/date'
 import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
+import { renderRichText } from '@/utils/sanitize'
 
 const FONT_SIZE_MAP = { sm: '11px', md: '12px', lg: '13px' }
 const LINE_HEIGHT_MAP = { tight: 1.3, normal: 1.5, relaxed: 1.7 }
@@ -85,7 +86,7 @@ export default function ExecutiveDarkTemplate({ data, theme, sections }: Templat
                       </p>
                       {exp.description && (
                         <div style={{ marginTop: '5px', color: '#374151', lineHeight }}
-                          dangerouslySetInnerHTML={{ __html: exp.description.replace(/\n/g, '<br/>') }} />
+                          dangerouslySetInnerHTML={{ __html: renderRichText(exp.description) }} />
                       )}
                     </div>
                   ))}

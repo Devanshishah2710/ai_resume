@@ -80,6 +80,21 @@ export function textToHtml(text: string): string {
 }
 
 /**
+ * Sanitizes a rich-text description and converts newlines to <br/>.
+ *
+ * Resume descriptions are free-text that may contain basic inline formatting
+ * (bold, italic, lists). We sanitize against an allow-list before rendering
+ * with dangerouslySetInnerHTML, and convert literal newlines to <br/> so
+ * plain multi-line input still renders with line breaks.
+ *
+ * Safe for use in dangerouslySetInnerHTML.
+ */
+export function renderRichText(html: string): string {
+  if (!html) return ''
+  return sanitizeHtml(html).replace(/\n/g, '<br/>')
+}
+
+/**
  * Escapes HTML special characters to prevent XSS.
  */
 export function escapeHtml(str: string): string {
