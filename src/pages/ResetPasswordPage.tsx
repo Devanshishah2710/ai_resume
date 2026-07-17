@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { Eye, EyeOff } from 'lucide-react'
 import { AuthLayout } from '@/layouts/AuthLayout'
@@ -12,6 +12,7 @@ type ResetFormValues = { password: string; confirmPassword: string }
 
 export default function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
   const {
@@ -26,6 +27,12 @@ export default function ResetPasswordPage() {
 
   const onSubmit = async (values: ResetFormValues) => {
     try {
+      // Exchange the recovery token from the link before updating the password.
+      const tokenHash = searchParams.get('token_hash')
+      const type = searchParams.get('type')
+      if (tokenHash && type) {
+        await authService.verifyEmail(tokenHash, type)
+      }
       await authService.updatePassword(values.password)
       navigate(ROUTES.DASHBOARD, { replace: true })
     } catch (err) {

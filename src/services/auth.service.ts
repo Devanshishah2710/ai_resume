@@ -89,6 +89,19 @@ export const authService = {
   },
 
   /**
+   * Verify an email using the token delivered in the confirmation link.
+   * Supabase sends `token_hash` + `type=signup` as query params; we exchange
+   * them via verifyOtp (PKCE-safe, works without the session hash).
+   */
+  async verifyEmail(tokenHash: string, type: string): Promise<void> {
+    const { error } = await supabase.auth.verifyOtp({
+      token_hash: tokenHash,
+      type: type as never,
+    })
+    if (error) throw new Error(error.message)
+  },
+
+  /**
    * Get the current authenticated user, or null if not signed in.
    */
   async getCurrentUser(): Promise<AuthUser | null> {
