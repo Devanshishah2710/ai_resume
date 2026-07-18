@@ -52,6 +52,8 @@ Copy `.env.example` to `.env.local` and set:
 
 The Supabase client (`src/lib/supabase.ts`) throws at startup if these are missing. Never commit `.env.local` or any secrets.
 
+Full setup, Supabase schema, and Vercel deploy steps are in [`docs/DEVELOPMENT.md`](./docs/DEVELOPMENT.md). A repo map for agents is in [`docs/PROJECT_OVERVIEW.md`](./docs/PROJECT_OVERVIEW.md).
+
 ## Import Conventions
 
 - Use the `@/` path alias for everything under `src/` (e.g. `import { ROUTES } from '@/constants'`). Do not use long relative paths.

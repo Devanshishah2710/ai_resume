@@ -8,6 +8,10 @@ Thanks for contributing to ResumeForge. This guide is written to be usable by bo
 - A Supabase project (URL + anon key) for local dev and any feature touching data/auth
 - Copy `.env.example` → `.env.local` and fill in credentials
 
+Full step-by-step setup, Supabase schema, and Vercel deploy are in
+[`docs/DEVELOPMENT.md`](./docs/DEVELOPMENT.md). Read
+[`docs/PROJECT_OVERVIEW.md`](./docs/PROJECT_OVERVIEW.md) first for a repo map.
+
 ## Local Setup
 
 ```bash

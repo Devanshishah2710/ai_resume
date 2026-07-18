@@ -79,6 +79,10 @@ Browser (React SPA)
 - `src/lib/supabase.ts` validates required env vars at startup and throws if missing.
 - User-generated HTML must pass through `src/utils/sanitize.ts` before `dangerouslySetInnerHTML`.
 
+## Entry Point for Agents
+
+For a concise repo map and "where to put things" table, see [`docs/PROJECT_OVERVIEW.md`](../docs/PROJECT_OVERVIEW.md). This file explains the *why*; the overview explains the *where*.
+
 ## Known Tech Debt / Caveats
 
 - `resume.service.ts` casts `supabase.from(...)` to `any` to work around a Supabase SDK circular-generic bug — this is intentional and documented inline.

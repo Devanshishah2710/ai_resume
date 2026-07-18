@@ -1,79 +1,52 @@
 # ResumeForge — ATS Resume Builder
 
-A production-grade SaaS resume builder built with React 19, TypeScript, Supabase, and Tailwind CSS v4.
+**ResumeForge** is a free, ATS-optimized resume builder. Pick a template, fill in your details with a live preview, customize the look, and export a print-ready PDF — all in the browser.
 
-## Features
+> Developers: setup, architecture, and contribution guides live in [`docs/`](./docs). Start with [`docs/PROJECT_OVERVIEW.md`](./docs/PROJECT_OVERVIEW.md).
 
-- **4 ATS-optimized templates** — Classic Professional, Modern Minimal, Executive, Minimal Clean
-- **15+ resume sections** — all draggable, toggle-able, fully editable
-- **Live preview** — instant rendering as you type, with zoom controls  
-- **Theme customizer** — colors, fonts, spacing, layout density
-- **PDF export** — high-DPI A4 PDFs via html2pdf.js
-- **Auto-save** — debounced Supabase writes after 1.5s idle
-- **Dark mode** — system/light/dark with CSS custom properties
-- **Auth** — email + Google OAuth, protected routes, session persistence
-- **Dashboard** — grid/list view, search, sort, duplicate, rename, delete
+## What you can do
 
-## Tech Stack
+- **Build a resume from scratch** — create a new resume, choose a template, and start editing.
+- **Use ATS-friendly templates** — every template is designed to pass Applicant Tracking System scanners.
+- **Edit with live preview** — changes render instantly as you type, with zoom controls.
+- **Customize the design** — pick accent colors, fonts, spacing, and layout density from the Design tab.
+- **Organize with sections** — 14 built-in sections (experience, education, projects, skills, certifications, and more), each toggle-able, reorderable, and editable. Add your own custom sections.
+- **Stay safe with auto-save** — your work is saved automatically (debounced) to your account.
+- **Switch templates without losing data** — template choice is separate from your content.
+- **Export to PDF** — download a high-DPI A4 PDF in one click, from the editor or the preview page.
+- **Manage multiple resumes** — dashboard with grid/list view, search, sort, duplicate, rename, and delete.
+- **Dark mode** — system / light / dark, applied across the app.
 
-React 19 · TypeScript · Vite · Tailwind CSS v4 · Zustand · React Hook Form · Framer Motion · @dnd-kit · Supabase · Sonner · html2pdf.js · Vercel
+## Templates
 
-## Quick Start
+Four free, ATS-optimized templates are included:
 
-```bash
-# 1. Install
-npm install
+| Template | Style | Best for |
+|----------|-------|----------|
+| Classic Professional | Single-column, traditional | Fortune 500 / conservative roles |
+| Modern Minimal | Accent sidebar, two-column capable | Tech and modern industries |
+| Executive | Bold header, refined typography | Senior / leadership roles |
+| Minimal Clean | Whitespace-driven, ultra-clean | Design-forward roles |
 
-# 2. Set up Supabase
-#    - Create project at supabase.com
-#    - Run src/db/migrations/001_initial_schema.sql in SQL Editor
-#    - Copy Project URL and anon key
+Browse and preview them from the **Templates** page.
 
-# 3. Configure env
-cp .env.example .env.local
-# Edit .env.local with your Supabase credentials
+## Account & auth
 
-# 4. Develop
-npm run dev
+- Sign up / sign in with **email + password** or **Google**.
+- Email verification and password reset are supported.
+- Your resumes are tied to your account and private by default.
 
-# 5. Build
-npm run build
-```
+## Getting started (as a user)
 
-## Supabase Setup
+1. Open the app (or deploy your own — see [`docs/DEVELOPMENT.md`](./docs/DEVELOPMENT.md#deploy-to-vercel)).
+2. Create an account or sign in.
+3. Click **New Resume** (or pick a template from **Templates**).
+4. Edit sections on the left, watch the preview on the right, tweak the design.
+5. Click **Export PDF** to download.
 
-1. Create a free project at [supabase.com](https://supabase.com)
-2. Run `src/db/migrations/001_initial_schema.sql` in the SQL Editor
-3. Create Storage buckets: `avatars` (public), `resume-exports` (private), `template-previews` (public)
-4. Enable Google OAuth under Authentication → Providers (optional)
+## Pricing
 
-## Deploy to Vercel
-
-1. Push to GitHub
-2. Import at [vercel.com/new](https://vercel.com/new)  
-3. Add env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
-4. Deploy — `vercel.json` handles SPA routing and security headers
-
-## Project Structure
-
-```
-src/
-├── components/ui/           # Button, Input, Card, Modal, etc.
-├── constants/               # Routes, limits, colors, fonts
-├── contexts/                # AuthProvider, ThemeProvider
-├── db/migrations/           # SQL schema + RLS policies
-├── features/
-│   ├── resume-builder/      # Builder panels, top bar, preview
-│   └── pdf/                 # usePdfExport hook
-├── layouts/                 # AuthLayout, AppLayout
-├── pages/                   # Route-level components
-├── routes/                  # AppRouter, ProtectedRoute, PublicRoute
-├── services/                # Supabase data access layer
-├── store/                   # Zustand (auth.store, resume-builder.store)
-├── styles/                  # globals.css with CSS design tokens
-├── templates/               # Resume template components + registry
-└── types/                   # Domain types (resume, template, auth)
-```
+ResumeForge is free to use (up to the free resume limit). A "Pro" plan is referenced in the UI but billing is not yet implemented — see [`TODO.md`](./TODO.md).
 
 ## License
 
