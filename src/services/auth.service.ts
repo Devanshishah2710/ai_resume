@@ -6,6 +6,7 @@
  */
 
 import { supabase, isSupabaseReady, supabaseConfigError } from '@/lib/supabase'
+import { ENABLE_GOOGLE_AUTH } from '@/constants'
 import { useAuthStore } from '@/store/auth.store'
 import { profileService } from '@/services/profile.service'
 import type { AuthUser } from '@/types/auth'
@@ -28,6 +29,10 @@ function getFriendlyAuthErrorMessage(error: unknown): string {
 
   if (message.includes('network') || message.includes('fetch') || message.includes('timeout')) {
     return 'Network error. Please check your connection and try again'
+  }
+
+  if (message.includes('provider is not enabled') || message.includes('unsupported provider') || message.includes('invalid provider')) {
+    return 'Google sign-in is not enabled for this project. Please enable Google in Supabase Auth providers or use email/password instead.'
   }
 
   if (message.includes('not configured') || message.includes('missing') || message.includes('disabled')) {
@@ -104,6 +109,10 @@ export const authService = {
    * Redirects the user to Google, then back to /dashboard.
    */
   async signInWithGoogle(): Promise<void> {
+    if (!ENABLE_GOOGLE_AUTH) {
+      throw new Error('Google sign-in is not enabled for this project. Use email/password instead.')
+    }
+
     if (!isSupabaseReady) {
       throw new Error(supabaseConfigError?.message ?? 'Authentication is not configured correctly')
     }
