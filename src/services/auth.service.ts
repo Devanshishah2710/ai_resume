@@ -6,15 +6,42 @@
  */
 
 import { supabase } from '@/lib/supabase'
+import { useAuthStore } from '@/store/auth.store'
+import { profileService } from '@/services/profile.service'
 import type { AuthUser } from '@/types/auth'
+
+async function syncAuthStateFromSession(session: Awaited<ReturnType<typeof supabase.auth.signInWithPassword>>['data']['session']) {
+  const store = useAuthStore.getState()
+
+  if (!session?.user) {
+    store.setUser(null)
+    store.setProfile(null)
+    store.setLoading(false)
+    return
+  }
+
+  const authUser: AuthUser = {
+    id: session.user.id,
+    email: session.user.email ?? '',
+    emailVerified: !!session.user.email_confirmed_at,
+    createdAt: session.user.created_at,
+  }
+
+  store.setUser(authUser)
+  store.setLoading(false)
+
+  const profile = await profileService.getProfile(session.user.id)
+  store.setProfile(profile)
+}
 
 export const authService = {
   /**
    * Sign in with email and password.
    */
   async signInWithEmail(email: string, password: string): Promise<void> {
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) throw new Error(error.message)
+    await syncAuthStateFromSession(data.session)
   },
 
   /**
@@ -68,6 +95,10 @@ export const authService = {
   async signOut(): Promise<void> {
     const { error } = await supabase.auth.signOut()
     if (error) throw new Error(error.message)
+    const store = useAuthStore.getState()
+    store.setUser(null)
+    store.setProfile(null)
+    store.setLoading(false)
   },
 
   /**
