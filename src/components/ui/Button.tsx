@@ -93,7 +93,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           leftIcon
         )}
-        {size !== 'icon' && children}
+        {size !== 'icon' ? children : !leftIcon ? children : null}
         {!isLoading && rightIcon}
       </button>
     )

@@ -7,6 +7,7 @@ import { usePdfExport } from '@/features/pdf/hooks/usePdfExport'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 import { ROUTES } from '@/constants'
+import { SignOutButton } from '@/components/common/SignOutButton'
 
 export default function ResumePreviewPage() {
   const { id } = useParams<{ id: string }>()
@@ -42,9 +43,12 @@ export default function ResumePreviewPage() {
           <ArrowLeft className="h-4 w-4" />
           Back to editor
         </Link>
-        <Button size="sm" leftIcon={<Download className="h-3.5 w-3.5" />} onClick={exportPdf} isLoading={isExporting}>
-          Export PDF
-        </Button>
+        <div className="flex items-center gap-2">
+          <SignOutButton iconOnly className="h-9 w-9" />
+          <Button size="sm" leftIcon={<Download className="h-3.5 w-3.5" />} onClick={exportPdf} isLoading={isExporting}>
+            Export PDF
+          </Button>
+        </div>
       </div>
 
       {/* A4 preview */}

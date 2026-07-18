@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/Button'
 import { Tooltip } from '@/components/ui/Tooltip'
 import { usePdfExport } from '@/features/pdf/hooks/usePdfExport'
 import { ROUTES } from '@/constants'
+import { SignOutButton } from '@/components/common/SignOutButton'
 
 type BuilderTopBarProps = {
   onToggleEditor?: () => void
@@ -128,6 +129,12 @@ export function BuilderTopBar({ onToggleEditor }: BuilderTopBarProps) {
 
       {/* Right */}
       <div className="flex items-center gap-2 shrink-0">
+        <Tooltip content="Sign out">
+          <div>
+            <SignOutButton iconOnly className="h-10 w-10" />
+          </div>
+        </Tooltip>
+
         {/* Template picker shortcut */}
         <Button
           variant="secondary"

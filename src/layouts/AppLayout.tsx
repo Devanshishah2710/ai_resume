@@ -14,14 +14,13 @@
  */
 
 import { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard,
   FileText,
   Palette,
   Settings,
-  LogOut,
   Menu,
   X,
   ChevronDown,
@@ -29,12 +28,11 @@ import {
   Sun,
 } from 'lucide-react'
 import { useAuthStore } from '@/store/auth.store'
-import { authService } from '@/services/auth.service'
 import { useTheme } from '@/hooks/useTheme'
 import { APP_NAME, ROUTES } from '@/constants'
 import { Button } from '@/components/ui/Button'
 import { Tooltip } from '@/components/ui/Tooltip'
-import { toast } from 'sonner'
+import { SignOutButton } from '@/components/common/SignOutButton'
 
 const NAV_ITEMS = [
   { label: 'Dashboard', icon: LayoutDashboard, to: ROUTES.DASHBOARD },
@@ -47,18 +45,8 @@ type AppLayoutProps = { children: React.ReactNode }
 export function AppLayout({ children }: AppLayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
-  const navigate = useNavigate()
   const { user, profile } = useAuthStore()
   const { resolvedTheme, setTheme } = useTheme()
-
-  const handleSignOut = async () => {
-    try {
-      await authService.signOut()
-      navigate(ROUTES.LOGIN, { replace: true })
-    } catch {
-      toast.error('Failed to sign out')
-    }
-  }
 
   const toggleTheme = () => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
@@ -132,9 +120,9 @@ export function AppLayout({ children }: AppLayoutProps) {
           </div>
 
           <Tooltip content="Sign out">
-            <Button variant="ghost" size="icon" onClick={handleSignOut} aria-label="Sign out">
-              <LogOut className="h-4 w-4" />
-            </Button>
+            <div>
+              <SignOutButton iconOnly className="h-10 w-10" />
+            </div>
           </Tooltip>
         </div>
       </header>
@@ -228,13 +216,10 @@ export function AppLayout({ children }: AppLayoutProps) {
                 </nav>
 
                 <div className="px-3 pt-4 border-t border-[var(--color-border)] mt-4">
-                  <button
-                    onClick={handleSignOut}
-                    className="flex w-full items-center gap-3 px-3 py-2.5 rounded-[var(--radius-md)] text-sm font-medium text-[var(--color-error)] hover:bg-[var(--color-error-subtle)] transition-colors"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    Sign out
-                  </button>
+                  <SignOutButton
+                    className="w-full justify-start text-[var(--color-error)] hover:bg-[var(--color-error-subtle)]"
+                    label="Sign out"
+                  />
                 </div>
               </motion.aside>
             </>
