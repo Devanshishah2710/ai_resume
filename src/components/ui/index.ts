@@ -4,6 +4,7 @@
  */
 
 export { Button } from './Button'
+export { Container, Section } from './Container'
 export { Input } from './Input'
 export { Textarea } from './Textarea'
 export { Card, CardHeader, CardTitle, CardDescription } from './Card'

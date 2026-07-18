@@ -32,7 +32,9 @@ export function Card({
         'shadow-[var(--shadow-card)]',
         PADDING_CLASSES[padding],
         hover
-          ? 'transition-shadow duration-[var(--transition-fast)] hover:shadow-[var(--shadow-md)] cursor-pointer'
+          ? 'transition-all duration-[var(--transition-fast)] ' +
+            'hover:-translate-y-0.5 hover:border-[var(--color-accent)]/30 ' +
+            'hover:shadow-[var(--shadow-md)] cursor-pointer'
           : '',
         className,
       ].join(' ')}

@@ -23,7 +23,7 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { AppLayout } from '@/layouts/AppLayout'
-import { Button } from '@/components/ui/Button'
+import { Button, Container } from '@/components/ui'
 import { Input } from '@/components/ui/Input'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { Select } from '@/components/ui/Select'
@@ -143,7 +143,7 @@ export default function DashboardPage() {
   // ── Render ──
   return (
     <AppLayout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Container className="py-8">
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
@@ -276,7 +276,6 @@ export default function DashboardPage() {
             </AnimatePresence>
           </motion.div>
         )}
-      </div>
 
       {/* ── Modals ── */}
       <CreateResumeModal
@@ -296,6 +295,7 @@ export default function DashboardPage() {
         onClose={() => setDeleteTarget(null)}
         onDelete={handleDelete}
       />
+      </Container>
     </AppLayout>
   )
 }

@@ -10,6 +10,7 @@ import { AppLayout } from '@/layouts/AppLayout'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
+import { Container } from '@/components/ui/Container'
 import { useAuthStore } from '@/store/auth.store'
 import { useTheme } from '@/hooks/useTheme'
 import { profileService } from '@/services/profile.service'
@@ -57,7 +58,7 @@ export default function SettingsPage() {
 
   return (
     <AppLayout>
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+      <Container size="narrow" className="space-y-6 py-8">
         <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Settings</h1>
 
         {/* Profile */}
@@ -156,7 +157,7 @@ export default function SettingsPage() {
             )}
           </div>
         </Card>
-      </div>
+      </Container>
     </AppLayout>
   )
 }

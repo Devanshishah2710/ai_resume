@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/Input'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Skeleton } from '@/components/ui/Skeleton'
+import { Container } from '@/components/ui/Container'
 import { getTemplateList } from '@/templates/registry'
 import { resumeService } from '@/services/resume.service'
 import { ROUTES, TEMPLATE_CATEGORIES } from '@/constants'
@@ -54,7 +55,7 @@ export default function TemplatesPage() {
 
   return (
     <AppLayout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Container className="py-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Resume Templates</h1>
@@ -104,7 +105,7 @@ export default function TemplatesPage() {
             ))}
           </div>
         )}
-      </div>
+      </Container>
     </AppLayout>
   )
 }
