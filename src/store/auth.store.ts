@@ -10,13 +10,12 @@ import { supabase } from '@/lib/supabase'
 import { profileService } from '@/services/profile.service'
 import type { AuthState, AuthUser, UserProfile } from '@/types/auth'
 
-async function syncAuthStateFromSession(session: Awaited<ReturnType<typeof supabase.auth.getSession>>['data']['session']) {
-  const store = useAuthStore.getState()
-
+async function syncAuthStateFromSession(
+  session: Awaited<ReturnType<typeof supabase.auth.getSession>>['data']['session'],
+  set: (next: Partial<AuthState>) => void
+) {
   if (!session?.user) {
-    store.setUser(null)
-    store.setProfile(null)
-    store.setLoading(false)
+    set({ user: null, profile: null, isAuthenticated: false, isLoading: false })
     return
   }
 
@@ -27,11 +26,15 @@ async function syncAuthStateFromSession(session: Awaited<ReturnType<typeof supab
     createdAt: session.user.created_at,
   }
 
-  store.setUser(authUser)
-  store.setLoading(false)
+  set({ user: authUser, isAuthenticated: true, isLoading: true })
 
-  const profile = await profileService.getProfile(session.user.id)
-  store.setProfile(profile)
+  try {
+    const profile = await profileService.getProfile(session.user.id)
+    set({ profile, isLoading: false })
+  } catch (error) {
+    console.warn('[auth] failed to load profile', error)
+    set({ profile: null, isLoading: false })
+  }
 }
 
 type AuthActions = {
@@ -60,25 +63,17 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
    */
   initialize: () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (session?.user) {
-        const authUser: AuthUser = {
-          id: session.user.id,
-          email: session.user.email ?? '',
-          emailVerified: !!session.user.email_confirmed_at,
-          createdAt: session.user.created_at,
-        }
-        set({ user: authUser, isAuthenticated: true })
+      await syncAuthStateFromSession(session, set)
+    })
 
-        const profile = await profileService.getProfile(session.user.id)
-        set({ profile, isLoading: false })
-      } else {
+    void supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        void syncAuthStateFromSession(session, set)
+      })
+      .catch((error) => {
+        console.warn('[auth] failed to read initial session', error)
         set({ user: null, profile: null, isAuthenticated: false, isLoading: false })
-      }
-    })
-
-    void supabase.auth.getSession().then(({ data: { session } }) => {
-      void syncAuthStateFromSession(session)
-    })
+      })
 
     return () => subscription.unsubscribe()
   },

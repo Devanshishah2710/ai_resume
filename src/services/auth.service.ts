@@ -5,7 +5,7 @@
  * supabase.auth directly — this service is the single source of truth.
  */
 
-import { supabase } from '@/lib/supabase'
+import { supabase, isSupabaseReady, supabaseConfigError } from '@/lib/supabase'
 import { useAuthStore } from '@/store/auth.store'
 import { profileService } from '@/services/profile.service'
 import type { AuthUser } from '@/types/auth'
@@ -55,10 +55,17 @@ async function syncAuthStateFromSession(session: Awaited<ReturnType<typeof supab
   }
 
   store.setUser(authUser)
-  store.setLoading(false)
+  store.setLoading(true)
 
-  const profile = await profileService.getProfile(session.user.id)
-  store.setProfile(profile)
+  try {
+    const profile = await profileService.getProfile(session.user.id)
+    store.setProfile(profile)
+  } catch (error) {
+    console.warn('[auth] failed to load profile after sign-in', error)
+    store.setProfile(null)
+  } finally {
+    store.setLoading(false)
+  }
 }
 
 export const authService = {
@@ -66,10 +73,30 @@ export const authService = {
    * Sign in with email and password.
    */
   async signInWithEmail(email: string, password: string): Promise<void> {
+    if (!isSupabaseReady) {
+      throw new Error(supabaseConfigError?.message ?? 'Authentication is not configured correctly')
+    }
+
     const normalizedEmail = normalizeEmail(email)
-    const { data, error } = await supabase.auth.signInWithPassword({ email: normalizedEmail, password })
-    if (error) throw new Error(getFriendlyAuthErrorMessage(error))
-    await syncAuthStateFromSession(data.session)
+    const store = useAuthStore.getState()
+    store.setLoading(true)
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email: normalizedEmail, password })
+      if (error) {
+        store.setUser(null)
+        store.setProfile(null)
+        store.setLoading(false)
+        throw new Error(getFriendlyAuthErrorMessage(error))
+      }
+
+      await syncAuthStateFromSession(data.session)
+    } catch (error) {
+      store.setUser(null)
+      store.setProfile(null)
+      store.setLoading(false)
+      throw error
+    }
   },
 
   /**
@@ -77,6 +104,10 @@ export const authService = {
    * Redirects the user to Google, then back to /dashboard.
    */
   async signInWithGoogle(): Promise<void> {
+    if (!isSupabaseReady) {
+      throw new Error(supabaseConfigError?.message ?? 'Authentication is not configured correctly')
+    }
+
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -103,27 +134,43 @@ export const authService = {
    * so signup never hard-fails on a profile insert race.
    */
   async signUp(email: string, password: string, fullName: string): Promise<void> {
+    if (!isSupabaseReady) {
+      throw new Error(supabaseConfigError?.message ?? 'Authentication is not configured correctly')
+    }
+
     const normalizedEmail = normalizeEmail(email)
     const trimmedFullName = fullName.trim()
-    const { data, error } = await supabase.auth.signUp({
-      email: normalizedEmail,
-      password,
-      options: {
-        data: { full_name: trimmedFullName },
-        emailRedirectTo: `${window.location.origin}/verify-email`,
-      },
-    })
-    if (error) throw new Error(getFriendlyAuthErrorMessage(error))
+    const store = useAuthStore.getState()
+    store.setLoading(true)
 
-    // Best-effort profile creation — ignore failures here; the trigger
-    // (or a later refresh) will reconcile. Never blocks signup success.
-    const userId = data.user?.id
-    if (userId) {
-      const { error: profileError } = await (supabase.from('profiles') as any).upsert(
-        { id: userId, full_name: trimmedFullName },
-        { onConflict: 'id' }
-      )
-      if (profileError) console.warn('[signUp] profile upsert skipped:', profileError.message)
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: normalizedEmail,
+        password,
+        options: {
+          data: { full_name: trimmedFullName },
+          emailRedirectTo: `${window.location.origin}/verify-email`,
+        },
+      })
+      if (error) {
+        store.setUser(null)
+        store.setProfile(null)
+        store.setLoading(false)
+        throw new Error(getFriendlyAuthErrorMessage(error))
+      }
+
+      // Best-effort profile creation — ignore failures here; the trigger
+      // (or a later refresh) will reconcile. Never blocks signup success.
+      const userId = data.user?.id
+      if (userId) {
+        const { error: profileError } = await (supabase.from('profiles') as any).upsert(
+          { id: userId, full_name: trimmedFullName },
+          { onConflict: 'id' }
+        )
+        if (profileError) console.warn('[signUp] profile upsert skipped:', profileError.message)
+      }
+    } finally {
+      store.setLoading(false)
     }
   },
 
@@ -131,12 +178,25 @@ export const authService = {
    * Sign out the current user.
    */
   async signOut(): Promise<void> {
-    const { error } = await supabase.auth.signOut()
-    if (error) throw new Error(error.message)
+    if (!isSupabaseReady) {
+      const store = useAuthStore.getState()
+      store.setUser(null)
+      store.setProfile(null)
+      store.setLoading(false)
+      return
+    }
+
     const store = useAuthStore.getState()
-    store.setUser(null)
-    store.setProfile(null)
-    store.setLoading(false)
+    store.setLoading(true)
+
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) throw new Error(error.message)
+    } finally {
+      store.setUser(null)
+      store.setProfile(null)
+      store.setLoading(false)
+    }
   },
 
   /**

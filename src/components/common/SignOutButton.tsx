@@ -1,6 +1,5 @@
 import { LogOut } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { useAuthStore } from '@/store/auth.store'
 import { authService } from '@/services/auth.service'
 import { Button } from '@/components/ui/Button'
 import { ROUTES } from '@/constants'
@@ -18,9 +17,6 @@ export function SignOutButton({ className = '', label = 'Sign out', iconOnly = f
   const handleSignOut = async () => {
     try {
       await authService.signOut()
-      useAuthStore.getState().setUser(null)
-      useAuthStore.getState().setProfile(null)
-      useAuthStore.getState().setLoading(false)
       navigate(ROUTES.LOGIN, { replace: true })
     } catch {
       toast.error('Failed to sign out')

@@ -13,26 +13,36 @@ import type { Database } from './supabase-types'
 
 const supabaseUrl = import.meta.env['VITE_SUPABASE_URL'] as string | undefined
 const supabaseAnonKey = import.meta.env['VITE_SUPABASE_ANON_KEY'] as string | undefined
+const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey)
+const storage = typeof window !== 'undefined' ? window.localStorage : undefined
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error(
-    '[Supabase] Missing environment variables.\n' +
-      'Ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in .env.local'
-  )
-}
-
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+const clientOptions = {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
-    storage: window.localStorage,
+    storage,
   },
   global: {
     headers: {
       'x-app-name': 'ResumeForge',
     },
   },
-})
+}
+
+export const supabase = createClient<Database>(
+  supabaseUrl || 'https://example.supabase.co',
+  supabaseAnonKey || 'placeholder-anon-key',
+  clientOptions
+)
+
+export const supabaseConfigError = isSupabaseConfigured
+  ? null
+  : new Error(
+      '[Supabase] Missing environment variables.\n' +
+        'Ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in .env.local'
+    )
+
+export const isSupabaseReady = isSupabaseConfigured
 
 export type SupabaseClient = typeof supabase
