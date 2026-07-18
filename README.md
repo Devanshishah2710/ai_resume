@@ -2,6 +2,8 @@
 
 **ResumeForge** is a free, ATS-optimized resume builder. Pick a template, fill in your details with a live preview, customize the look, and export a print-ready PDF — all in the browser.
 
+> **Live demo:** [ai-resume-pi-one.vercel.app](https://ai-resume-pi-one.vercel.app/)
+>
 > Developers: setup, architecture, and contribution guides live in [`docs/`](./docs). Start with [`docs/PROJECT_OVERVIEW.md`](./docs/PROJECT_OVERVIEW.md).
 
 ## What you can do
