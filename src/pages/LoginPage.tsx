@@ -43,6 +43,7 @@ export default function LoginPage() {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Sign in failed'
       setError('root', { message })
+      toast.error(message)
     }
   }
 

@@ -43,6 +43,7 @@ export default function RegisterPage() {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Registration failed'
       setError('root', { message })
+      toast.error(message)
     }
   }
 

@@ -10,6 +10,33 @@ import { useAuthStore } from '@/store/auth.store'
 import { profileService } from '@/services/profile.service'
 import type { AuthUser } from '@/types/auth'
 
+function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase()
+}
+
+function getFriendlyAuthErrorMessage(error: unknown): string {
+  const rawMessage = error instanceof Error ? error.message : 'Authentication failed'
+  const message = rawMessage.toLowerCase()
+
+  if (message.includes('invalid login credentials') || message.includes('invalid_grant') || message.includes('user not found')) {
+    return 'Incorrect email or password'
+  }
+
+  if (message.includes('email not confirmed') || message.includes('confirm') || message.includes('verify')) {
+    return 'Please verify your email before signing in'
+  }
+
+  if (message.includes('network') || message.includes('fetch') || message.includes('timeout')) {
+    return 'Network error. Please check your connection and try again'
+  }
+
+  if (message.includes('not configured') || message.includes('missing') || message.includes('disabled')) {
+    return 'Authentication is not configured correctly. Please contact support'
+  }
+
+  return rawMessage
+}
+
 async function syncAuthStateFromSession(session: Awaited<ReturnType<typeof supabase.auth.signInWithPassword>>['data']['session']) {
   const store = useAuthStore.getState()
 
@@ -39,8 +66,9 @@ export const authService = {
    * Sign in with email and password.
    */
   async signInWithEmail(email: string, password: string): Promise<void> {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) throw new Error(error.message)
+    const normalizedEmail = normalizeEmail(email)
+    const { data, error } = await supabase.auth.signInWithPassword({ email: normalizedEmail, password })
+    if (error) throw new Error(getFriendlyAuthErrorMessage(error))
     await syncAuthStateFromSession(data.session)
   },
 
@@ -49,13 +77,21 @@ export const authService = {
    * Redirects the user to Google, then back to /dashboard.
    */
   async signInWithGoogle(): Promise<void> {
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${window.location.origin}/dashboard`,
+        queryParams: {
+          prompt: 'select_account',
+        },
       },
     })
+
     if (error) throw new Error(error.message)
+
+    if (data.url) {
+      window.location.assign(data.url)
+    }
   },
 
   /**
@@ -67,22 +103,24 @@ export const authService = {
    * so signup never hard-fails on a profile insert race.
    */
   async signUp(email: string, password: string, fullName: string): Promise<void> {
+    const normalizedEmail = normalizeEmail(email)
+    const trimmedFullName = fullName.trim()
     const { data, error } = await supabase.auth.signUp({
-      email,
+      email: normalizedEmail,
       password,
       options: {
-        data: { full_name: fullName },
+        data: { full_name: trimmedFullName },
         emailRedirectTo: `${window.location.origin}/verify-email`,
       },
     })
-    if (error) throw new Error(error.message)
+    if (error) throw new Error(getFriendlyAuthErrorMessage(error))
 
     // Best-effort profile creation — ignore failures here; the trigger
     // (or a later refresh) will reconcile. Never blocks signup success.
     const userId = data.user?.id
     if (userId) {
       const { error: profileError } = await (supabase.from('profiles') as any).upsert(
-        { id: userId, full_name: fullName },
+        { id: userId, full_name: trimmedFullName },
         { onConflict: 'id' }
       )
       if (profileError) console.warn('[signUp] profile upsert skipped:', profileError.message)
