@@ -90,40 +90,63 @@ export type Database = {
           id: string
           resume_id: string
           user_id: string
-          version_number: number
           title: string
-          snapshot: Json
+          theme: ResumeTheme
+          sections: SectionConfig[]
+          data: ResumeData
           created_at: string
         }
         Insert: {
           resume_id: string
           user_id: string
-          version_number: number
           title: string
-          snapshot: Json
+          theme: ResumeTheme
+          sections: SectionConfig[]
+          data: ResumeData
         }
         Update: Record<string, never>
       }
       user_settings: {
         Row: {
-          id: string
           user_id: string
-          theme_mode: 'light' | 'dark' | 'system'
-          default_template_id: string | null
-          email_notifications: boolean
+          settings: Json
           created_at: string
           updated_at: string
         }
         Insert: {
           user_id: string
-          theme_mode?: 'light' | 'dark' | 'system'
-          default_template_id?: string | null
-          email_notifications?: boolean
+          settings?: Json
         }
         Update: {
-          theme_mode?: 'light' | 'dark' | 'system'
-          default_template_id?: string | null
-          email_notifications?: boolean
+          settings?: Json
+        }
+      }
+      subscriptions: {
+        Row: {
+          id: string
+          user_id: string
+          plan: 'free' | 'pro' | 'enterprise'
+          status: 'active' | 'canceled' | 'past_due' | 'trialing'
+          provider: string | null
+          provider_sub_id: string | null
+          current_period_end: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          user_id: string
+          plan?: 'free' | 'pro' | 'enterprise'
+          status?: 'active' | 'canceled' | 'past_due' | 'trialing'
+          provider?: string | null
+          provider_sub_id?: string | null
+          current_period_end?: string | null
+        }
+        Update: {
+          plan?: 'free' | 'pro' | 'enterprise'
+          status?: 'active' | 'canceled' | 'past_due' | 'trialing'
+          provider?: string | null
+          provider_sub_id?: string | null
+          current_period_end?: string | null
         }
       }
       downloads: {
