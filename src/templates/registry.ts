@@ -20,7 +20,7 @@ export const templateRegistry: TemplateRegistry = {
     description: 'A timeless, ATS-optimized single-column layout trusted by Fortune 500 recruiters.',
     category: 'professional',
     tier: 'free',
-    previewImageUrl: '/templates/classic-professional.png',
+    previewImageUrl: getTemplatePreviewUrl('classic-professional'),
     tags: ['ats-friendly', 'single-column', 'traditional'],
     isAtsOptimized: true,
     supportsAvatar: false,
@@ -34,7 +34,7 @@ export const templateRegistry: TemplateRegistry = {
     description: 'Clean, contemporary design with an accent sidebar. Perfect for tech roles.',
     category: 'modern',
     tier: 'free',
-    previewImageUrl: '/templates/modern-minimal.png',
+    previewImageUrl: getTemplatePreviewUrl('modern-minimal'),
     tags: ['modern', 'sidebar', 'tech'],
     isAtsOptimized: true,
     supportsAvatar: true,
@@ -48,7 +48,7 @@ export const templateRegistry: TemplateRegistry = {
     description: 'Bold header with refined typography for senior professionals and executives.',
     category: 'executive',
     tier: 'free',
-    previewImageUrl: '/templates/executive-dark.png',
+    previewImageUrl: getTemplatePreviewUrl('executive-dark'),
     tags: ['executive', 'bold', 'leadership'],
     isAtsOptimized: true,
     supportsAvatar: false,
@@ -62,7 +62,7 @@ export const templateRegistry: TemplateRegistry = {
     description: 'Ultra-clean whitespace-driven design. Less is more.',
     category: 'minimal',
     tier: 'free',
-    previewImageUrl: '/templates/minimal-clean.png',
+    previewImageUrl: getTemplatePreviewUrl('minimal-clean'),
     tags: ['minimal', 'whitespace', 'clean'],
     isAtsOptimized: true,
     supportsAvatar: false,
@@ -74,7 +74,16 @@ export const templateRegistry: TemplateRegistry = {
 
 export const DEFAULT_TEMPLATE_ID = 'classic-professional'
 
-/** Returns sorted template list for the template browser */
+/**
+ * Derived preview URL for a template. Mirrors the `template-previews` storage
+ * bucket path (created by the DB migration) — drop a `<id>.png` there and the
+ * template gains a real preview image with no code change.
+ */
+export function getTemplatePreviewUrl(id: string): string {
+  return `/storage/v1/object/public/template-previews/${id}.png`
+}
+
+/** Returns the template list for the template browser */
 export function getTemplateList() {
   return Object.values(templateRegistry)
 }

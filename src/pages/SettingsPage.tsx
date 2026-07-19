@@ -3,9 +3,10 @@
  */
 
 // import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { User, Moon, Sun, Monitor } from 'lucide-react'
+import { User, Moon, Sun, Monitor, Upload } from 'lucide-react'
 import { AppLayout } from '@/layouts/AppLayout'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -25,6 +26,8 @@ type ProfileFormValues = {
 export default function SettingsPage() {
   const { user, profile, refreshProfile } = useAuthStore()
   const { theme, setTheme } = useTheme()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false)
 
   const {
     register,
@@ -38,6 +41,22 @@ export default function SettingsPage() {
       website: profile?.website ?? '',
     },
   })
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file || !user) return
+    setIsUploadingAvatar(true)
+    try {
+      await profileService.uploadAvatar(user.id, file)
+      await refreshProfile()
+      toast.success('Profile photo updated')
+    } catch {
+      toast.error('Failed to upload photo')
+    } finally {
+      setIsUploadingAvatar(false)
+    }
+  }
 
   const onSave = async (values: ProfileFormValues) => {
     if (!user) return
@@ -64,9 +83,40 @@ export default function SettingsPage() {
         {/* Profile */}
         <Card>
           <CardHeader>
-            <div>
-              <CardTitle>Profile</CardTitle>
-              <CardDescription>Your public profile information</CardDescription>
+            <div className="flex items-center gap-4">
+              <div className="relative shrink-0">
+                {profile?.avatarUrl ? (
+                  <img
+                    src={profile.avatarUrl}
+                    alt="Profile"
+                    className="h-14 w-14 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="h-14 w-14 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-lg font-semibold">
+                    <User className="h-5 w-5" />
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploadingAvatar}
+                  className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-[var(--color-bg-elevated)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] hover:text-[var(--color-accent)]"
+                  aria-label="Change photo"
+                >
+                  <Upload className="h-3 w-3" />
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleAvatarChange}
+                />
+              </div>
+              <div>
+                <CardTitle>Profile</CardTitle>
+                <CardDescription>Your public profile information</CardDescription>
+              </div>
             </div>
           </CardHeader>
           <form onSubmit={handleSubmit(onSave)} className="space-y-4">
@@ -153,7 +203,13 @@ export default function SettingsPage() {
               </p>
             </div>
             {profile?.plan === 'free' && (
-              <Button size="sm" variant="secondary">Upgrade to Pro</Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => toast.info('Pro plan is coming soon — stay tuned!')}
+              >
+                Upgrade to Pro
+              </Button>
             )}
           </div>
         </Card>

@@ -69,6 +69,7 @@ type ResumeBuilderActions = {
   // Resume-level
   setTitle: (title: string) => void
   setTemplate: (templateId: string) => void
+  updateMetadata: (updates: Partial<Resume['metadata']>) => void
 
   // Theme
   updateTheme: (updates: Partial<ResumeTheme>) => void
@@ -230,6 +231,14 @@ export const useResumeBuilderStore = create<ResumeBuilderState & ResumeBuilderAc
 
     setTemplate: (templateId) => {
       set((s) => s.resume ? { resume: { ...s.resume, templateId }, isDirty: true } : s)
+      scheduleSave(useResumeBuilderStore)
+    },
+
+    updateMetadata: (updates) => {
+      set((s) => s.resume ? {
+        resume: { ...s.resume, metadata: { ...s.resume.metadata, ...updates } },
+        isDirty: true,
+      } : s)
       scheduleSave(useResumeBuilderStore)
     },
 

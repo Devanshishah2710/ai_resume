@@ -62,8 +62,35 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
    * Returns an unsubscribe function for cleanup.
    */
   initialize: () => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      await syncAuthStateFromSession(session, set)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      // IMPORTANT: never call supabase (e.g. profileService) directly inside
+      // this callback — it runs inside Supabase's internal auth lock and a
+      // nested network request deadlocks the auth client (sign-in/out hang).
+      // Defer the (async) profile fetch out of the callback via a microtask.
+      set({
+        user: session?.user
+          ? {
+              id: session.user.id,
+              email: session.user.email ?? '',
+              emailVerified: !!session.user.email_confirmed_at,
+              createdAt: session.user.created_at,
+            }
+          : null,
+        isAuthenticated: !!session?.user,
+        isLoading: !!session?.user,
+      })
+
+      if (session?.user) {
+        queueMicrotask(() => {
+          void profileService
+            .getProfile(session.user.id)
+            .then((profile) => set({ profile }))
+            .catch((error) => console.warn('[auth] failed to load profile', error))
+            .finally(() => set({ isLoading: false }))
+        })
+      } else {
+        set({ profile: null, isLoading: false })
+      }
     })
 
     void supabase.auth.getSession()

@@ -55,21 +55,66 @@ export function BuilderLeftPanel() {
   )
 }
 
-// ─── Inline Settings Panel (lightweight) ─────────────────────────────────────
+// ─── Inline Settings Panel ───────────────────────────────────────────────────
 
 function SettingsPanel() {
   const resume = useResumeBuilderStore((s) => s.resume)
-  // Metadata editing will be expanded in a future iteration
+  const updateMetadata = useResumeBuilderStore((s) => s.updateMetadata)
+  const setActivePanel = useResumeBuilderStore((s) => s.setActivePanel)
+
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 space-y-5">
       <div>
         <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-1">Template</h3>
         <p className="text-xs text-[var(--color-text-secondary)]">
-          Current: <span className="font-medium">{resume?.templateId}</span>
+          Current: <span className="font-medium capitalize">{resume?.templateId.replace(/-/g, ' ')}</span>
         </p>
-        <p className="text-xs text-[var(--color-text-tertiary)] mt-1">
-          Switch templates from the Design tab without losing your data.
-        </p>
+        <button
+          onClick={() => setActivePanel('design')}
+          className="mt-2 text-xs font-medium text-[var(--color-accent)] hover:underline"
+        >
+          Switch template in Design tab →
+        </button>
+      </div>
+
+      <div className="space-y-3">
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-tertiary)]">
+          Targeting
+        </h3>
+        <div>
+          <label className="text-xs font-medium text-[var(--color-text-secondary)] mb-1 block">
+            Target role
+          </label>
+          <input
+            value={resume?.metadata.targetRole ?? ''}
+            onChange={(e) => updateMetadata({ targetRole: e.target.value })}
+            placeholder="e.g. Senior Frontend Engineer"
+            className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1.5 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-accent)]"
+          />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-[var(--color-text-secondary)] mb-1 block">
+            Target company
+          </label>
+          <input
+            value={resume?.metadata.targetCompany ?? ''}
+            onChange={(e) => updateMetadata({ targetCompany: e.target.value })}
+            placeholder="e.g. Acme Inc."
+            className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1.5 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-accent)]"
+          />
+        </div>
+        <div>
+          <label className="text-xs font-medium text-[var(--color-text-secondary)] mb-1 block">
+            Notes
+          </label>
+          <textarea
+            value={resume?.metadata.notes ?? ''}
+            onChange={(e) => updateMetadata({ notes: e.target.value })}
+            placeholder="Private notes about this resume"
+            rows={3}
+            className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1.5 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-accent)] resize-none"
+          />
+        </div>
       </div>
     </div>
   )

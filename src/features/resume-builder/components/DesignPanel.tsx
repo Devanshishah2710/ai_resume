@@ -7,15 +7,54 @@ import { useResumeBuilderStore, useResumeTheme } from '@/store/resume-builder.st
 import { Switch } from '@/components/ui/Switch'
 import { Select } from '@/components/ui/Select'
 import { ACCENT_COLOR_OPTIONS, FONT_OPTIONS } from '@/constants'
+import { getTemplateList } from '@/templates/registry'
 
 export function DesignPanel() {
   const theme = useResumeTheme()
   const updateTheme = useResumeBuilderStore((s) => s.updateTheme)
+  const templateId = useResumeBuilderStore((s) => s.resume?.templateId ?? '')
+  const setTemplate = useResumeBuilderStore((s) => s.setTemplate)
 
   const fontOptions = FONT_OPTIONS.map((f) => ({ value: f.value, label: f.label }))
+  const templates = getTemplateList()
 
   return (
     <div className="p-4 space-y-6">
+      {/* ── Template ── */}
+      <Section title="Template">
+        <p className="text-xs text-[var(--color-text-tertiary)]">
+          Switch templates freely — your content and theme are preserved.
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          {templates.map((tpl) => {
+            const active = tpl.id === templateId
+            return (
+              <button
+                key={tpl.id}
+                onClick={() => setTemplate(tpl.id)}
+                className={[
+                  'text-left rounded-[var(--radius-md)] border p-2.5 transition-colors',
+                  active
+                    ? 'border-[var(--color-accent)] bg-[var(--color-accent-subtle)]'
+                    : 'border-[var(--color-border)] hover:bg-[var(--color-bg-secondary)]',
+                ].join(' ')}
+                aria-pressed={active}
+              >
+                <span className={[
+                  'block text-xs font-semibold',
+                  active ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-primary)]',
+                ].join(' ')}>
+                  {tpl.name}
+                </span>
+                <span className="mt-0.5 block text-[10px] leading-snug text-[var(--color-text-tertiary)]">
+                  {tpl.description}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+      </Section>
+
       {/* ── Colors ── */}
       <Section title="Colors">
         <div>

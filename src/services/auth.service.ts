@@ -15,8 +15,22 @@ function normalizeEmail(email: string): string {
   return email.trim().toLowerCase()
 }
 
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) return error.message
+  if (typeof error === 'string') return error
+  if (typeof error === 'object' && error !== null) {
+    const maybeMessage = (error as { message?: unknown }).message
+    if (typeof maybeMessage === 'string' && maybeMessage.length > 0) return maybeMessage
+    const maybeError = (error as { error?: unknown }).error
+    if (typeof maybeError === 'string' && maybeError.length > 0) return maybeError
+    const maybeMsg = (error as { msg?: unknown }).msg
+    if (typeof maybeMsg === 'string' && maybeMsg.length > 0) return maybeMsg
+  }
+  return 'Authentication failed'
+}
+
 function getFriendlyAuthErrorMessage(error: unknown): string {
-  const rawMessage = error instanceof Error ? error.message : 'Authentication failed'
+  const rawMessage = getErrorMessage(error)
   const message = rawMessage.toLowerCase()
 
   if (message.includes('invalid login credentials') || message.includes('invalid_grant') || message.includes('user not found')) {

@@ -27,7 +27,8 @@ export type TemplateMetadata = {
   description: string
   category: TemplateCategory
   tier: TemplateTier
-  previewImageUrl: string
+  /** Optional preview asset. Falls back to a generated thumbnail when absent. */
+  previewImageUrl?: string
   tags: string[]
   isAtsOptimized: boolean
   supportsAvatar: boolean
