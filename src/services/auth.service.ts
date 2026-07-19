@@ -53,6 +53,10 @@ function getFriendlyAuthErrorMessage(error: unknown): string {
     return 'Authentication is not configured correctly. Please contact support'
   }
 
+  if (message.includes('already registered') || message.includes('already exists') || message.includes('user_already_exists')) {
+    return 'An account with this email already exists. Try signing in instead.'
+  }
+
   return rawMessage
 }
 
@@ -182,9 +186,21 @@ export const authService = {
         throw new Error(getFriendlyAuthErrorMessage(error))
       }
 
+      // Supabase returns { user: null, error: null } when the email is already
+      // registered (email confirmation enabled hides the existence check). Treat
+      // a missing user as a duplicate-account failure so the UI can react.
+      if (!data.user) {
+        store.setUser(null)
+        store.setProfile(null)
+        store.setLoading(false)
+        throw new Error(
+          getFriendlyAuthErrorMessage({ message: 'User with this email is already registered' })
+        )
+      }
+
       // Best-effort profile creation — ignore failures here; the trigger
       // (or a later refresh) will reconcile. Never blocks signup success.
-      const userId = data.user?.id
+      const userId = data.user.id
       if (userId) {
         const { error: profileError } = await (supabase.from('profiles') as any).upsert(
           { id: userId, full_name: trimmedFullName },

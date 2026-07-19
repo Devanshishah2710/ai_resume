@@ -43,7 +43,16 @@ export default function RegisterPage() {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Registration failed'
       setError('root', { message })
-      toast.error(message)
+      if (message.toLowerCase().includes('already exists')) {
+        toast.error(message, {
+          action: {
+            label: 'Sign in',
+            onClick: () => navigate(ROUTES.LOGIN),
+          },
+        })
+      } else {
+        toast.error(message)
+      }
     }
   }
 
