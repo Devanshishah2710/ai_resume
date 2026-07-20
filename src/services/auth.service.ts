@@ -15,6 +15,35 @@ function normalizeEmail(email: string): string {
   return email.trim().toLowerCase()
 }
 
+/**
+ * Defensive cleanup of any persisted auth tokens.
+ *
+ * Supabase stores its session under a key prefixed `sb-<project-ref>-auth-token`
+ * in the configured storage. If a sign-out network call is interrupted, that key
+ * could linger and re-hydrate a session on the next load. We remove any
+ * Supabase auth keys from both localStorage and sessionStorage to guarantee the
+ * session cannot be restored after logout.
+ */
+function clearAuthStorage(): void {
+  if (typeof window === 'undefined') return
+
+  const AUTH_KEY_PREFIX = 'sb-'
+  const AUTH_KEY_SUFFIX = '-auth-token'
+
+  for (const storage of [window.localStorage, window.sessionStorage]) {
+    const keys: string[] = []
+    for (let i = 0; i < storage.length; i++) {
+      const key = storage.key(i)
+      if (key) keys.push(key)
+    }
+    for (const key of keys) {
+      if (key.startsWith(AUTH_KEY_PREFIX) && key.endsWith(AUTH_KEY_SUFFIX)) {
+        storage.removeItem(key)
+      }
+    }
+  }
+}
+
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error) return error.message
   if (typeof error === 'string') return error
@@ -248,22 +277,29 @@ export const authService = {
 
   /**
    * Sign out the current user.
+   *
+   * Uses a global sign-out scope so the session is revoked and cleared across
+   * all tabs/devices, not just the current one. As a defense-in-depth measure
+   * we also explicitly strip any Supabase auth key from storage so a refreshed
+   * page can never restore a stale session even if the network call is
+   * interrupted. Local store state is always reset in the finally block so the
+   * UI reflects a signed-out state regardless of the network outcome.
    */
   async signOut(): Promise<void> {
-    if (!isSupabaseReady) {
-      const store = useAuthStore.getState()
-      store.setUser(null)
-      store.setProfile(null)
-      store.setLoading(false)
-      return
-    }
-
     const store = useAuthStore.getState()
     store.setLoading(true)
 
     try {
-      const { error } = await supabase.auth.signOut()
-      if (error) throw new Error(error.message)
+      if (isSupabaseReady) {
+        const { error } = await supabase.auth.signOut({ scope: 'global' })
+        if (error) throw new Error(error.message)
+      }
+      clearAuthStorage()
+    } catch (error) {
+      // Even if the network revoke fails, force a local sign-out so the user is
+      // never stuck "signed in" against their intent.
+      clearAuthStorage()
+      throw error
     } finally {
       store.setUser(null)
       store.setProfile(null)

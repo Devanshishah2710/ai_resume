@@ -17,9 +17,14 @@ export function SignOutButton({ className = '', label = 'Sign out', iconOnly = f
   const handleSignOut = async () => {
     try {
       await authService.signOut()
+      // Real authentication sign-out completed — clear local UI state is handled
+      // by the auth store. Route to Login and replace history so the back
+      // button cannot return to the authenticated session.
       navigate(ROUTES.LOGIN, { replace: true })
-    } catch {
-      toast.error('Failed to sign out')
+    } catch (error) {
+      const message =
+        error instanceof Error && error.message ? error.message : 'Failed to sign out. Please try again.'
+      toast.error(message)
     }
   }
 
