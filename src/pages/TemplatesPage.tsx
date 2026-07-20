@@ -29,6 +29,11 @@ import ModernSidebarTemplate from '@/templates/modern-sidebar'
 import ModernSplitTemplate from '@/templates/modern-split'
 import ModernTimelineTemplate from '@/templates/modern-timeline'
 import ModernGridTemplate from '@/templates/modern-grid'
+import ProfessionalEdgeTemplate from '@/templates/professional-edge'
+import ProfessionalMeridianTemplate from '@/templates/professional-meridian'
+import ProfessionalAtlasTemplate from '@/templates/professional-atlas'
+import ProfessionalPinnacleTemplate from '@/templates/professional-pinnacle'
+import ProfessionalCadenceTemplate from '@/templates/professional-cadence'
 
 const TEMPLATE_COMPONENTS: Record<string, TemplateComponent> = {
   'classic-professional': ClassicProfessionalTemplate,
@@ -40,6 +45,11 @@ const TEMPLATE_COMPONENTS: Record<string, TemplateComponent> = {
   'modern-split': ModernSplitTemplate,
   'modern-timeline': ModernTimelineTemplate,
   'modern-grid': ModernGridTemplate,
+  'professional-edge': ProfessionalEdgeTemplate,
+  'professional-meridian': ProfessionalMeridianTemplate,
+  'professional-atlas': ProfessionalAtlasTemplate,
+  'professional-pinnacle': ProfessionalPinnacleTemplate,
+  'professional-cadence': ProfessionalCadenceTemplate,
 }
 
 export default function TemplatesPage() {
