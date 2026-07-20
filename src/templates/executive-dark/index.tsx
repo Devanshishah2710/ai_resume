@@ -14,7 +14,7 @@ const LINE_HEIGHT_MAP = { tight: 1.3, normal: 1.5, relaxed: 1.7 }
 const SPACING_MAP = { compact: '10px', normal: '16px', spacious: '22px' }
 
 export default function ExecutiveDarkTemplate({ data, theme, sections }: TemplateProps) {
-  const { personal, experience, education, projects, skills, certifications, languages, achievements } = data
+  const { personal, experience, education, projects, skills, certifications, languages, achievements, interests, awards, publications, volunteer } = data
   const fontStack = FONT_OPTIONS.find((f) => f.value === theme.fontFamily)?.css ?? 'Inter, sans-serif'
   const fontSize = FONT_SIZE_MAP[theme.fontSize]
   const lineHeight = LINE_HEIGHT_MAP[theme.lineHeight]
@@ -172,6 +172,71 @@ export default function ExecutiveDarkTemplate({ data, theme, sections }: Templat
                       <span key={lang.id}><strong>{lang.language}</strong> <span style={muted}>— {LANGUAGE_PROFICIENCY_LABELS[lang.proficiency]}</span></span>
                     ))}
                   </div>
+                </section>
+              ) : null
+
+            case 'interests':
+              return interests.length > 0 ? (
+                <section key={section.id} style={{ marginBottom: gap }}>
+                  <h2 style={titleStyle}>Interests</h2>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    {interests.map((interest) => (
+                      <span key={interest.id} style={{ padding: '2px 10px', border: `1px solid ${theme.primaryColor}`, borderRadius: '3px', fontSize: `calc(${fontSize} * 0.9)`, color: theme.primaryColor }}>
+                        {interest.name}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+              ) : null
+
+            case 'awards':
+              return awards.length > 0 ? (
+                <section key={section.id} style={{ marginBottom: gap }}>
+                  <h2 style={titleStyle}>Awards</h2>
+                  {awards.map((award) => (
+                    <div key={award.id} style={{ marginBottom: '6px' }}>
+                      <span style={{ fontWeight: 600 }}>{award.title}</span>
+                      <span style={muted}> · {award.issuer}</span>
+                      {award.date && <span style={muted}> · {formatMonthYear(award.date)}</span>}
+                      {award.description && <p style={{ color: '#374151', marginTop: '2px' }}>{award.description}</p>}
+                    </div>
+                  ))}
+                </section>
+              ) : null
+
+            case 'publications':
+              return publications.length > 0 ? (
+                <section key={section.id} style={{ marginBottom: gap }}>
+                  <h2 style={titleStyle}>Publications</h2>
+                  {publications.map((pub) => (
+                    <div key={pub.id} style={{ marginBottom: '6px' }}>
+                      <span style={{ fontWeight: 600 }}>
+                        {pub.url ? <a href={pub.url} style={{ color: theme.primaryColor, textDecoration: 'none' }}>{pub.title}</a> : pub.title}
+                      </span>
+                      <span style={muted}> · {pub.publisher}</span>
+                      {pub.date && <span style={muted}> · {formatMonthYear(pub.date)}</span>}
+                      {pub.description && <p style={{ color: '#374151', marginTop: '2px' }}>{pub.description}</p>}
+                    </div>
+                  ))}
+                </section>
+              ) : null
+
+            case 'volunteer':
+              return volunteer.length > 0 ? (
+                <section key={section.id} style={{ marginBottom: gap }}>
+                  <h2 style={titleStyle}>Volunteer Experience</h2>
+                  {volunteer.map((vol) => (
+                    <div key={vol.id} style={{ marginBottom: '8px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
+                        <h3 style={{ fontWeight: 700 }}>{vol.role}</h3>
+                        <span style={muted}>{formatDateRange(vol.dateRange)}</span>
+                      </div>
+                      <p style={{ fontWeight: 600, color: theme.primaryColor, fontSize: `calc(${fontSize} * 0.95)` }}>
+                        {vol.organization}{vol.location && ` · ${vol.location}`}
+                      </p>
+                      {vol.description && <p style={{ color: '#374151', lineHeight, marginTop: '3px' }}>{vol.description}</p>}
+                    </div>
+                  ))}
                 </section>
               ) : null
 

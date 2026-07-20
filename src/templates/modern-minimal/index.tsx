@@ -20,7 +20,7 @@ const LINE_HEIGHT_MAP = { tight: 1.3, normal: 1.5, relaxed: 1.65 }
 const SPACING_MAP = { compact: '10px', normal: '14px', spacious: '20px' }
 
 export default function ModernMinimalTemplate({ data, theme, sections }: TemplateProps) {
-  const { personal, experience, education, projects, skills, certifications, languages, achievements } = data
+  const { personal, experience, education, projects, skills, certifications, languages, achievements, interests, awards, publications, volunteer } = data
 
   const fontStack = FONT_OPTIONS.find((f) => f.value === theme.fontFamily)?.css ?? 'Inter, sans-serif'
   const fontSize = FONT_SIZE_MAP[theme.fontSize]
@@ -149,6 +149,20 @@ export default function ModernMinimalTemplate({ data, theme, sections }: Templat
                 </div>
               ) : null
 
+            case 'interests':
+              return interests.length > 0 ? (
+                <div key={section.id} style={{ marginBottom: gap }}>
+                  <h2 style={sectionTitle(sidebarText, 'rgba(255,255,255,0.3)')}>Interests</h2>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                    {interests.map((interest, idx) => (
+                      <span key={interest.id} style={{ color: sidebarText, fontSize: `calc(${fontSize} * 0.88)` }}>
+                        {interest.name}{idx < interests.length - 1 && ' ·'}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ) : null
+
             default:
               return null
           }
@@ -226,6 +240,52 @@ export default function ModernMinimalTemplate({ data, theme, sections }: Templat
                       <span style={{ fontWeight: 600 }}>{ach.title}</span>
                       {ach.date && <span style={{ color: '#64748b' }}> · {formatMonthYear(ach.date)}</span>}
                       {ach.description && <p style={{ color: '#475569', marginTop: '2px' }}>{ach.description}</p>}
+                    </div>
+                  ))}
+                </MainSection>
+              ) : null
+
+            case 'awards':
+              return awards.length > 0 ? (
+                <MainSection key={section.id} title="Awards" titleStyle={sectionTitle(theme.primaryColor, theme.primaryColor)} gap={gap}>
+                  {awards.map((award) => (
+                    <div key={award.id} style={{ marginBottom: '6px' }}>
+                      <span style={{ fontWeight: 600 }}>{award.title}</span>
+                      <span style={{ color: '#64748b' }}> · {award.issuer}</span>
+                      {award.date && <span style={{ color: '#64748b' }}> · {formatMonthYear(award.date)}</span>}
+                      {award.description && <p style={{ color: '#475569', marginTop: '2px' }}>{award.description}</p>}
+                    </div>
+                  ))}
+                </MainSection>
+              ) : null
+
+            case 'publications':
+              return publications.length > 0 ? (
+                <MainSection key={section.id} title="Publications" titleStyle={sectionTitle(theme.primaryColor, theme.primaryColor)} gap={gap}>
+                  {publications.map((pub) => (
+                    <div key={pub.id} style={{ marginBottom: '6px' }}>
+                      <span style={{ fontWeight: 600 }}>
+                        {pub.url ? <a href={pub.url} style={{ color: theme.primaryColor, textDecoration: 'none' }}>{pub.title}</a> : pub.title}
+                      </span>
+                      <span style={{ color: '#64748b' }}> · {pub.publisher}</span>
+                      {pub.date && <span style={{ color: '#64748b' }}> · {formatMonthYear(pub.date)}</span>}
+                      {pub.description && <p style={{ color: '#475569', marginTop: '2px' }}>{pub.description}</p>}
+                    </div>
+                  ))}
+                </MainSection>
+              ) : null
+
+            case 'volunteer':
+              return volunteer.length > 0 ? (
+                <MainSection key={section.id} title="Volunteer Experience" titleStyle={sectionTitle(theme.primaryColor, theme.primaryColor)} gap={gap}>
+                  {volunteer.map((vol) => (
+                    <div key={vol.id} style={{ marginBottom: '8px' }}>
+                      <h3 style={{ fontWeight: 700, color: theme.textColor }}>{vol.role}</h3>
+                      <p style={{ color: '#64748b', fontWeight: 500, fontSize: `calc(${fontSize} * 0.95)` }}>
+                        {vol.organization}{vol.location && ` · ${vol.location}`}
+                      </p>
+                      <p style={{ color: theme.primaryColor, fontSize: `calc(${fontSize} * 0.9)`, fontWeight: 500 }}>{formatDateRange(vol.dateRange)}</p>
+                      {vol.description && <p style={{ color: '#475569', lineHeight, marginTop: '3px' }}>{vol.description}</p>}
                     </div>
                   ))}
                 </MainSection>

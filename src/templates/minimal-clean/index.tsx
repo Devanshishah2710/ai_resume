@@ -14,7 +14,7 @@ const LINE_HEIGHT_MAP = { tight: 1.4, normal: 1.6, relaxed: 1.8 }
 const SPACING_MAP = { compact: '12px', normal: '20px', spacious: '28px' }
 
 export default function MinimalCleanTemplate({ data, theme, sections }: TemplateProps) {
-  const { personal, experience, education, projects, skills, certifications, languages } = data
+  const { personal, experience, education, projects, skills, certifications, languages, interests, awards, publications, volunteer } = data
   const fontStack = FONT_OPTIONS.find((f) => f.value === theme.fontFamily)?.css ?? 'Inter, sans-serif'
   const fontSize = FONT_SIZE_MAP[theme.fontSize]
   const lineHeight = LINE_HEIGHT_MAP[theme.lineHeight]
@@ -179,6 +179,78 @@ export default function MinimalCleanTemplate({ data, theme, sections }: Template
                     ))}
                   </div>
                 </div>
+              </section>
+            ) : null
+
+          case 'interests':
+            return interests.length > 0 ? (
+              <section key={section.id} style={{ marginBottom: gap }}>
+                <div style={rowLayout}>
+                  <h2 style={titleStyle}>Interests</h2>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {interests.map((interest) => (
+                      <span key={interest.id} style={{ color: '#374151' }}>{interest.name}</span>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            ) : null
+
+          case 'awards':
+            return awards.length > 0 ? (
+              <section key={section.id} style={{ marginBottom: gap }}>
+                <div style={rowLayout}>
+                  <h2 style={titleStyle}>Awards</h2>
+                  <div>
+                    {awards.map((award) => (
+                      <div key={award.id} style={{ marginBottom: '5px' }}>
+                        <strong>{award.title}</strong> <span style={muted}>· {award.issuer}</span>
+                        {award.date && <span style={muted}> · {formatMonthYear(award.date)}</span>}
+                        {award.description && <p style={{ color: '#374151', marginTop: '2px' }}>{award.description}</p>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            ) : null
+
+          case 'publications':
+            return publications.length > 0 ? (
+              <section key={section.id} style={{ marginBottom: gap }}>
+                <div style={rowLayout}>
+                  <h2 style={titleStyle}>Publications</h2>
+                  <div>
+                    {publications.map((pub) => (
+                      <div key={pub.id} style={{ marginBottom: '5px' }}>
+                        <strong>
+                          {pub.url ? <a href={pub.url} style={{ color: theme.primaryColor, textDecoration: 'none' }}>{pub.title}</a> : pub.title}
+                        </strong>
+                        <span style={muted}> · {pub.publisher}</span>
+                        {pub.date && <span style={muted}> · {formatMonthYear(pub.date)}</span>}
+                        {pub.description && <p style={{ color: '#374151', marginTop: '2px' }}>{pub.description}</p>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            ) : null
+
+          case 'volunteer':
+            return volunteer.length > 0 ? (
+              <section key={section.id} style={{ marginBottom: gap }}>
+                {volunteer.map((vol, i) => (
+                  <div key={vol.id} style={{ ...rowLayout, marginBottom: '8px' }}>
+                    <div>
+                      {i === 0 && <h2 style={titleStyle}>Volunteer</h2>}
+                      <p style={muted}>{formatDateRange(vol.dateRange)}</p>
+                    </div>
+                    <div>
+                      <h3 style={{ fontWeight: 600, color: '#111827' }}>{vol.role}</h3>
+                      <p style={{ color: theme.primaryColor, fontSize: `calc(${fontSize} * 0.95)` }}>{vol.organization}{vol.location && ` · ${vol.location}`}</p>
+                      {vol.description && <p style={{ color: '#374151', lineHeight, marginTop: '3px' }}>{vol.description}</p>}
+                    </div>
+                  </div>
+                ))}
               </section>
             ) : null
 

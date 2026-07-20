@@ -25,7 +25,7 @@ const LINE_HEIGHT_MAP = { tight: 1.3, normal: 1.5, relaxed: 1.7 }
 const SPACING_MAP = { compact: '10px', normal: '16px', spacious: '22px' }
 
 export default function ClassicProfessionalTemplate({ data, theme, sections }: TemplateProps) {
-  const { personal, experience, education, projects, skills, certifications, languages, achievements, custom } = data
+  const { personal, experience, education, projects, skills, certifications, languages, achievements, interests, awards, publications, volunteer, custom } = data
 
   const fontStack = FONT_OPTIONS.find((f) => f.value === theme.fontFamily)?.css ?? 'Inter, sans-serif'
   const fontSize = FONT_SIZE_MAP[theme.fontSize]
@@ -219,6 +219,75 @@ export default function ClassicProfessionalTemplate({ data, theme, sections }: T
                     </div>
                   ))}
                 </div>
+              </Section>
+            ) : null
+
+          case 'interests':
+            return interests.length > 0 ? (
+              <Section key={section.id} title="Interests" titleStyle={sectionTitleStyle} gap={sectionGap}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                  {interests.map((interest) => (
+                    <span
+                      key={interest.id}
+                      style={{ padding: '2px 10px', border: `1px solid ${theme.primaryColor}`, borderRadius: '3px', fontSize: `calc(${fontSize} * 0.9)`, color: theme.primaryColor }}
+                    >
+                      {interest.name}
+                    </span>
+                  ))}
+                </div>
+              </Section>
+            ) : null
+
+          case 'awards':
+            return awards.length > 0 ? (
+              <Section key={section.id} title="Awards" titleStyle={sectionTitleStyle} gap={sectionGap}>
+                {awards.map((award) => (
+                  <div key={award.id} style={{ marginBottom: '6px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
+                      <span style={{ fontWeight: 600 }}>{award.title}</span>
+                      {award.date && <span style={mutedStyle}>{formatMonthYear(award.date)}</span>}
+                    </div>
+                    <p style={mutedStyle}>{award.issuer}</p>
+                    {award.description && <p style={{ ...mutedStyle, marginTop: '2px' }}>{award.description}</p>}
+                  </div>
+                ))}
+              </Section>
+            ) : null
+
+          case 'publications':
+            return publications.length > 0 ? (
+              <Section key={section.id} title="Publications" titleStyle={sectionTitleStyle} gap={sectionGap}>
+                {publications.map((pub) => (
+                  <div key={pub.id} style={{ marginBottom: '6px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px' }}>
+                      <span style={{ fontWeight: 600 }}>
+                        {pub.url ? <a href={pub.url} style={{ color: theme.primaryColor, textDecoration: 'none' }}>{pub.title}</a> : pub.title}
+                      </span>
+                      {pub.date && <span style={mutedStyle}>{formatMonthYear(pub.date)}</span>}
+                    </div>
+                    <p style={mutedStyle}>{pub.publisher}</p>
+                    {pub.description && <p style={{ ...mutedStyle, marginTop: '2px' }}>{pub.description}</p>}
+                  </div>
+                ))}
+              </Section>
+            ) : null
+
+          case 'volunteer':
+            return volunteer.length > 0 ? (
+              <Section key={section.id} title="Volunteer Experience" titleStyle={sectionTitleStyle} gap={sectionGap}>
+                {volunteer.map((vol) => (
+                  <div key={vol.id} style={{ marginBottom: `calc(${sectionGap} * 0.8)` }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '4px' }}>
+                      <h3 style={entryTitleStyle}>{vol.role || 'Volunteer'}</h3>
+                      <span style={mutedStyle}>{formatDateRange(vol.dateRange)}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px', ...mutedStyle, marginTop: '1px' }}>
+                      <span style={{ fontWeight: 500, color: theme.textColor }}>{vol.organization}</span>
+                      {vol.location && <><span>·</span><span>{vol.location}</span></>}
+                    </div>
+                    {vol.description && <p style={{ marginTop: '4px', lineHeight }}>{vol.description}</p>}
+                  </div>
+                ))}
               </Section>
             ) : null
 
