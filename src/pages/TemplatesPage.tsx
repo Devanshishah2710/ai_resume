@@ -24,12 +24,22 @@ import ClassicProfessionalTemplate from '@/templates/classic-professional'
 import ModernMinimalTemplate from '@/templates/modern-minimal'
 import ExecutiveDarkTemplate from '@/templates/executive-dark'
 import MinimalCleanTemplate from '@/templates/minimal-clean'
+import ModernVanguardTemplate from '@/templates/modern-vanguard'
+import ModernSidebarTemplate from '@/templates/modern-sidebar'
+import ModernSplitTemplate from '@/templates/modern-split'
+import ModernTimelineTemplate from '@/templates/modern-timeline'
+import ModernGridTemplate from '@/templates/modern-grid'
 
 const TEMPLATE_COMPONENTS: Record<string, TemplateComponent> = {
   'classic-professional': ClassicProfessionalTemplate,
   'modern-minimal': ModernMinimalTemplate,
   'executive-dark': ExecutiveDarkTemplate,
   'minimal-clean': MinimalCleanTemplate,
+  'modern-vanguard': ModernVanguardTemplate,
+  'modern-sidebar': ModernSidebarTemplate,
+  'modern-split': ModernSplitTemplate,
+  'modern-timeline': ModernTimelineTemplate,
+  'modern-grid': ModernGridTemplate,
 }
 
 export default function TemplatesPage() {
