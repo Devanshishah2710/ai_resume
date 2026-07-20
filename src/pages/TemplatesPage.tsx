@@ -14,43 +14,11 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { Container } from '@/components/ui/Container'
-import { getTemplateList } from '@/templates/registry'
+import { getTemplateList, templateRegistry } from '@/templates/registry'
 import { resumeService } from '@/services/resume.service'
 import { ROUTES, TEMPLATE_CATEGORIES } from '@/constants'
 import { SAMPLE_RESUME_DATA, DEFAULT_THEME, DEFAULT_SECTION_CONFIGS } from '@/types/resume'
-import type { TemplateMetadata, TemplateComponent } from '@/types/template'
-
-import ClassicProfessionalTemplate from '@/templates/classic-professional'
-import ModernMinimalTemplate from '@/templates/modern-minimal'
-import ExecutiveDarkTemplate from '@/templates/executive-dark'
-import MinimalCleanTemplate from '@/templates/minimal-clean'
-import ModernVanguardTemplate from '@/templates/modern-vanguard'
-import ModernSidebarTemplate from '@/templates/modern-sidebar'
-import ModernSplitTemplate from '@/templates/modern-split'
-import ModernTimelineTemplate from '@/templates/modern-timeline'
-import ModernGridTemplate from '@/templates/modern-grid'
-import ProfessionalEdgeTemplate from '@/templates/professional-edge'
-import ProfessionalMeridianTemplate from '@/templates/professional-meridian'
-import ProfessionalAtlasTemplate from '@/templates/professional-atlas'
-import ProfessionalPinnacleTemplate from '@/templates/professional-pinnacle'
-import ProfessionalCadenceTemplate from '@/templates/professional-cadence'
-
-const TEMPLATE_COMPONENTS: Record<string, TemplateComponent> = {
-  'classic-professional': ClassicProfessionalTemplate,
-  'modern-minimal': ModernMinimalTemplate,
-  'executive-dark': ExecutiveDarkTemplate,
-  'minimal-clean': MinimalCleanTemplate,
-  'modern-vanguard': ModernVanguardTemplate,
-  'modern-sidebar': ModernSidebarTemplate,
-  'modern-split': ModernSplitTemplate,
-  'modern-timeline': ModernTimelineTemplate,
-  'modern-grid': ModernGridTemplate,
-  'professional-edge': ProfessionalEdgeTemplate,
-  'professional-meridian': ProfessionalMeridianTemplate,
-  'professional-atlas': ProfessionalAtlasTemplate,
-  'professional-pinnacle': ProfessionalPinnacleTemplate,
-  'professional-cadence': ProfessionalCadenceTemplate,
-}
+import type { TemplateMetadata } from '@/types/template'
 
 export default function TemplatesPage() {
   const navigate = useNavigate()
@@ -214,7 +182,7 @@ function TemplateCard({
  * can be compared without opening the editor.
  */
 function TemplatePreview({ template }: { template: TemplateMetadata }) {
-  const Component = TEMPLATE_COMPONENTS[template.id]
+  const Component = templateRegistry[template.id]?.component
   if (!Component) return null
 
   return (
