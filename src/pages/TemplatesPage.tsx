@@ -198,10 +198,11 @@ function TemplatePreview({ template }: { template: TemplateMetadata }) {
   if (!Component) return null
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-white">
+    <div className="absolute inset-0 flex justify-center overflow-hidden bg-white">
       <div
         style={{
           width: '794px',
+          flexShrink: 0,
           transform: 'scale(0.34)',
           transformOrigin: 'top center',
           pointerEvents: 'none',
