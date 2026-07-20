@@ -17,7 +17,20 @@ import { Container } from '@/components/ui/Container'
 import { getTemplateList } from '@/templates/registry'
 import { resumeService } from '@/services/resume.service'
 import { ROUTES, TEMPLATE_CATEGORIES } from '@/constants'
-import type { TemplateMetadata } from '@/types/template'
+import { SAMPLE_RESUME_DATA, DEFAULT_THEME, DEFAULT_SECTION_CONFIGS } from '@/types/resume'
+import type { TemplateMetadata, TemplateComponent } from '@/types/template'
+
+import ClassicProfessionalTemplate from '@/templates/classic-professional'
+import ModernMinimalTemplate from '@/templates/modern-minimal'
+import ExecutiveDarkTemplate from '@/templates/executive-dark'
+import MinimalCleanTemplate from '@/templates/minimal-clean'
+
+const TEMPLATE_COMPONENTS: Record<string, TemplateComponent> = {
+  'classic-professional': ClassicProfessionalTemplate,
+  'modern-minimal': ModernMinimalTemplate,
+  'executive-dark': ExecutiveDarkTemplate,
+  'minimal-clean': MinimalCleanTemplate,
+}
 
 export default function TemplatesPage() {
   const navigate = useNavigate()
@@ -129,9 +142,9 @@ function TemplateCard({
     >
       {/* Preview area */}
       <div className="relative h-52 bg-[var(--color-bg-secondary)] overflow-hidden">
-        {/* Mini resume preview */}
+        {/* Real template preview, scaled down to fit the card */}
         <Suspense fallback={<Skeleton className="h-full w-full" />}>
-          <MiniPreview template={template} />
+          <TemplatePreview template={template} />
         </Suspense>
 
         {/* Hover overlay */}
@@ -174,64 +187,33 @@ function TemplateCard({
   )
 }
 
-// Lightweight template thumbnail — renders a generated, properly-styled resume
-// preview that fills the card area. If a real preview image is available it is
-// used, but any load failure falls back to the generated preview so the UI
-// never shows a broken image icon.
-function MiniPreview({ template }: { template: TemplateMetadata }) {
-  const colors: Record<string, string> = {
-    'classic-professional': '#1a1a2e',
-    'modern-minimal': '#0f3460',
-    'executive-dark': '#1b4332',
-    'minimal-clean': '#334155',
-  }
-  const accent = colors[template.id] ?? '#2563eb'
-  const [imgFailed, setImgFailed] = useState(false)
+/**
+ * Renders the real template component scaled down to fit the card preview
+ * area. This shows users the actual template design (typography, colors,
+ * layout, columns) using representative sample resume content, so templates
+ * can be compared without opening the editor.
+ */
+function TemplatePreview({ template }: { template: TemplateMetadata }) {
+  const Component = TEMPLATE_COMPONENTS[template.id]
+  if (!Component) return null
 
-  const GeneratedPreview = (
-    <div className="absolute inset-0 bg-white">
+  return (
+    <div className="absolute inset-0 overflow-hidden bg-white">
       <div
-        className="h-10 w-full flex items-center px-3"
-        style={{ backgroundColor: accent }}
+        style={{
+          width: '794px',
+          transform: 'scale(0.34)',
+          transformOrigin: 'top center',
+          pointerEvents: 'none',
+        }}
       >
-        <div className="h-2.5 w-24 rounded-full bg-white/80" />
-        <div className="ml-2 h-1.5 w-14 rounded-full bg-white/40" />
+        <Component
+          data={SAMPLE_RESUME_DATA}
+          theme={DEFAULT_THEME}
+          sections={DEFAULT_SECTION_CONFIGS}
+          isPreview
+        />
       </div>
-      {template.supportsTwoColumns ? (
-        <div className="flex h-[calc(100%-2.5rem)]">
-          <div className="w-1/3 border-r border-gray-100 p-2 space-y-1">
-            <div className="h-6 w-6 rounded-full mx-auto" style={{ backgroundColor: accent, opacity: 0.3 }} />
-            {[80, 90, 70, 85, 60].map((w, i) => (
-              <div key={i} className="h-1 rounded-full bg-gray-200" style={{ width: `${w}%` }} />
-            ))}
-          </div>
-          <div className="flex-1 p-2 space-y-1">
-            {[100, 95, 90, 70, 88, 60, 80, 75].map((w, i) => (
-              <div key={i} className="h-1 rounded-full bg-gray-200" style={{ width: `${w}%` }} />
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div className="p-2 space-y-1 h-[calc(100%-2.5rem)]">
-          {[100, 95, 90, 80, 70, 88, 60, 85, 75, 65, 90, 55].map((w, i) => (
-            <div key={i} className="h-1 rounded-full bg-gray-200" style={{ width: `${w}%` }} />
-          ))}
-        </div>
-      )}
     </div>
   )
-
-  if (template.previewImageUrl && !imgFailed) {
-    return (
-      <img
-        src={template.previewImageUrl}
-        alt={`${template.name} preview`}
-        className="absolute inset-0 h-full w-full object-cover object-top"
-        loading="lazy"
-        onError={() => setImgFailed(true)}
-      />
-    )
-  }
-
-  return GeneratedPreview
 }
