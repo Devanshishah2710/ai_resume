@@ -128,9 +128,9 @@ function TemplateCard({
       onMouseLeave={() => setHovered(false)}
     >
       {/* Preview area */}
-      <div className="relative h-52 bg-[var(--color-bg-secondary)] flex items-center justify-center overflow-hidden">
+      <div className="relative h-52 bg-[var(--color-bg-secondary)] overflow-hidden">
         {/* Mini resume preview */}
-        <Suspense fallback={<Skeleton className="h-40 w-28" />}>
+        <Suspense fallback={<Skeleton className="h-full w-full" />}>
           <MiniPreview template={template} />
         </Suspense>
 
@@ -174,8 +174,10 @@ function TemplateCard({
   )
 }
 
-// Lightweight template thumbnail — shows the real preview image, falling back
-// to a decorative mini-preview when no image is available.
+// Lightweight template thumbnail — renders a generated, properly-styled resume
+// preview that fills the card area. If a real preview image is available it is
+// used, but any load failure falls back to the generated preview so the UI
+// never shows a broken image icon.
 function MiniPreview({ template }: { template: TemplateMetadata }) {
   const colors: Record<string, string> = {
     'classic-professional': '#1a1a2e',
@@ -184,32 +186,52 @@ function MiniPreview({ template }: { template: TemplateMetadata }) {
     'minimal-clean': '#334155',
   }
   const accent = colors[template.id] ?? '#2563eb'
+  const [imgFailed, setImgFailed] = useState(false)
 
-  if (template.previewImageUrl) {
+  const GeneratedPreview = (
+    <div className="absolute inset-0 bg-white">
+      <div
+        className="h-10 w-full flex items-center px-3"
+        style={{ backgroundColor: accent }}
+      >
+        <div className="h-2.5 w-24 rounded-full bg-white/80" />
+        <div className="ml-2 h-1.5 w-14 rounded-full bg-white/40" />
+      </div>
+      {template.supportsTwoColumns ? (
+        <div className="flex h-[calc(100%-2.5rem)]">
+          <div className="w-1/3 border-r border-gray-100 p-2 space-y-1">
+            <div className="h-6 w-6 rounded-full mx-auto" style={{ backgroundColor: accent, opacity: 0.3 }} />
+            {[80, 90, 70, 85, 60].map((w, i) => (
+              <div key={i} className="h-1 rounded-full bg-gray-200" style={{ width: `${w}%` }} />
+            ))}
+          </div>
+          <div className="flex-1 p-2 space-y-1">
+            {[100, 95, 90, 70, 88, 60, 80, 75].map((w, i) => (
+              <div key={i} className="h-1 rounded-full bg-gray-200" style={{ width: `${w}%` }} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="p-2 space-y-1 h-[calc(100%-2.5rem)]">
+          {[100, 95, 90, 80, 70, 88, 60, 85, 75, 65, 90, 55].map((w, i) => (
+            <div key={i} className="h-1 rounded-full bg-gray-200" style={{ width: `${w}%` }} />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+
+  if (template.previewImageUrl && !imgFailed) {
     return (
       <img
         src={template.previewImageUrl}
         alt={`${template.name} preview`}
-        className="h-52 w-full object-cover object-top"
+        className="absolute inset-0 h-full w-full object-cover object-top"
         loading="lazy"
+        onError={() => setImgFailed(true)}
       />
     )
   }
 
-  return (
-    <div className="w-28 h-40 bg-white rounded shadow-md p-2 flex flex-col gap-1 opacity-90">
-      <div className="h-5 rounded-sm" style={{ backgroundColor: accent }} />
-      <div className="space-y-0.5 mt-1">
-        {[100, 85, 90, 70, 80, 75, 65].map((w, i) => (
-          <div key={i} className="h-0.5 rounded-full bg-gray-200" style={{ width: `${w}%` }} />
-        ))}
-      </div>
-      <div className="mt-1 h-1 rounded-full w-1/2" style={{ backgroundColor: accent, opacity: 0.4 }} />
-      <div className="space-y-0.5 mt-1">
-        {[90, 80, 70, 60].map((w, i) => (
-          <div key={i} className="h-0.5 rounded-full bg-gray-200" style={{ width: `${w}%` }} />
-        ))}
-      </div>
-    </div>
-  )
+  return GeneratedPreview
 }
