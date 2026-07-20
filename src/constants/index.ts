@@ -131,7 +131,6 @@ export const TEMPLATE_CATEGORIES = [
   { label: 'Modern', value: 'modern' },
   { label: 'Professional', value: 'professional' },
   { label: 'Minimal', value: 'minimal' },
-  { label: 'Executive', value: 'executive' },
   { label: 'Creative', value: 'creative' },
   { label: 'Technology', value: 'technology' },
   { label: 'Business', value: 'business' },

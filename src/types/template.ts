@@ -12,7 +12,6 @@ export type TemplateCategory =
   | 'business'
   | 'finance'
   | 'education'
-  | 'executive'
   | 'fresher'
   | 'minimal'
   | 'modern'
