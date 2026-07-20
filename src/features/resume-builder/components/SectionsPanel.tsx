@@ -45,7 +45,12 @@ import { ProjectsSection } from '../panels/ProjectsSection'
 import { SkillsSection } from '../panels/SkillsSection'
 import { CertificationsSection } from '../panels/CertificationsSection'
 import { LanguagesSection } from '../panels/LanguagesSection'
-import { AchievementsSection } from '../panels/AchievementsSection'
+import { AchievementsSection } from '../panels/LanguagesSection'
+import { InterestsSection } from '../panels/InterestsSection'
+import { AwardsSection } from '../panels/AwardsSection'
+import { PublicationsSection } from '../panels/PublicationsSection'
+import { ReferencesSection } from '../panels/ReferencesSection'
+import { VolunteerSection } from '../panels/VolunteerSection'
 import { CustomSection } from '../panels/CustomSection'
 import type { SectionConfig } from '@/types/resume'
 
@@ -53,17 +58,22 @@ import type { SectionConfig } from '@/types/resume'
 
 function SectionForm({ section }: { section: SectionConfig }) {
   switch (section.type) {
-    case 'personal':      return <PersonalSection />
-    case 'summary':       return <SummarySection />
-    case 'experience':    return <ExperienceSection />
-    case 'education':     return <EducationSection />
-    case 'projects':      return <ProjectsSection />
-    case 'skills':        return <SkillsSection />
-    case 'certifications': return <CertificationsSection />
-    case 'languages':     return <LanguagesSection />
-    case 'achievements':  return <AchievementsSection />
-    case 'custom':        return <CustomSection sectionId={section.id} />
-    default:              return null
+    case 'personal':        return <PersonalSection />
+    case 'summary':         return <SummarySection />
+    case 'experience':      return <ExperienceSection />
+    case 'education':       return <EducationSection />
+    case 'projects':        return <ProjectsSection />
+    case 'skills':          return <SkillsSection />
+    case 'certifications':  return <CertificationsSection />
+    case 'languages':       return <LanguagesSection />
+    case 'achievements':    return <AchievementsSection />
+    case 'interests':       return <InterestsSection />
+    case 'awards':          return <AwardsSection />
+    case 'publications':    return <PublicationsSection />
+    case 'references':      return <ReferencesSection />
+    case 'volunteer':       return <VolunteerSection />
+    case 'custom':          return <CustomSection sectionId={section.id} />
+    default:                return null
   }
 }
 

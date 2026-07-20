@@ -3,8 +3,20 @@
  * Supports both grid (card) and list (row) view modes.
  */
 
-import { FileText, Edit3, Copy, Trash2, MoreHorizontal } from 'lucide-react'
-import { Dropdown } from '@/components/ui/Dropdown'
+import {
+  FileText,
+  Edit3,
+  Eye,
+  Copy,
+  Trash2,
+  MoreHorizontal,
+  Star,
+  Share2,
+  Download,
+  FileDown,
+  FileType2,
+} from 'lucide-react'
+import { Dropdown, type DropdownItem } from '@/components/ui/Dropdown'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { timeAgo } from '@/utils/date'
@@ -14,29 +26,66 @@ type ResumeCardProps = {
   resume: Resume
   viewMode: 'grid' | 'list'
   onEdit: () => void
+  onPreview: () => void
   onDuplicate: () => void
   onRename: () => void
   onDelete: () => void
+  onToggleFavorite: () => void
+  onShare: () => void
+  onExport: (format: 'pdf' | 'docx') => void
+  onDownload: (format: 'pdf' | 'docx') => void
 }
 
 export function ResumeCard({
   resume,
   viewMode,
   onEdit,
+  onPreview,
   onDuplicate,
   onRename,
   onDelete,
+  onToggleFavorite,
+  onShare,
+  onExport,
+  onDownload,
 }: ResumeCardProps) {
-  const menuItems = [
-    { label: 'Edit', icon: <Edit3 className="h-3.5 w-3.5" />, onClick: onEdit },
-    { label: 'Rename', icon: <Edit3 className="h-3.5 w-3.5" />, onClick: onRename },
-    { label: 'Duplicate', icon: <Copy className="h-3.5 w-3.5" />, onClick: onDuplicate },
+  const menuItems: DropdownItem[] = [
+    { label: 'Edit Resume', icon: <Edit3 className="h-3.5 w-3.5" />, onClick: onEdit },
+    { label: 'Preview Resume', icon: <Eye className="h-3.5 w-3.5" />, onClick: onPreview },
     {
-      label: 'Delete',
+      label: 'Export',
+      icon: <FileDown className="h-3.5 w-3.5" />,
+      children: [
+        { label: 'Export as PDF', icon: <FileType2 className="h-3.5 w-3.5" />, onClick: () => onExport('pdf') },
+        { label: 'Export as DOCX', icon: <FileType2 className="h-3.5 w-3.5" />, onClick: () => onExport('docx') },
+      ],
+    },
+    {
+      label: 'Download',
+      icon: <Download className="h-3.5 w-3.5" />,
+      children: [
+        { label: 'Download PDF', icon: <FileType2 className="h-3.5 w-3.5" />, onClick: () => onDownload('pdf') },
+        { label: 'Download DOCX', icon: <FileType2 className="h-3.5 w-3.5" />, onClick: () => onDownload('docx') },
+      ],
+    },
+    { label: 'Duplicate Resume', icon: <Copy className="h-3.5 w-3.5" />, onClick: onDuplicate },
+    { label: 'Rename Resume', icon: <Edit3 className="h-3.5 w-3.5" />, onClick: onRename },
+    {
+      label: resume.isFavorite ? 'Remove Favorite' : 'Set as Favorite',
+      icon: <Star className="h-3.5 w-3.5" style={resume.isFavorite ? { fill: 'currentColor', color: 'var(--color-accent)' } : undefined} />,
+      onClick: onToggleFavorite,
+    },
+    {
+      label: 'Share Resume',
+      icon: <Share2 className="h-3.5 w-3.5" />,
+      onClick: onShare,
+      separator: true,
+    },
+    {
+      label: 'Delete Resume',
       icon: <Trash2 className="h-3.5 w-3.5" />,
       onClick: onDelete,
       variant: 'danger' as const,
-      separator: true,
     },
   ]
 

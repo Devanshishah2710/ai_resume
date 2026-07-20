@@ -33,8 +33,9 @@ import { CreateResumeModal } from '@/components/dashboard/CreateResumeModal'
 import { RenameResumeModal } from '@/components/dashboard/RenameResumeModal'
 import { DeleteResumeModal } from '@/components/dashboard/DeleteResumeModal'
 import { resumeService } from '@/services/resume.service'
+import { exportResume } from '@/utils/resumeExport'
 import type { Resume } from '@/types/resume'
-import { ROUTES } from '@/constants'
+import { ROUTES, APP_URL } from '@/constants'
 
 type SortOption = 'updated' | 'created' | 'title'
 type ViewMode = 'grid' | 'list'
@@ -124,6 +125,42 @@ export default function DashboardPage() {
       toast.success('Resume deleted')
     } catch {
       toast.error('Failed to delete resume')
+    }
+  }
+
+  const handlePreview = (id: string) => {
+    navigate(ROUTES.RESUME_PREVIEW.replace(':id', id))
+  }
+
+  const handleToggleFavorite = async (resume: Resume) => {
+    const next = !resume.isFavorite
+    setResumes((prev) => prev.map((r) => r.id === resume.id ? { ...r, isFavorite: next } : r))
+    try {
+      await resumeService.toggleFavorite(resume.id, next)
+      toast.success(next ? 'Added to favorites' : 'Removed from favorites')
+    } catch {
+      setResumes((prev) => prev.map((r) => r.id === resume.id ? { ...r, isFavorite: !next } : r))
+      toast.error('Failed to update favorite')
+    }
+  }
+
+  const handleShare = async (resume: Resume) => {
+    const link = `${APP_URL}${ROUTES.RESUME_PREVIEW.replace(':id', resume.id)}`
+    try {
+      await navigator.clipboard.writeText(link)
+      toast.success('Share link copied to clipboard')
+    } catch {
+      toast.message(`Share link: ${link}`)
+    }
+  }
+
+  const handleExport = async (resume: Resume, format: 'pdf' | 'docx') => {
+    const toastId = toast.loading(`Exporting "${resume.title}" as ${format.toUpperCase()}…`)
+    try {
+      await exportResume(resume, format)
+      toast.success(`${format.toUpperCase()} exported`, { id: toastId })
+    } catch {
+      toast.error(`Failed to export ${format.toUpperCase()}`, { id: toastId })
     }
   }
 
@@ -267,9 +304,14 @@ export default function DashboardPage() {
                     resume={resume}
                     viewMode={viewMode}
                     onEdit={() => handleEdit(resume.id)}
+                    onPreview={() => handlePreview(resume.id)}
                     onDuplicate={() => handleDuplicate(resume)}
                     onRename={() => setRenameTarget(resume)}
                     onDelete={() => setDeleteTarget(resume)}
+                    onToggleFavorite={() => handleToggleFavorite(resume)}
+                    onShare={() => handleShare(resume)}
+                    onExport={(format) => handleExport(resume, format)}
+                    onDownload={(format) => handleExport(resume, format)}
                   />
                 </motion.div>
               ))}

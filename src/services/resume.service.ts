@@ -21,6 +21,7 @@ function rowToResume(row: ResumeRow): Resume {
     id: row.id, userId: row.user_id, title: row.title, slug: row.slug,
     templateId: row.template_id, theme: row.theme, sections: row.sections, data: row.data,
     isPublic: row.is_public,
+    isFavorite: getFavoriteIds().has(row.id),
     metadata: row.metadata ?? { targetRole: '', targetCompany: '', notes: '' },
     lastExportedAt: row.last_exported_at, createdAt: row.created_at, updatedAt: row.updated_at,
   }
@@ -103,6 +104,29 @@ export const resumeService = {
     await downloadTable().insert({ user_id: user.id, resume_id: resumeId, format })
     await resumeTable().update({ last_exported_at: new Date().toISOString() }).eq('id', resumeId).eq('user_id', user.id)
   },
+
+  async toggleFavorite(id: string, favorite: boolean): Promise<void> {
+    setFavoriteIds(id, favorite)
+  },
+}
+
+const FAVORITES_KEY = 'resumeforge:favorite-resumes'
+
+function getFavoriteIds(): Set<string> {
+  try {
+    const raw = typeof localStorage !== 'undefined' ? localStorage.getItem(FAVORITES_KEY) : null
+    return new Set(raw ? (JSON.parse(raw) as string[]) : [])
+  } catch {
+    return new Set()
+  }
+}
+
+function setFavoriteIds(id: string, favorite: boolean): void {
+  if (typeof localStorage === 'undefined') return
+  const set = getFavoriteIds()
+  if (favorite) set.add(id)
+  else set.delete(id)
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify([...set]))
 }
 
 async function generateUniqueSlug(title: string, userId: string): Promise<string> {

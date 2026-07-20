@@ -267,6 +267,7 @@ export type Resume = {
   sections: SectionConfig[]
   data: ResumeData
   isPublic: boolean
+  isFavorite: boolean
   createdAt: string
   updatedAt: string
   lastExportedAt: string | null

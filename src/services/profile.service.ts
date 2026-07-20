@@ -26,8 +26,29 @@ const profileTable = () => supabase.from('profiles') as any
 export const profileService = {
   async getProfile(userId: string): Promise<UserProfile | null> {
     const { data, error } = await profileTable().select('*').eq('id', userId).single()
-    if (error) return null
-    return data ? rowToProfile(data as ProfileRow) : null
+    if (data) return rowToProfile(data as ProfileRow)
+
+    // No profile row yet — common for brand-new OAuth (Google) users before a
+    // DB trigger has created one. Derive name/avatar from the auth user metadata
+    // and upsert a starter profile so the app has something to display.
+    if (error && error.code !== 'PGRST116') return null
+
+    const { data: authUser } = await supabase.auth.getUser()
+    if (!authUser.user || authUser.user.id !== userId) return null
+
+    const meta = (authUser.user.user_metadata ?? {}) as {
+      full_name?: string; name?: string; avatar_url?: string; picture?: string
+    }
+    const fullName = meta.full_name ?? meta.name ?? ''
+    const avatarUrl = meta.avatar_url ?? meta.picture ?? null
+
+    const { data: created, error: insertError } = await profileTable()
+      .upsert({ id: userId, full_name: fullName, avatar_url: avatarUrl }, { onConflict: 'id' })
+      .select()
+      .single()
+
+    if (insertError || !created) return null
+    return rowToProfile(created as ProfileRow)
   },
 
   async updateProfile(userId: string, updates: Partial<Pick<UserProfile, 'fullName' | 'headline' | 'website' | 'location'>>): Promise<UserProfile> {

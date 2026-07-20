@@ -6,7 +6,9 @@
 export const APP_NAME = 'ResumeForge'
 export const APP_TAGLINE = 'Build resumes that get interviews.'
 export const APP_URL = 'https://resumeforge.vercel.app'
-export const ENABLE_GOOGLE_AUTH = import.meta.env.VITE_ENABLE_GOOGLE_AUTH === 'true'
+// Google OAuth is enabled by default. Set VITE_ENABLE_GOOGLE_AUTH=false to
+// hide the button (e.g. before the Google provider is configured in Supabase).
+export const ENABLE_GOOGLE_AUTH = import.meta.env.VITE_ENABLE_GOOGLE_AUTH !== 'false'
 
 // ─── Routes ──────────────────────────────────────────────────────────────────
 

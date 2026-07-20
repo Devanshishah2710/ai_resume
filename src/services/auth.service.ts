@@ -6,7 +6,6 @@
  */
 
 import { supabase, isSupabaseReady, supabaseConfigError } from '@/lib/supabase'
-import { ENABLE_GOOGLE_AUTH } from '@/constants'
 import { useAuthStore } from '@/store/auth.store'
 import { profileService } from '@/services/profile.service'
 import type { AuthUser } from '@/types/auth'
@@ -125,30 +124,57 @@ export const authService = {
   /**
    * Sign in with Google OAuth.
    * Redirects the user to Google, then back to /dashboard.
+   *
+   * Uses a relative-safe redirectTo based on window.location.origin so the
+   * callback works identically in local dev, GitHub Codespaces, and prod.
    */
   async signInWithGoogle(): Promise<void> {
-    if (!ENABLE_GOOGLE_AUTH) {
-      throw new Error('Google sign-in is not enabled for this project. Use email/password instead.')
-    }
-
     if (!isSupabaseReady) {
       throw new Error(supabaseConfigError?.message ?? 'Authentication is not configured correctly')
     }
 
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/dashboard`,
-        queryParams: {
-          prompt: 'select_account',
+    let data: { url: string | null }
+    let error: { message: string } | null
+
+    try {
+      const result = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`,
+          queryParams: {
+            prompt: 'select_account',
+            // Request basic profile + email so name/avatar are available.
+            access_type: 'offline',
+          },
         },
-      },
-    })
+      })
+      data = result.data
+      error = result.error
+    } catch (err) {
+      // Network failure or request timeout before Supabase could respond.
+      if (err instanceof Error && /timeout|network|fetch/i.test(err.message)) {
+        throw new Error('Network error. Please check your connection and try again.')
+      }
+      throw new Error(getFriendlyAuthErrorMessage(err))
+    }
 
-    if (error) throw new Error(error.message)
+    if (error) {
+      const message = error.message.toLowerCase()
+      if (message.includes('not enabled') || message.includes('unsupported provider') || message.includes('provider')) {
+        throw new Error('Google sign-in is not enabled for this project. Please enable Google in Supabase Auth providers or use email/password instead.')
+      }
+      throw new Error(getFriendlyAuthErrorMessage(error))
+    }
 
-    if (data.url) {
+    if (!data.url) {
+      throw new Error('Unable to start Google sign-in. Please try again or use email/password.')
+    }
+
+    // Browser may block the navigation (e.g. aggressive popup blockers).
+    try {
       window.location.assign(data.url)
+    } catch {
+      window.open(data.url, '_self')
     }
   },
 
