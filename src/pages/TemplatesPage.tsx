@@ -131,7 +131,7 @@ function TemplateCard({
       <div className="relative h-52 bg-[var(--color-bg-secondary)] flex items-center justify-center overflow-hidden">
         {/* Mini resume preview */}
         <Suspense fallback={<Skeleton className="h-40 w-28" />}>
-          <MiniPreview templateId={template.id} />
+          <MiniPreview template={template} />
         </Suspense>
 
         {/* Hover overlay */}
@@ -174,15 +174,27 @@ function TemplateCard({
   )
 }
 
-// Lightweight template thumbnail — just a decorative mini-preview
-function MiniPreview({ templateId }: { templateId: string }) {
+// Lightweight template thumbnail — shows the real preview image, falling back
+// to a decorative mini-preview when no image is available.
+function MiniPreview({ template }: { template: TemplateMetadata }) {
   const colors: Record<string, string> = {
     'classic-professional': '#1a1a2e',
     'modern-minimal': '#0f3460',
     'executive-dark': '#1b4332',
     'minimal-clean': '#334155',
   }
-  const accent = colors[templateId] ?? '#2563eb'
+  const accent = colors[template.id] ?? '#2563eb'
+
+  if (template.previewImageUrl) {
+    return (
+      <img
+        src={template.previewImageUrl}
+        alt={`${template.name} preview`}
+        className="h-52 w-full object-cover object-top"
+        loading="lazy"
+      />
+    )
+  }
 
   return (
     <div className="w-28 h-40 bg-white rounded shadow-md p-2 flex flex-col gap-1 opacity-90">
