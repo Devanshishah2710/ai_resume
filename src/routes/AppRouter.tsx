@@ -30,6 +30,7 @@ const RegisterPage = lazy(() => import('@/pages/RegisterPage'))
 const ForgotPasswordPage = lazy(() => import('@/pages/ForgotPasswordPage'))
 const ResetPasswordPage = lazy(() => import('@/pages/ResetPasswordPage'))
 const VerifyEmailPage = lazy(() => import('@/pages/VerifyEmailPage'))
+const AuthCallbackPage = lazy(() => import('@/pages/AuthCallbackPage'))
 const DashboardPage = lazy(() => import('@/pages/DashboardPage'))
 const ResumeBuilderPage = lazy(() => import('@/pages/ResumeBuilderPage'))
 const ResumePreviewPage = lazy(() => import('@/pages/ResumePreviewPage'))
@@ -56,6 +57,7 @@ export function AppRouter() {
         {/* Public */}
         <Route path={ROUTES.HOME} element={<LandingPage />} />
         <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmailPage />} />
+        <Route path={ROUTES.AUTH_CALLBACK} element={<AuthCallbackPage />} />
         <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
 
         {/* Auth pages — redirect authenticated users away */}

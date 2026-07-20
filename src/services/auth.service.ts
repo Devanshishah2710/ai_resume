@@ -6,6 +6,7 @@
  */
 
 import { supabase, isSupabaseReady, supabaseConfigError } from '@/lib/supabase'
+import { ROUTES } from '@/constants'
 import { useAuthStore } from '@/store/auth.store'
 import { profileService } from '@/services/profile.service'
 import type { AuthUser } from '@/types/auth'
@@ -140,7 +141,7 @@ export const authService = {
       const result = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`,
+          redirectTo: `${window.location.origin}${ROUTES.AUTH_CALLBACK}`,
           queryParams: {
             prompt: 'select_account',
             // Request basic profile + email so name/avatar are available.
@@ -155,14 +156,20 @@ export const authService = {
       if (err instanceof Error && /timeout|network|fetch/i.test(err.message)) {
         throw new Error('Network error. Please check your connection and try again.')
       }
+      console.error('[auth] Google OAuth initiation failed', err)
       throw new Error(getFriendlyAuthErrorMessage(err))
     }
 
     if (error) {
       const message = error.message.toLowerCase()
       if (message.includes('not enabled') || message.includes('unsupported provider') || message.includes('provider')) {
-        throw new Error('Google sign-in is not enabled for this project. Please enable Google in Supabase Auth providers or use email/password instead.')
+        console.error('[auth] Google provider not enabled in Supabase', error)
+        throw new Error(
+          'Google sign-in is currently unavailable. Please try again later or contact the administrator. ' +
+            'You can also sign in with email and password.'
+        )
       }
+      console.error('[auth] Google OAuth initiation failed', error)
       throw new Error(getFriendlyAuthErrorMessage(error))
     }
 

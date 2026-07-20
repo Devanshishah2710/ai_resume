@@ -19,6 +19,7 @@ export const ROUTES = {
   FORGOT_PASSWORD: '/forgot-password',
   RESET_PASSWORD: '/reset-password',
   VERIFY_EMAIL: '/verify-email',
+  AUTH_CALLBACK: '/auth/callback',
   DASHBOARD: '/dashboard',
   RESUME_NEW: '/resume/new',
   RESUME_EDIT: '/resume/:id/edit',
