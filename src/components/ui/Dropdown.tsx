@@ -9,7 +9,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export type DropdownItem = {
-  label: string
+  label?: string
   icon?: React.ReactNode
   onClick?: () => void
   variant?: 'default' | 'danger'
@@ -100,28 +100,30 @@ function DropdownMenu({
           >
             {items.map((item, i) => (
               <div key={i}>
-                {item.separator && i > 0 && (
+                {item.separator && (
                   <div className="my-1 border-t border-[var(--color-border)]" />
                 )}
-                <SubmenuItem
-                  item={item}
-                  align={align}
-                  isOpen={submenuId === String(i)}
-                  onHover={() => item.children && setSubmenuId(String(i))}
-                  onLeave={() => item.children && setSubmenuId((p) => (p === String(i) ? null : p))}
-                  onActivate={() => {
-                    if (item.children) {
-                      setSubmenuId((p) => (p === String(i) ? null : String(i)))
-                      return
-                    }
-                    if (!item.disabled && item.onClick) {
-                      item.onClick()
-                      setOpen(false)
-                      setSubmenuId(null)
-                      onClose?.()
-                    }
-                  }}
-                />
+                {item.label !== undefined && (
+                  <SubmenuItem
+                    item={item}
+                    align={align}
+                    isOpen={submenuId === String(i)}
+                    onHover={() => item.children && setSubmenuId(String(i))}
+                    onLeave={() => item.children && setSubmenuId((p) => (p === String(i) ? null : p))}
+                    onActivate={() => {
+                      if (item.children) {
+                        setSubmenuId((p) => (p === String(i) ? null : String(i)))
+                        return
+                      }
+                      if (!item.disabled && item.onClick) {
+                        item.onClick()
+                        setOpen(false)
+                        setSubmenuId(null)
+                        onClose?.()
+                      }
+                    }}
+                  />
+                )}
               </div>
             ))}
           </motion.div>
@@ -164,7 +166,7 @@ function SubmenuItem({
         ].join(' ')}
       >
         {item.icon && <span className="h-4 w-4 shrink-0 flex items-center justify-center">{item.icon}</span>}
-        <span className="flex-1 truncate">{item.label}</span>
+        <span className="flex-1 truncate">{item.label ?? ''}</span>
         {item.hint}
         {hasChildren && (
           <ChevronRight className="h-3.5 w-3.5 text-[var(--color-text-tertiary)] shrink-0" />

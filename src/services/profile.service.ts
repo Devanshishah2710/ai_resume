@@ -26,9 +26,33 @@ const profileTable = () => supabase.from('profiles') as any
 export const profileService = {
   async getProfile(userId: string): Promise<UserProfile | null> {
     const { data, error } = await profileTable().select('*').eq('id', userId).single()
-    if (data) return rowToProfile(data as ProfileRow)
 
-    // No profile row yet — common for brand-new OAuth (Google) users before a
+    if (data) {
+      const profile = data as ProfileRow
+      // Profile exists but may have an empty name (e.g. DB trigger ran before
+      // OIDC metadata was available). Check auth metadata and backfill.
+      if (!profile.full_name) {
+        const { data: authUser } = await supabase.auth.getUser()
+        const meta = (authUser?.user?.user_metadata ?? {}) as {
+          full_name?: string; name?: string; avatar_url?: string; picture?: string
+        }
+        const metaName = meta.full_name ?? meta.name
+        if (metaName || meta.avatar_url || meta.picture) {
+          const { data: updated } = await profileTable()
+            .upsert({
+              id: userId,
+              full_name: metaName ?? profile.full_name,
+              avatar_url: meta.avatar_url ?? meta.picture ?? profile.avatar_url,
+            }, { onConflict: 'id' })
+            .select()
+            .single()
+          if (updated) return rowToProfile(updated as ProfileRow)
+        }
+      }
+      return rowToProfile(profile)
+    }
+
+    // No profile row yet — common for brand-new OAuth users before a
     // DB trigger has created one. Derive name/avatar from the auth user metadata
     // and upsert a starter profile so the app has something to display.
     if (error && error.code !== 'PGRST116') return null

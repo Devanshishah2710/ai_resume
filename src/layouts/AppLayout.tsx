@@ -14,7 +14,7 @@
  */
 
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard,
@@ -26,13 +26,18 @@ import {
   ChevronDown,
   Moon,
   Sun,
+  User,
+  LogOut,
 } from 'lucide-react'
 import { useAuthStore } from '@/store/auth.store'
 import { useTheme } from '@/hooks/useTheme'
 import { APP_NAME, ROUTES } from '@/constants'
 import { Button } from '@/components/ui/Button'
 import { Tooltip } from '@/components/ui/Tooltip'
-import { SignOutButton } from '@/components/common/SignOutButton'
+import { Dropdown } from '@/components/ui/Dropdown'
+import type { DropdownItem } from '@/components/ui/Dropdown'
+import { authService } from '@/services/auth.service'
+import { toast } from 'sonner'
 
 const NAV_ITEMS = [
   { label: 'Dashboard', icon: LayoutDashboard, to: ROUTES.DASHBOARD },
@@ -45,6 +50,7 @@ type AppLayoutProps = { children: React.ReactNode }
 export function AppLayout({ children }: AppLayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
   const { user, profile } = useAuthStore()
   const { resolvedTheme, setTheme } = useTheme()
 
@@ -57,6 +63,32 @@ export function AppLayout({ children }: AppLayoutProps) {
   const initials = profile?.fullName
     ? profile.fullName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
     : user?.email?.[0]?.toUpperCase() ?? '?'
+
+  const handleSignOut = async () => {
+    try {
+      await authService.signOut()
+      navigate(ROUTES.LOGIN, { replace: true })
+    } catch (error) {
+      const message =
+        error instanceof Error && error.message ? error.message : 'Failed to sign out. Please try again.'
+      toast.error(message)
+    }
+  }
+
+  const userMenuItems: DropdownItem[] = [
+    {
+      label: 'Settings',
+      icon: <User className="h-4 w-4" />,
+      onClick: () => navigate(ROUTES.SETTINGS),
+    },
+    { separator: true },
+    {
+      label: 'Sign out',
+      icon: <LogOut className="h-4 w-4" />,
+      onClick: handleSignOut,
+      variant: 'danger',
+    },
+  ]
 
   return (
     <div className="min-h-dvh flex flex-col bg-[var(--color-bg-secondary)]">
@@ -97,33 +129,33 @@ export function AppLayout({ children }: AppLayoutProps) {
             </Button>
           </Tooltip>
 
-          {/* User avatar */}
-          <div className="relative ml-2">
-            <button
-              className="flex items-center gap-2 rounded-[var(--radius-md)] px-2 py-1.5 hover:bg-[var(--color-bg-tertiary)] transition-colors"
-              aria-label="User menu"
-            >
-              <div className="h-7 w-7 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-xs font-semibold">
-                {profile?.avatarUrl ? (
-                  <img
-                    src={profile.avatarUrl}
-                    alt={profile.fullName}
-                    className="h-7 w-7 rounded-full object-cover"
-                  />
-                ) : initials}
-              </div>
-              <span className="text-sm font-medium text-[var(--color-text-primary)] hidden sm:block max-w-[120px] truncate">
-                {profile?.fullName || user?.email}
-              </span>
-              <ChevronDown className="h-3.5 w-3.5 text-[var(--color-text-tertiary)] hidden sm:block" />
-            </button>
+          {/* User dropdown */}
+          <div className="ml-2">
+            <Dropdown
+              align="right"
+              items={userMenuItems}
+              trigger={
+                <button
+                  className="flex items-center gap-2 rounded-[var(--radius-md)] px-2 py-1.5 hover:bg-[var(--color-bg-tertiary)] transition-colors"
+                  aria-label="User menu"
+                >
+                  <div className="h-7 w-7 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-xs font-semibold">
+                    {profile?.avatarUrl ? (
+                      <img
+                        src={profile.avatarUrl}
+                        alt={profile.fullName}
+                        className="h-7 w-7 rounded-full object-cover"
+                      />
+                    ) : initials}
+                  </div>
+                  <span className="text-sm font-medium text-[var(--color-text-primary)] hidden sm:block max-w-[120px] truncate">
+                    {profile?.fullName || user?.email}
+                  </span>
+                  <ChevronDown className="h-3.5 w-3.5 text-[var(--color-text-tertiary)] hidden sm:block" />
+                </button>
+              }
+            />
           </div>
-
-          <Tooltip content="Sign out">
-            <div>
-              <SignOutButton iconOnly className="h-10 w-10" />
-            </div>
-          </Tooltip>
         </div>
       </header>
 
@@ -216,10 +248,13 @@ export function AppLayout({ children }: AppLayoutProps) {
                 </nav>
 
                 <div className="px-3 pt-4 border-t border-[var(--color-border)] mt-4">
-                  <SignOutButton
-                    className="w-full justify-start text-[var(--color-error)] hover:bg-[var(--color-error-subtle)]"
-                    label="Sign out"
-                  />
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-[var(--radius-md)] text-sm font-medium text-[var(--color-error)] hover:bg-[var(--color-error-subtle)] transition-colors"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </button>
                 </div>
               </motion.aside>
             </>
