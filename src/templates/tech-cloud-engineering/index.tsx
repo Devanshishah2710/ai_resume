@@ -36,7 +36,7 @@ export default function TechCloudEngineeringTemplate({ data, theme, sections }: 
   )
 
   return (
-    <div style={{ fontFamily: fontStack, fontSize, lineHeight, color: theme.textColor, backgroundColor: theme.backgroundColor, width: '210mm', minHeight: '297mm', padding: '14mm 16mm', boxSizing: 'border-box' }}>
+    <div style={{ fontFamily: fontStack, fontSize, lineHeight, color: theme.textColor, background: `repeating-linear-gradient(65deg, transparent, transparent 28px, ${accent}04 28px, ${accent}04 29px), ${theme.backgroundColor}`, width: '210mm', minHeight: '297mm', padding: '14mm 16mm', boxSizing: 'border-box' }}>
       <header style={{ marginBottom: `calc(${gap} * 1.2)` }}>
         <h1 style={{ fontSize: `calc(${fontSize} * 2.2)`, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.1, color: '#0f172a', margin: 0 }}>
           {[personal.firstName, personal.lastName].filter(Boolean).join(' ') || 'Your Name'}

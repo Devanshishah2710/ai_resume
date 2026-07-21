@@ -65,7 +65,7 @@ export default function TechFullstackTemplate({ data, theme, sections }: Templat
   )
 
   return (
-    <div style={{ fontFamily: fontStack, fontSize, lineHeight, color: theme.textColor, backgroundColor: theme.backgroundColor, width: '210mm', minHeight: '297mm', padding: '14mm 16mm', boxSizing: 'border-box', borderLeft: `4px solid ${accent}`, paddingLeft: '20mm' }}>
+    <div style={{ fontFamily: fontStack, fontSize, lineHeight, color: theme.textColor, background: `linear-gradient(160deg, ${accent}04 0%, ${theme.backgroundColor} 30%, ${theme.backgroundColor} 70%, ${accent}03 100%)`, width: '210mm', minHeight: '297mm', padding: '14mm 16mm', boxSizing: 'border-box', borderLeft: `4px solid ${accent}`, paddingLeft: '20mm' }}>
       <header style={{ marginBottom: `calc(${gap} * 1.2)`, paddingBottom: '10px', borderBottom: `1px solid #e2e8f0` }}>
         <h1 style={{ fontSize: `calc(${fontSize} * 2.2)`, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.1, color: '#0f172a', margin: 0 }}>
           {[personal.firstName, personal.lastName].filter(Boolean).join(' ') || 'Your Name'}

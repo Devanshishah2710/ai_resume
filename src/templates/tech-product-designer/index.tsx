@@ -236,7 +236,7 @@ export default function TechProductDesignerTemplate({ data, theme, sections }: T
   }
 
   return (
-    <div style={{ fontFamily: fontStack, fontSize, lineHeight, color: theme.textColor, backgroundColor: theme.backgroundColor, width: '210mm', minHeight: '297mm', padding: '14mm 16mm', boxSizing: 'border-box' }}>
+    <div style={{ fontFamily: fontStack, fontSize, lineHeight, color: theme.textColor, background: `radial-gradient(ellipse at 15% 0%, ${accent}08 0%, transparent 60%), linear-gradient(180deg, ${accent}03 0%, transparent 30%), ${theme.backgroundColor}`, width: '210mm', minHeight: '297mm', padding: '14mm 16mm', boxSizing: 'border-box' }}>
       <header style={{ marginBottom: `calc(${gap} * 1.3)`, paddingBottom: '12px', borderBottom: `1px solid #d1d5db` }}>
         <h1 style={{ fontSize: `calc(${fontSize} * 2.2)`, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.1, color: '#0f172a', margin: 0 }}>
           {[personal.firstName, personal.lastName].filter(Boolean).join(' ') || 'Your Name'}

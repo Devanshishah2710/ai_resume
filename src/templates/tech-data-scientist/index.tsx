@@ -45,7 +45,7 @@ export default function TechDataScientistTemplate({ data, theme, sections }: Tem
   )
 
   return (
-    <div style={{ fontFamily: fontStack, fontSize, lineHeight, color: theme.textColor, backgroundColor: theme.backgroundColor, width: '210mm', minHeight: '297mm', padding: '14mm 16mm', boxSizing: 'border-box' }}>
+    <div style={{ fontFamily: fontStack, fontSize, lineHeight, color: theme.textColor, background: `radial-gradient(circle at 20% 30%, ${accent}06 0%, ${theme.backgroundColor} 50%), ${theme.backgroundColor}`, width: '210mm', minHeight: '297mm', padding: '14mm 16mm', boxSizing: 'border-box' }}>
       <header style={{ marginBottom: `calc(${gap} * 1.4)`, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', alignItems: 'flex-start' }}>
         <div>
           <h1 style={{ fontSize: `calc(${fontSize} * 2.4)`, fontWeight: 300, letterSpacing: '-0.03em', lineHeight: 1.1, color: '#0f172a', margin: 0 }}>
