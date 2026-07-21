@@ -12,7 +12,7 @@ import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
 import { renderRichText } from '@/utils/sanitize'
 import { ATLAS_DATA } from '@/templates/sampleData'
 
-const FONT_SIZE_MAP = { sm: '11px', md: '11.5px', lg: '12.5px' }
+const FONT_SIZE_MAP = { sm: '12.5px', md: '13px', lg: '14px' }
 const LINE_HEIGHT_MAP = { tight: 1.4, normal: 1.6, relaxed: 1.75 }
 const SPACING_MAP = { compact: '14px', normal: '20px', spacious: '28px' }
 

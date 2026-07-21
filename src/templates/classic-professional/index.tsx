@@ -20,8 +20,8 @@ import { renderRichText } from '@/utils/sanitize'
 
 // ─── Typography scale maps ────────────────────────────────────────────────────
 
-const FONT_SIZE_MAP = { sm: '11px', md: '12px', lg: '13px' }
-const LINE_HEIGHT_MAP = { tight: 1.3, normal: 1.5, relaxed: 1.7 }
+const FONT_SIZE_MAP = { sm: '12.5px', md: '13.5px', lg: '14.5px' }
+const LINE_HEIGHT_MAP = { tight: 1.35, normal: 1.55, relaxed: 1.75 }
 const SPACING_MAP = { compact: '10px', normal: '16px', spacious: '22px' }
 
 export default function ClassicProfessionalTemplate({ data, theme, sections }: TemplateProps) {

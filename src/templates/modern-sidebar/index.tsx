@@ -12,8 +12,8 @@ import { formatDateRange, formatMonthYear } from '@/utils/date'
 import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
 import { renderRichText } from '@/utils/sanitize'
 
-const FONT_SIZE_MAP = { sm: '10.5px', md: '11px', lg: '12px' }
-const LINE_HEIGHT_MAP = { tight: 1.3, normal: 1.5, relaxed: 1.6 }
+const FONT_SIZE_MAP = { sm: '12.5px', md: '13px', lg: '14px' }
+const LINE_HEIGHT_MAP = { tight: 1.35, normal: 1.55, relaxed: 1.7 }
 const SPACING_MAP = { compact: '10px', normal: '15px', spacious: '20px' }
 
 export default function ModernSidebarTemplate({ data, theme }: TemplateProps) {

@@ -1,10 +1,11 @@
 /**
- * Business Template — Overlook
+ * Business Template — Overlook (Boardroom Profile)
  *
  * Concept: A top-dominant executive panel occupies ~30% of the page with a
- * dark accent background containing name, headline, key metric badges computed
- * from the resume data, and the summary as a highlighted callout. Below is a
- * two-column content area. The panel reads like an executive briefing dashboard.
+ * dark accent background containing name, metric badges, and summary. The
+ * panel features a subtle inset accent border at top. Below is a two-column
+ * content area where left-column sections have a thick left accent bar and
+ * right-column entries use subtle cards. A bottom accent band anchors the page.
  *
  * Target: CEOs, COOs, CFOs, executive directors, senior VPs.
  */
@@ -14,7 +15,7 @@ import { formatDateRange, formatMonthYear } from '@/utils/date'
 import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
 import { renderRichText } from '@/utils/sanitize'
 
-const FONT_SIZE_MAP = { sm: '10px', md: '11px', lg: '12px' }
+const FONT_SIZE_MAP = { sm: '12px', md: '13px', lg: '14px' }
 const LINE_HEIGHT_MAP = { tight: 1.35, normal: 1.55, relaxed: 1.75 }
 const SPACING_MAP = { compact: '10px', normal: '14px', spacious: '20px' }
 
@@ -62,7 +63,7 @@ export default function BusinessOverlookTemplate({ data, theme, sections }: Temp
         fontSize,
         lineHeight,
         color: theme.textColor,
-        backgroundColor: theme.backgroundColor,
+        backgroundColor: '#f7f5f2',
         width: '210mm',
         minHeight: '297mm',
         boxSizing: 'border-box',
@@ -74,8 +75,21 @@ export default function BusinessOverlookTemplate({ data, theme, sections }: Temp
           backgroundColor: accent,
           color: '#ffffff',
           padding: '10mm 12mm 8mm',
+          borderTop: '3px solid rgba(255,255,255,0.15)',
+          position: 'relative',
         }}
       >
+        {/* Corner accent square (top-right) */}
+        <div style={{
+          position: 'absolute',
+          top: '6mm',
+          right: '8mm',
+          width: '12px',
+          height: '12px',
+          borderTop: '2px solid rgba(255,255,255,0.2)',
+          borderRight: '2px solid rgba(255,255,255,0.2)',
+        }} />
+
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
           <div>
             <h1
@@ -104,17 +118,18 @@ export default function BusinessOverlookTemplate({ data, theme, sections }: Temp
           </div>
         </div>
 
-        {/* Metric badges */}
+        {/* Metric badges — filled style */}
         {metrics.length > 0 && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '7mm' }}>
             {metrics.map((m, i) => (
               <div
                 key={i}
                 style={{
-                  border: '1px solid rgba(255,255,255,0.25)',
+                  backgroundColor: 'rgba(255,255,255,0.1)',
                   borderRadius: '4px',
                   padding: '3px 12px',
                   textAlign: 'center',
+                  border: '1px solid rgba(255,255,255,0.2)',
                 }}
               >
                 <span style={{ display: 'block', fontWeight: 700, fontSize: `calc(${fontSize} * 1.2)`, lineHeight: 1.2, color: '#ffffff' }}>
@@ -155,7 +170,11 @@ export default function BusinessOverlookTemplate({ data, theme, sections }: Temp
                   <div key={section.id} style={{ marginBottom: gap }}>
                     <PanelTitle label={section.label} accent={accent} fontSize={fontSize} />
                     {experience.map((exp, i) => (
-                      <div key={exp.id} style={{ marginBottom: i < experience.length - 1 ? `calc(${gap} * 0.8)` : 0 }}>
+                      <div key={exp.id} style={{
+                        marginBottom: i < experience.length - 1 ? `calc(${gap} * 0.8)` : 0,
+                        borderLeft: `3px solid ${accent}20`,
+                        paddingLeft: '10px',
+                      }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '4px' }}>
                           <h3 style={{ fontWeight: 700, fontSize: `calc(${fontSize} * 1)`, color: '#0f172a', margin: 0 }}>
                             {exp.position}
@@ -183,7 +202,7 @@ export default function BusinessOverlookTemplate({ data, theme, sections }: Temp
                   <div key={section.id} style={{ marginBottom: gap }}>
                     <PanelTitle label={section.label} accent={accent} fontSize={fontSize} />
                     {projects.map((proj, i) => (
-                      <div key={proj.id} style={{ marginBottom: i < projects.length - 1 ? '6px' : 0, padding: '4px 8px', backgroundColor: `${accent}04`, borderRadius: '4px' }}>
+                      <div key={proj.id} style={{ marginBottom: i < projects.length - 1 ? '6px' : 0, padding: '4px 8px', backgroundColor: `${accent}04`, borderRadius: '4px', borderLeft: `3px solid ${accent}20` }}>
                         <h3 style={{ fontWeight: 700, fontSize: `calc(${fontSize} * 0.9)`, margin: 0, color: accent }}>
                           {proj.url ? <a href={proj.url} style={{ color: accent, textDecoration: 'none' }}>{proj.name}</a> : proj.name}
                         </h3>
@@ -269,7 +288,7 @@ export default function BusinessOverlookTemplate({ data, theme, sections }: Temp
                   <div key={section.id} style={{ marginBottom: gap }}>
                     <PanelTitle label={section.label} accent={accent} fontSize={fontSize} />
                     {education.map((edu, i) => (
-                      <div key={edu.id} style={{ marginBottom: i < education.length - 1 ? '6px' : 0, padding: '4px 8px', backgroundColor: `${accent}04`, borderRadius: '4px' }}>
+                      <div key={edu.id} style={{ marginBottom: i < education.length - 1 ? '6px' : 0, padding: '4px 8px', backgroundColor: `${accent}04`, borderRadius: '4px', borderLeft: `3px solid ${accent}15` }}>
                         <h3 style={{ fontWeight: 700, fontSize: `calc(${fontSize} * 0.92)`, margin: 0, color: '#0f172a' }}>{edu.institution}</h3>
                         <p style={{ color: '#475569', fontSize: `calc(${fontSize} * 0.82)`, marginTop: '1px', marginBottom: 0 }}>
                           {[edu.degree, edu.field].filter(Boolean).join(' in ')}{edu.gpa ? ` \u2014 GPA: ${edu.gpa}` : ''}
@@ -285,11 +304,11 @@ export default function BusinessOverlookTemplate({ data, theme, sections }: Temp
                   <div key={section.id} style={{ marginBottom: gap }}>
                     <PanelTitle label={section.label} accent={accent} fontSize={fontSize} />
                     {skills.map((cat) => (
-                      <div key={cat.id} style={{ marginBottom: '5px' }}>
+                      <div key={cat.id} style={{ marginBottom: '5px', padding: '3px 8px', backgroundColor: `${accent}04`, borderRadius: '4px' }}>
                         {cat.name && <p style={{ fontWeight: 700, fontSize: `calc(${fontSize} * 0.85)`, color: '#0f172a', margin: 0, marginBottom: '2px' }}>{cat.name}</p>}
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px' }}>
                           {cat.skills.map((skill) => (
-                            <span key={skill} style={{ fontSize: `calc(${fontSize} * 0.75)`, color: '#374151', border: `1px solid ${accent}15`, padding: '1px 7px', borderRadius: '3px', backgroundColor: `${accent}04` }}>
+                            <span key={skill} style={{ fontSize: `calc(${fontSize} * 0.75)`, color: '#374151', border: `1px solid ${accent}15`, padding: '1px 7px', borderRadius: '3px', backgroundColor: '#ffffff' }}>
                               {skill}
                             </span>
                           ))}
@@ -304,7 +323,7 @@ export default function BusinessOverlookTemplate({ data, theme, sections }: Temp
                   <div key={section.id} style={{ marginBottom: gap }}>
                     <PanelTitle label={section.label} accent={accent} fontSize={fontSize} />
                     {certifications.map((cert, i) => (
-                      <div key={cert.id} style={{ marginBottom: i < certifications.length - 1 ? '4px' : 0, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px', padding: '3px 8px', backgroundColor: `${accent}04`, borderRadius: '4px' }}>
+                      <div key={cert.id} style={{ marginBottom: i < certifications.length - 1 ? '4px' : 0, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '4px', padding: '3px 8px', backgroundColor: `${accent}04`, borderRadius: '4px', borderLeft: `3px solid ${accent}15` }}>
                         <span style={{ fontWeight: 600, fontSize: `calc(${fontSize} * 0.82)`, color: '#0f172a' }}>{cert.name}</span>
                         <span style={{ color: '#64748b', fontSize: `calc(${fontSize} * 0.75)` }}>{cert.issuer} &middot; {formatMonthYear(cert.date)}</span>
                       </div>
@@ -380,6 +399,9 @@ export default function BusinessOverlookTemplate({ data, theme, sections }: Temp
             </div>
           )
         })}
+
+      {/* Bottom accent band */}
+      <div style={{ height: '3px', backgroundColor: accent }} />
     </div>
   )
 }

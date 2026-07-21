@@ -9,7 +9,7 @@ import { formatDateRange, formatMonthYear } from '@/utils/date'
 import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
 import { renderRichText } from '@/utils/sanitize'
 
-const FONT_SIZE_MAP = { sm: '11px', md: '12px', lg: '13px' }
+const FONT_SIZE_MAP = { sm: '12.5px', md: '13.5px', lg: '14.5px' }
 const LINE_HEIGHT_MAP = { tight: 1.4, normal: 1.6, relaxed: 1.8 }
 const SPACING_MAP = { compact: '12px', normal: '20px', spacious: '28px' }
 
