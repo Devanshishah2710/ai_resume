@@ -484,6 +484,83 @@ export const templateRegistry: TemplateRegistry = {
     createdAt: '2025-07-21',
     component: lazy(() => import('./business-tract')),
   },
+
+  // ── Finance Templates ─────────────────────────────────────────────────────
+
+  'finance-ledger': {
+    id: 'finance-ledger',
+    name: 'Ledger',
+    description: 'A balance-sheet-inspired layout with three horizontal bands. Thin dark-accent header strip, 2:1 left-heavy column split with proportional skill "asset allocation" bars, and a compact footer for achievements. For CFOs, FP&A leaders, and accounting executives.',
+    category: 'finance',
+    tier: 'free',
+    previewImageUrl: getTemplatePreviewUrl('finance-ledger'),
+    tags: ['finance', 'three-band', 'balance-sheet', 'skill-bars'],
+    isAtsOptimized: true,
+    supportsAvatar: false,
+    supportsTwoColumns: false,
+    createdAt: '2025-07-21',
+    component: lazy(() => import('./finance-ledger')),
+  },
+
+  'finance-portfolio': {
+    id: 'finance-portfolio',
+    name: 'Portfolio',
+    description: 'Emulates an investment portfolio document. Modular grid of bordered section cards representing portfolio holdings. Accent header bar with metric badges (years, roles, certs). For portfolio managers, asset managers, and wealth advisors.',
+    category: 'finance',
+    tier: 'free',
+    previewImageUrl: getTemplatePreviewUrl('finance-portfolio'),
+    tags: ['finance', 'portfolio', 'card-grid', 'modular'],
+    isAtsOptimized: true,
+    supportsAvatar: false,
+    supportsTwoColumns: false,
+    createdAt: '2025-07-21',
+    component: lazy(() => import('./finance-portfolio')),
+  },
+
+  'finance-treasury': {
+    id: 'finance-treasury',
+    name: 'Treasury',
+    description: 'Inspired by a treasury bond document. Narrow 15% left margin column holds section labels like "covenant notes", with main content flowing on the right. Hairline dividers mimic a treasury term sheet. For treasurers, capital markets, and corporate finance professionals.',
+    category: 'finance',
+    tier: 'free',
+    previewImageUrl: getTemplatePreviewUrl('finance-treasury'),
+    tags: ['finance', 'treasury', 'margin-column', 'bond'],
+    isAtsOptimized: true,
+    supportsAvatar: false,
+    supportsTwoColumns: false,
+    createdAt: '2025-07-21',
+    component: lazy(() => import('./finance-treasury')),
+  },
+
+  'finance-equity': {
+    id: 'finance-equity',
+    name: 'Equity',
+    description: 'Modeled after an equity research report. Research header with ticker initials and rating badge. "Investment thesis" summary callout. Experience as company snapshots with a left accent border and date as a bold price label. For equity research analysts and investment analysts.',
+    category: 'finance',
+    tier: 'free',
+    previewImageUrl: getTemplatePreviewUrl('finance-equity'),
+    tags: ['finance', 'equity', 'research', 'analyst'],
+    isAtsOptimized: true,
+    supportsAvatar: false,
+    supportsTwoColumns: false,
+    createdAt: '2025-07-21',
+    component: lazy(() => import('./finance-equity')),
+  },
+
+  'finance-vault': {
+    id: 'finance-vault',
+    name: 'Vault',
+    description: 'Inspired by the security of a bank vault. Masonry-style section blocks with a thick 4px accent top border creating a bulletproof institutional feel. Compact header, dark accent footer anchor strip. For CROs, audit partners, compliance directors, and financial controllers.',
+    category: 'finance',
+    tier: 'free',
+    previewImageUrl: getTemplatePreviewUrl('finance-vault'),
+    tags: ['finance', 'vault', 'blocks', 'institutional'],
+    isAtsOptimized: true,
+    supportsAvatar: false,
+    supportsTwoColumns: false,
+    createdAt: '2025-07-21',
+    component: lazy(() => import('./finance-vault')),
+  },
 }
 
 export const DEFAULT_TEMPLATE_ID = 'classic-professional'

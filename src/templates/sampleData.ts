@@ -729,6 +729,281 @@ export const CLOUD_OPS_DATA: ResumeData = {
   custom: {},
 }
 
+// ── Finance Templates Sample Data ──────────────────────────────────────────
+
+export const LEDGER_DATA: ResumeData = {
+  personal: {
+    firstName: 'Victoria',
+    lastName: 'Archer',
+    headline: 'Chief Financial Officer',
+    email: 'victoria.archer@archer-financial.com',
+    phone: '(212) 555-0199',
+    location: 'New York, NY',
+    website: '',
+    linkedin: 'linkedin.com/in/victoriaarcher',
+    github: '',
+    summary: 'CFO with 18+ years driving financial strategy, capital markets execution, and enterprise transformation across Fortune 500 financial services and FinTech organizations. Proven track record of optimizing capital structures, leading IPOs, and building high-performance finance teams.',
+    avatarUrl: null,
+  },
+  summary: 'CFO with 18+ years driving financial strategy, capital markets execution, and enterprise transformation across Fortune 500 financial services and FinTech organizations. Proven track record of optimizing capital structures, leading IPOs, and building high-performance finance teams.',
+  experience: [
+    { id: 'e1', company: 'Meridian Financial Group', position: 'Chief Financial Officer', location: 'New York, NY', dateRange: { startDate: '2019-03', endDate: null, current: true }, description: 'Oversee all financial operations for a $2.8B diversified financial services firm.\n\n• Led the company through a successful IPO raising $540M on the NYSE.\n• Reduced operating costs by 18% ($22M annually) through process reengineering.\n• Restructured $450M in debt, improving credit rating from BB+ to BBB-.\n• Built the FP&A function from the ground up, hiring and mentoring a team of 12.', highlights: [] },
+    { id: 'e2', company: 'Atlas Capital Partners', position: 'Senior Vice President, Finance', location: 'New York, NY', dateRange: { startDate: '2013-06', endDate: '2019-02', current: false }, description: 'Led corporate finance and treasury for a $1.2B asset management firm.\n\n• Managed $800M in fixed-income and equity portfolios with consistent alpha generation.\n• Implemented an enterprise risk management framework adopted across 5 business units.\n• Directed M&A due diligence for 8 acquisitions totaling $320M in enterprise value.', highlights: [] },
+    { id: 'e3', company: 'Goldman Sachs', position: 'Vice President, Investment Banking', location: 'New York, NY', dateRange: { startDate: '2008-09', endDate: '2013-05', current: false }, description: 'Executed M&A and capital raising transactions for financial institution clients.\n\n• Advised on 15+ transactions with aggregate value exceeding $6B.\n• Led due diligence teams for cross-border acquisitions in Europe and Asia.', highlights: [] },
+  ],
+  education: [
+    { id: 'ed1', institution: 'Harvard Business School', degree: 'MBA', field: 'Finance', location: 'Boston, MA', dateRange: { startDate: '2006-09', endDate: '2008-05', current: false }, gpa: '3.9', description: 'Baker Scholar', highlights: [] },
+    { id: 'ed2', institution: 'Princeton University', degree: 'B.A.', field: 'Economics', location: 'Princeton, NJ', dateRange: { startDate: '2002-09', endDate: '2006-05', current: false }, gpa: '3.8', description: 'Summa Cum Laude', highlights: [] },
+  ],
+  projects: [
+    { id: 'p1', name: 'NYSE IPO Execution', description: 'Led end-to-end IPO process including S-1 filing, roadshow, pricing, and post-listing compliance.', technologies: ['Capital Markets', 'SEC Reporting', 'Corporate Governance'], url: '', githubUrl: '', dateRange: { startDate: '2020-01', endDate: '2021-06', current: false }, highlights: [] },
+    { id: 'p2', name: 'ERP Transformation', description: 'Led the $15M migration from legacy systems to SAP S/4HANA across 12 international offices.', technologies: ['SAP S/4HANA', 'Financial Systems', 'Change Management'], url: '', githubUrl: '', dateRange: { startDate: '2022-03', endDate: '2023-12', current: false }, highlights: [] },
+  ],
+  skills: [
+    { id: 's1', name: 'Financial Strategy', skills: ['Capital Markets', 'M&A', 'FP&A', 'Treasury Management', 'Risk Management', 'SEC Reporting'], level: 'expert' },
+    { id: 's2', name: 'Leadership', skills: ['Org Design', 'Board Presentations', 'Team Building', 'Stakeholder Management', 'Governance'], level: 'expert' },
+    { id: 's3', name: 'Systems', skills: ['SAP S/4HANA', 'Bloomberg Terminal', 'Excel', 'Tableau', 'Anaplan'], level: 'advanced' },
+  ],
+  certifications: [
+    { id: 'c1', name: 'Chartered Financial Analyst (CFA)', issuer: 'CFA Institute', date: '2012-08', expirationDate: null, credentialId: 'CFA-44192', url: '' },
+    { id: 'c2', name: 'Certified Public Accountant (CPA)', issuer: 'AICPA', date: '2010-05', expirationDate: null, credentialId: 'CPA-88291', url: '' },
+    { id: 'c3', name: 'Financial Risk Manager (FRM)', issuer: 'GARP', date: '2014-11', expirationDate: null, credentialId: 'FRM-66172', url: '' },
+  ],
+  achievements: [
+    { id: 'a1', title: 'IPO of the Year — Financial Services', description: 'Recognized by NYSE for the successful IPO execution raising $540M.', date: '2021-12' },
+    { id: 'a2', title: 'CFO Excellence Award', description: 'Awarded by Meridian Financial Group for leadership in the IPO and restructuring.', date: '2022-03' },
+  ],
+  languages: [
+    { id: 'l1', language: 'English', proficiency: 'native' },
+    { id: 'l2', language: 'French', proficiency: 'professional' },
+    { id: 'l3', language: 'Mandarin', proficiency: 'limited' },
+  ],
+  interests: [{ id: 'i1', name: 'Classical music' }, { id: 'i2', name: 'Marathon running' }, { id: 'i3', name: 'Wine collecting' }],
+  awards: [{ id: 'aw1', title: 'Fortune 40 Under 40 — Finance', issuer: 'Fortune Magazine', date: '2022-09', description: 'Recognized among the top emerging leaders in finance.' }],
+  publications: [{ id: 'pu1', title: 'Capital Efficiency in a Rising Rate Environment', publisher: 'Harvard Business Review', date: '2023-06', url: 'hbr.org/archer', description: 'A framework for optimizing capital allocation during monetary tightening cycles.', authors: ['Victoria Archer', 'Michael Torres'] }],
+  references: [{ id: 'r1', name: 'James Whitfield', position: 'Board Chairman', company: 'Meridian Financial Group', email: 'j.whitfield@meridianfinancial.com', phone: '(212) 555-0111', relationship: 'Board Chair' }],
+  volunteer: [{ id: 'v1', organization: 'Financial Women\'s Association', role: 'Board Member & Mentor', location: 'New York, NY', dateRange: { startDate: '2019-01', endDate: null, current: true }, description: 'Mentors rising female finance professionals and contributes to strategic programming.', highlights: [] }],
+  custom: {},
+}
+
+export const PORTFOLIO_DATA_FINANCE: ResumeData = {
+  personal: {
+    firstName: 'Jonathan',
+    lastName: 'Pierce',
+    headline: 'Portfolio Manager — Fixed Income & Alternatives',
+    email: 'jonathan.pierce@sterlingasset.com',
+    phone: '(617) 555-0277',
+    location: 'Boston, MA',
+    website: '',
+    linkedin: 'linkedin.com/in/jonathanpierce',
+    github: '',
+    summary: 'Institutional portfolio manager with 14 years managing $2.5B+ in fixed-income and multi-asset portfolios. Expertise in credit analysis, derivatives structuring, and alternative investments. Consistently ranked in the top quartile of institutional fund managers.',
+    avatarUrl: null,
+  },
+  summary: 'Institutional portfolio manager with 14 years managing $2.5B+ in fixed-income and multi-asset portfolios. Expertise in credit analysis, derivatives structuring, and alternative investments. Consistently ranked in the top quartile of institutional fund managers.',
+  experience: [
+    { id: 'e1', company: 'Sterling Asset Management', position: 'Portfolio Manager', location: 'Boston, MA', dateRange: { startDate: '2018-02', endDate: null, current: true }, description: 'Manage $1.2B in fixed-income and alternative investment portfolios for institutional clients.\n\n• Generated a 12.4% annualized return over 5 years vs. 8.1% benchmark (top-decile performance).\n• Structured $300M in CLO tranches and credit derivatives for yield enhancement.\n• Led the firm\'s ESG integration initiative, creating a green bond framework certified by Climate Bonds Initiative.\n• Managed interest rate risk across $800M in sovereign and corporate bond holdings.', highlights: [] },
+    { id: 'e2', company: 'Boylston Capital', position: 'Senior Fixed Income Analyst', location: 'Boston, MA', dateRange: { startDate: '2014-06', endDate: '2018-01', current: false }, description: 'Senior credit analyst covering investment-grade and high-yield corporate bonds.\n\n• Coverage universe of 60+ issuers across financials, energy, and consumer sectors.\n• Recommended a 140bps overweight to energy sector in 2016, contributing 380bps of excess return.', highlights: [] },
+    { id: 'e3', company: 'Fidelity Investments', position: 'Credit Research Associate', location: 'Boston, MA', dateRange: { startDate: '2010-08', endDate: '2014-05', current: false }, description: 'Conducted fundamental credit analysis for the $15B investment-grade corporate bond fund.', highlights: [] },
+  ],
+  education: [
+    { id: 'ed1', institution: 'MIT Sloan School of Management', degree: 'M.Fin.', field: 'Financial Engineering', location: 'Cambridge, MA', dateRange: { startDate: '2008-09', endDate: '2010-06', current: false }, gpa: '4.0', description: '', highlights: [] },
+    { id: 'ed2', institution: 'University of Pennsylvania', degree: 'B.S.', field: 'Economics with Finance Concentration', location: 'Philadelphia, PA', dateRange: { startDate: '2004-09', endDate: '2008-05', current: false }, gpa: '3.9', description: 'Magna Cum Laude', highlights: [] },
+  ],
+  projects: [
+    { id: 'p1', name: 'ESG Green Bond Framework', description: 'Developed and implemented a $200M green bond framework certified by the Climate Bonds Initiative.', technologies: ['ESG Analysis', 'Fixed Income', 'Impact Reporting'], url: '', githubUrl: '', dateRange: { startDate: '2021-01', endDate: '2022-06', current: false }, highlights: [] },
+    { id: 'p2', name: 'CLO Structuring & Portfolio Allocation', description: 'Originated and structured $300M in CLO tranches across six deals.', technologies: ['CLO Structuring', 'Derivatives', 'Risk Analytics'], url: '', githubUrl: '', dateRange: { startDate: '2019-03', endDate: null, current: true }, highlights: [] },
+  ],
+  skills: [
+    { id: 's1', name: 'Portfolio Management', skills: ['Fixed Income', 'Credit Analysis', 'Derivatives', 'Asset Allocation', 'Risk Management', 'CLO Structuring'], level: 'expert' },
+    { id: 's2', name: 'Analysis & Research', skills: ['Fundamental Credit', 'ESG Integration', 'Quantitative Modeling', 'Scenario Analysis', 'Relative Value'], level: 'expert' },
+    { id: 's3', name: 'Tools & Platforms', skills: ['Bloomberg', 'FactSet', 'Barra', 'MATLAB', 'Python', 'SQL'], level: 'advanced' },
+  ],
+  certifications: [
+    { id: 'c1', name: 'Chartered Financial Analyst (CFA)', issuer: 'CFA Institute', date: '2013-08', expirationDate: null, credentialId: 'CFA-34129', url: '' },
+    { id: 'c2', name: 'Certificate in ESG Investing', issuer: 'CFA Institute', date: '2021-11', expirationDate: null, credentialId: 'ESG-4417', url: '' },
+    { id: 'c3', name: 'Financial Risk Manager (FRM)', issuer: 'GARP', date: '2015-05', expirationDate: null, credentialId: 'FRM-77182', url: '' },
+  ],
+  achievements: [
+    { id: 'a1', title: 'Top-Decile Performance — 5-Year Track Record', description: '12.4% annualized return vs. 8.1% benchmark, ranking in the top 10% of peers.', date: '2023-12' },
+    { id: 'a2', title: 'Institutional Investor Excellence Award', description: 'Recognized for outstanding risk-adjusted returns and client service.', date: '2022-06' },
+  ],
+  languages: [
+    { id: 'l1', language: 'English', proficiency: 'native' },
+    { id: 'l2', language: 'Portuguese', proficiency: 'professional' },
+  ],
+  interests: [{ id: 'i1', name: 'Sailing' }, { id: 'i2', name: 'Chess' }, { id: 'i3', name: 'Fly fishing' }],
+  awards: [{ id: 'aw1', title: 'Lipper Fund Award — Fixed Income', issuer: 'Lipper / Refinitiv', date: '2023-03', description: 'Awarded for consistent risk-adjusted performance in the core fixed income category.' }],
+  publications: [{ id: 'pu1', title: 'ESG Integration in Fixed Income: A Practitioner\'s Framework', publisher: 'Journal of Portfolio Management', date: '2023-09', url: 'jpm.pm-research.com/pierce', description: 'A practical framework for incorporating ESG factors into credit analysis and portfolio construction.', authors: ['Jonathan Pierce', 'Sarah Kim'] }],
+  references: [{ id: 'r1', name: 'Elizabeth Chan', position: 'CIO', company: 'Sterling Asset Management', email: 'e.chan@sterlingasset.com', phone: '(617) 555-0122', relationship: 'Manager' }],
+  volunteer: [{ id: 'v1', organization: 'Year Up Boston', role: 'Financial Literacy Instructor', location: 'Boston, MA', dateRange: { startDate: '2019-01', endDate: null, current: true }, description: 'Teaches financial literacy and investment fundamentals to underserved young adults.', highlights: [] }],
+  custom: {},
+}
+
+export const TREASURY_DATA: ResumeData = {
+  personal: {
+    firstName: 'Catherine',
+    lastName: 'Schuyler',
+    headline: 'Group Treasurer',
+    email: 'catherine.schuyler@nexus-industries.com',
+    phone: '+44 20 7946 0314',
+    location: 'London, UK',
+    website: '',
+    linkedin: 'linkedin.com/in/catherineschuyler',
+    github: '',
+    summary: 'Group Treasurer with 15 years in corporate treasury, risk management, and capital markets. Managed $6B in liquidity and a $12B debt portfolio across 30+ jurisdictions. Expert in FX risk, cash management, and treasury technology transformation.',
+    avatarUrl: null,
+  },
+  summary: 'Group Treasurer with 15 years in corporate treasury, risk management, and capital markets. Managed $6B in liquidity and a $12B debt portfolio across 30+ jurisdictions. Expert in FX risk, cash management, and treasury technology transformation.',
+  experience: [
+    { id: 'e1', company: 'Nexus Industries PLC', position: 'Group Treasurer', location: 'London, UK', dateRange: { startDate: '2020-04', endDate: null, current: true }, description: 'Lead global treasury operations for a FTSE 100 industrial conglomerate with $8B revenue.\n\n• Managed $6B in global liquidity, optimizing cash pooling across 30+ jurisdictions.\n• Reduced FX hedging costs by 28% ($4.2M annually) through a dynamic hedging programme.\n• Executed $1.5B in debt capital market transactions including green bonds and private placements.\n• Implemented a cloud-based TMS (Kyriba), automating 85% of manual treasury processes.', highlights: [] },
+    { id: 'e2', company: 'Barclays Investment Bank', position: 'Director, Corporate Treasury Advisory', location: 'London, UK', dateRange: { startDate: '2015-01', endDate: '2020-03', current: false }, description: 'Advised FTSE 250 and Fortune 500 clients on treasury transformation and capital structure.\n\n• Led 25+ treasury advisory engagements with aggregate client impact exceeding $100M.\n• Designed liquidity frameworks and stress-testing models for 15 corporate clients.', highlights: [] },
+    { id: 'e3', company: 'HSBC Global Banking', position: 'Associate, Global Markets', location: 'London, UK', dateRange: { startDate: '2009-07', endDate: '2014-12', current: false }, description: 'Markets professional covering FX, rates, and commodity derivatives for corporate clients.', highlights: [] },
+  ],
+  education: [
+    { id: 'ed1', institution: 'London Business School', degree: 'Masters in Finance', field: 'Finance', location: 'London, UK', dateRange: { startDate: '2007-09', endDate: '2009-06', current: false }, gpa: 'Distinction', description: '', highlights: [] },
+    { id: 'ed2', institution: 'University of Oxford', degree: 'B.A.', field: 'Philosophy, Politics and Economics', location: 'Oxford, UK', dateRange: { startDate: '2004-10', endDate: '2007-06', current: false }, gpa: 'First Class', description: '', highlights: [] },
+  ],
+  projects: [
+    { id: 'p1', name: 'Global Treasury Transformation', description: 'Led the complete overhaul of treasury systems including Kyriba TMS implementation and SWIFT connectivity.', technologies: ['Kyriba', 'SWIFT', 'SAP', 'API Integration'], url: '', githubUrl: '', dateRange: { startDate: '2021-01', endDate: '2023-06', current: false }, highlights: [] },
+    { id: 'p2', name: 'Green Bond Framework & Issuance', description: 'Developed a £500M green bond framework aligned with ICMA Green Bond Principles and executed inaugural issuance.', technologies: ['Green Finance', 'Debt Capital Markets', 'ESG Reporting'], url: '', githubUrl: '', dateRange: { startDate: '2022-06', endDate: '2023-03', current: false }, highlights: [] },
+  ],
+  skills: [
+    { id: 's1', name: 'Treasury', skills: ['Liquidity Management', 'FX Risk Management', 'Debt Capital Markets', 'Cash Pooling', 'TMS Implementation', 'Trade Finance'], level: 'expert' },
+    { id: 's2', name: 'Financial Analysis', skills: ['Capital Structure', 'Hedge Accounting', 'Stress Testing', 'Credit Analysis', 'IFRS 9'], level: 'expert' },
+    { id: 's3', name: 'Systems & Tools', skills: ['Kyriba', 'SAP Treasury', 'Bloomberg', 'Reuters Eikon', 'Excel VBA', 'Python'], level: 'advanced' },
+  ],
+  certifications: [
+    { id: 'c1', name: 'Certified Treasury Professional (CTP)', issuer: 'AFP', date: '2016-06', expirationDate: null, credentialId: 'CTP-44182', url: '' },
+    { id: 'c2', name: 'Chartered Financial Analyst (CFA)', issuer: 'CFA Institute', date: '2014-08', expirationDate: null, credentialId: 'CFA-55291', url: '' },
+    { id: 'c3', name: 'Certificate in International Treasury Management', issuer: 'Treasury Management International', date: '2015-11', expirationDate: null, credentialId: 'CITM-2281', url: '' },
+  ],
+  achievements: [
+    { id: 'a1', title: 'Treasury Team of the Year — Europe', description: 'Awarded by Treasury Today for the global treasury transformation programme.', date: '2023-11' },
+    { id: 'a2', title: '28% FX Hedging Cost Reduction', description: 'Implemented dynamic hedging programme saving $4.2M annually.', date: '2022-12' },
+  ],
+  languages: [
+    { id: 'l1', language: 'English', proficiency: 'native' },
+    { id: 'l2', language: 'German', proficiency: 'full' },
+    { id: 'l3', language: 'French', proficiency: 'professional' },
+    { id: 'l4', language: 'Dutch', proficiency: 'limited' },
+  ],
+  interests: [{ id: 'i1', name: 'Classical piano' }, { id: 'i2', name: 'Cycling' }, { id: 'i3', name: 'Architecture' }],
+  awards: [{ id: 'aw1', title: 'Adam Smith Award — Corporate Treasurer of the Year', issuer: 'Treasury Management International', date: '2023-09', description: 'Recognized for outstanding leadership in treasury transformation and innovation.' }],
+  publications: [{ id: 'pu1', title: 'The Future of Corporate Treasury: AI, APIs, and Real-Time Liquidity', publisher: 'Treasury & Risk Magazine', date: '2024-01', url: 'treasuryandrisk.com/schuyler', description: 'An analysis of emerging technologies reshaping the corporate treasury function.', authors: ['Catherine Schuyler'] }],
+  references: [{ id: 'r1', name: 'Richard Hawthorne', position: 'Group CFO', company: 'Nexus Industries PLC', email: 'r.hawthorne@nexusindustries.com', phone: '+44 20 7946 0100', relationship: 'Manager' }],
+  volunteer: [{ id: 'v1', organization: 'ACT (Association of Corporate Treasurers)', role: 'Mentor & Examiner', location: 'London, UK', dateRange: { startDate: '2018-01', endDate: null, current: true }, description: 'Mentors treasury professionals pursuing CTP and ACT qualifications. Serves on the exam board.', highlights: [] }],
+  custom: {},
+}
+
+export const EQUITY_DATA: ResumeData = {
+  personal: {
+    firstName: 'Marcus',
+    lastName: 'Wellington',
+    headline: 'Equity Research Analyst — Financials & FinTech',
+    email: 'marcus.wellington@stonebridge-research.com',
+    phone: '(415) 555-0423',
+    location: 'San Francisco, CA',
+    website: '',
+    linkedin: 'linkedin.com/in/marcuswellington',
+    github: '',
+    summary: 'Chartered Financial Analyst with 11 years of equity research experience covering financial services and FinTech. Ranked #3 in Institutional Investor All-America Research Team for Financials. Known for differentiated investment thesis generation and deep fundamental analysis.',
+    avatarUrl: null,
+  },
+  summary: 'Chartered Financial Analyst with 11 years of equity research experience covering financial services and FinTech. Ranked #3 in Institutional Investor All-America Research Team for Financials. Known for differentiated investment thesis generation and deep fundamental analysis.',
+  experience: [
+    { id: 'e1', company: 'Stonebridge Research Partners', position: 'Vice President, Equity Research', location: 'San Francisco, CA', dateRange: { startDate: '2020-06', endDate: null, current: true }, description: 'Senior analyst covering 25+ financial services and FinTech stocks with $400B+ aggregate market cap.\n\n• Ranked #3 in Institutional Investor All-America Research Team for Financials (2023).\n• Generated actionable investment ideas that delivered 14.2% alpha vs. S&P 500 Financials Index.\n• Built and maintained complex DCF, sum-of-parts, and NAV models with scenario analysis.\n• Published 50+ initiation reports, sector notes, and earnings previews annually.', highlights: [] },
+    { id: 'e2', company: 'Morgan Stanley Wealth Management', position: 'Associate, Equity Research', location: 'New York, NY', dateRange: { startDate: '2016-09', endDate: '2020-05', current: false }, description: 'Covered the banks and specialty finance sub-sectors.\n\n• Supported senior analysts in coverage of 35+ stocks across banks, brokers, and asset managers.\n• Built valuation models that identified a 65% upside in a regional bank later acquired at a 72% premium.', highlights: [] },
+    { id: 'e3', company: 'J.P. Morgan', position: 'Investment Banking Analyst', location: 'New York, NY', dateRange: { startDate: '2013-07', endDate: '2016-08', current: false }, description: 'Financial institutions group covering M&A and capital raising for bank and insurance clients.', highlights: [] },
+  ],
+  education: [
+    { id: 'ed1', institution: 'The Wharton School, University of Pennsylvania', degree: 'B.S.', field: 'Finance & Accounting', location: 'Philadelphia, PA', dateRange: { startDate: '2009-09', endDate: '2013-05', current: false }, gpa: '3.9', description: 'Joseph Wharton Scholar', highlights: [] },
+  ],
+  projects: [
+    { id: 'p1', name: 'FinTech Disruption Thematic Report', description: 'Published a comprehensive 150-page report on FinTech disruption across consumer banking, payments, and lending.', technologies: ['Financial Modeling', 'Thematic Research', 'Industry Analysis'], url: '', githubUrl: '', dateRange: { startDate: '2022-01', endDate: '2022-06', current: false }, highlights: [] },
+    { id: 'p2', name: 'AI in Financial Services Coverage', description: 'Launched coverage of AI-native FinTech companies, publishing initiation reports on 5 high-growth firms.', technologies: ['Sector Analysis', 'Valuation', 'Primary Research'], url: '', githubUrl: '', dateRange: { startDate: '2023-06', endDate: null, current: true }, highlights: [] },
+  ],
+  skills: [
+    { id: 's1', name: 'Research & Analysis', skills: ['Financial Modeling', 'DCF Valuation', 'Merger Arbitrage', 'Sector Analysis', 'Thematic Research', 'Primary Research'], level: 'expert' },
+    { id: 's2', name: 'Financial Products', skills: ['Equities', 'Fixed Income', 'Derivatives', 'Structured Products', 'Options Strategies'], level: 'expert' },
+    { id: 's3', name: 'Tools & Data', skills: ['Bloomberg', 'FactSet', 'CapIQ', 'SQL', 'Python', 'Excel VBA'], level: 'advanced' },
+  ],
+  certifications: [
+    { id: 'c1', name: 'Chartered Financial Analyst (CFA)', issuer: 'CFA Institute', date: '2017-08', expirationDate: null, credentialId: 'CFA-66128', url: '' },
+    { id: 'c2', name: 'Series 86/87 — Research Analyst', issuer: 'FINRA', date: '2016-11', expirationDate: null, credentialId: 'SERIES-86-4419', url: '' },
+    { id: 'c3', name: 'Certificate in ESG Analysis', issuer: 'SASB / FSA', date: '2022-05', expirationDate: null, credentialId: 'FSA-8821', url: '' },
+  ],
+  achievements: [
+    { id: 'a1', title: '#3 Ranked Analyst — Institutional Investor All-America', description: 'Ranked third in the Financials sector in the 2023 Institutional Investor survey.', date: '2023-10' },
+    { id: 'a2', title: '14.2% Net Alpha Generated vs. Sector Benchmark', description: 'Stock recommendations generated 1,420 bps of cumulative excess returns over 3 years.', date: '2023-12' },
+  ],
+  languages: [
+    { id: 'l1', language: 'English', proficiency: 'native' },
+    { id: 'l2', language: 'Mandarin Chinese', proficiency: 'professional' },
+  ],
+  interests: [{ id: 'i1', name: 'Hiking' }, { id: 'i2', name: 'Documentary films' }, { id: 'i3', name: 'Wine tasting' }],
+  awards: [{ id: 'aw1', title: 'Institutional Investor All-America Research Team — Financials', issuer: 'Institutional Investor Magazine', date: '2023-10', description: 'Ranked #3 in the Financials sector. Recognized for stock picking, earnings estimates, and industry knowledge.' }],
+  publications: [{ id: 'pu1', title: 'The FinTech Revolution: A Roadmap for Investors', publisher: 'Institutional Investor Journals', date: '2023-11', url: 'iijournals.com/wellington', description: 'A comprehensive analysis of the FinTech landscape and investment opportunities in the sector.', authors: ['Marcus Wellington', 'Dr. Anita Patel'] }],
+  references: [{ id: 'r1', name: 'Sarah Chen', position: 'Managing Director, Head of Research', company: 'Stonebridge Research Partners', email: 's.chen@stonebridge-research.com', phone: '(415) 555-0100', relationship: 'Manager' }],
+  volunteer: [{ id: 'v1', organization: 'CFA Society San Francisco', role: 'Board Member, Programming', location: 'San Francisco, CA', dateRange: { startDate: '2021-01', endDate: null, current: true }, description: 'Organizes speaker events and networking for 500+ charterholders in the Bay Area.', highlights: [] }],
+  custom: {},
+}
+
+export const VAULT_DATA: ResumeData = {
+  personal: {
+    firstName: 'Alistair',
+    lastName: 'Blackwood',
+    headline: 'Managing Director — Risk & Audit',
+    email: 'alistair.blackwood@blackwood-associates.com',
+    phone: '(312) 555-0398',
+    location: 'Chicago, IL',
+    website: '',
+    linkedin: 'linkedin.com/in/alistairblackwood',
+    github: '',
+    summary: 'Big Four-trained audit and risk leader with 20+ years serving Fortune 500 financial institutions. Led the risk and assurance practices for multiple top-tier banks and insurance firms. Specialist in regulatory compliance, internal audit transformation, and enterprise risk management frameworks.',
+    avatarUrl: null,
+  },
+  summary: 'Big Four-trained audit and risk leader with 20+ years serving Fortune 500 financial institutions. Led the risk and assurance practices for multiple top-tier banks and insurance firms. Specialist in regulatory compliance, internal audit transformation, and enterprise risk management frameworks.',
+  experience: [
+    { id: 'e1', company: 'Blackwood & Associates', position: 'Managing Director, Risk Advisory', location: 'Chicago, IL', dateRange: { startDate: '2018-05', endDate: null, current: true }, description: 'Founded risk advisory practice serving financial institution clients with $5B+ in assets.\n\n• Led SOX 404 and regulatory readiness engagements for 12 publicly traded financial firms.\n• Designed and implemented ERM frameworks for 8 regional banks, reducing regulatory findings by 60%.\n• Built a 25-person team generating $8M in annual revenue within 3 years.', highlights: [] },
+    { id: 'e2', company: 'Deloitte & Touche', position: 'Partner, Risk & Financial Advisory', location: 'Chicago, IL', dateRange: { startDate: '2010-01', endDate: '2018-04', current: false }, description: 'Partner in the financial services risk practice.\n\n• Led the internal audit transformation for a Top 10 US bank — reduced audit cycle time by 40%.\n• Served as engagement partner for 6 Fortune 500 financial services clients.\n• Developed the firm\'s regulatory compliance methodology adopted by 4 practice offices.', highlights: [] },
+    { id: 'e3', company: 'PricewaterhouseCoopers', position: 'Senior Manager, Assurance', location: 'Chicago, IL', dateRange: { startDate: '2004-09', endDate: '2009-12', current: false }, description: 'Managed assurance engagements for large financial institution clients.\n\n• Led the external audit of a $40B regional bank — managed a team of 30 professionals.\n• Identified $12M in control deficiencies, leading to remediation and strengthened governance.', highlights: [] },
+  ],
+  education: [
+    { id: 'ed1', institution: 'University of Chicago Booth School of Business', degree: 'MBA', field: 'Finance & Accounting', location: 'Chicago, IL', dateRange: { startDate: '2002-09', endDate: '2004-06', current: false }, gpa: '3.8', description: '', highlights: [] },
+    { id: 'ed2', institution: 'University of Illinois at Urbana-Champaign', degree: 'B.S.', field: 'Accountancy', location: 'Urbana, IL', dateRange: { startDate: '1998-09', endDate: '2002-05', current: false }, gpa: '4.0', description: 'Summa Cum Laude', highlights: [] },
+  ],
+  projects: [
+    { id: 'p1', name: 'Bank ERM Framework Implementation', description: 'Designed and deployed a comprehensive enterprise risk management framework for a Top 25 US bank.', technologies: ['ERM', 'COSO', 'Basel III', 'Regulatory Compliance'], url: '', githubUrl: '', dateRange: { startDate: '2019-06', endDate: '2021-03', current: false }, highlights: [] },
+    { id: 'p2', name: 'Internal Audit Technology Transformation', description: 'Led the implementation of AI-powered audit analytics, reducing manual testing by 60%.', technologies: ['Audit Analytics', 'AI/ML', 'Process Mining', 'Tableau'], url: '', githubUrl: '', dateRange: { startDate: '2022-01', endDate: '2023-12', current: false }, highlights: [] },
+  ],
+  skills: [
+    { id: 's1', name: 'Risk Management', skills: ['Enterprise Risk Management', 'Internal Audit', 'SOX 404', 'Regulatory Compliance', 'Operational Risk', 'Basel III/IV'], level: 'expert' },
+    { id: 's2', name: 'Financial Advisory', skills: ['M&A Due Diligence', 'Financial Reporting', 'Governance Design', 'Board Advisory', 'CRO Advisory'], level: 'expert' },
+    { id: 's3', name: 'Leadership', skills: ['Practice Management', 'Business Development', 'Team Leadership', 'Client Relationships', 'Thought Leadership'], level: 'expert' },
+  ],
+  certifications: [
+    { id: 'c1', name: 'Certified Public Accountant (CPA)', issuer: 'AICPA / NASBA', date: '2003-05', expirationDate: null, credentialId: 'CPA-11829', url: '' },
+    { id: 'c2', name: 'Certified Internal Auditor (CIA)', issuer: 'IIA', date: '2006-09', expirationDate: null, credentialId: 'CIA-44182', url: '' },
+    { id: 'c3', name: 'Certified in Risk and Information Systems Control (CRISC)', issuer: 'ISACA', date: '2013-06', expirationDate: null, credentialId: 'CRISC-77192', url: '' },
+    { id: 'c4', name: 'Chartered Financial Analyst (CFA)', issuer: 'CFA Institute', date: '2008-08', expirationDate: null, credentialId: 'CFA-22918', url: '' },
+  ],
+  achievements: [
+    { id: 'a1', title: '60% Reduction in Regulatory Findings', description: 'ERM framework implementation helped 8 regional banks reduce compliance deficiencies.', date: '2023-12' },
+    { id: 'a2', title: 'Built $8M Risk Advisory Practice', description: 'Grew a boutique risk practice from zero to $8M in annual revenue within 3 years.', date: '2021-06' },
+  ],
+  languages: [
+    { id: 'l1', language: 'English', proficiency: 'native' },
+    { id: 'l2', language: 'Spanish', proficiency: 'professional' },
+  ],
+  interests: [{ id: 'i1', name: 'Jazz trumpet' }, { id: 'i2', name: 'Woodworking' }, { id: 'i3', name: 'Genealogy' }],
+  awards: [{ id: 'aw1', title: 'Illinois CPA Society — Outstanding Leader Award', issuer: 'ICPAS', date: '2023-05', description: 'Recognized for contributions to the accounting profession and community leadership.' }],
+  publications: [{ id: 'pu1', title: 'The Future of Internal Audit: AI, Continuous Monitoring, and the Changing Role of the Auditor', publisher: 'Internal Auditor Journal', date: '2024-02', url: 'internalauditor.org/blackwood', description: 'An exploration of how AI and continuous monitoring are transforming the internal audit function.', authors: ['Alistair Blackwood'] }],
+  references: [{ id: 'r1', name: 'Patricia Wells', position: 'Chief Audit Executive', company: 'Great Lakes Bank Corp', email: 'p.wells@glbank.com', phone: '(312) 555-0115', relationship: 'Client' }],
+  volunteer: [{ id: 'v1', organization: 'United Way of Metro Chicago', role: 'Finance Committee Chair', location: 'Chicago, IL', dateRange: { startDate: '2020-01', endDate: null, current: true }, description: 'Chairs the finance committee overseeing $15M annual budget and investment portfolio.', highlights: [] }],
+  custom: {},
+}
+
 export const PRODUCT_DESIGNER_DATA: ResumeData = {
   personal: {
     firstName: 'Sakura',
