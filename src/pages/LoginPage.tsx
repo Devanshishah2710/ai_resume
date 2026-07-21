@@ -1,13 +1,27 @@
 /**
- * LoginPage — email/password + Google OAuth sign-in.
+ * LoginPage — email/password + Google/LinkedIn OAuth sign-in.
  *
- * Uses React Hook Form for validation. Errors displayed inline.
- * After login, redirects to the originally requested URL (from ProtectedRoute).
+ * Anti-autofill strategy (multi-layer):
+ *   Layer 1 — autoComplete="off" on form, "off" on email, "new-password" on
+ *             password (Chrome respects "new-password" for password fields).
+ *   Layer 2 — type="text" + inputMode="email" for the email field instead of
+ *             type="email" so Chrome does not recognise it as an autofill target.
+ *   Layer 3 — hidden decoy username/password inputs before the real fields to
+ *             absorb credential-fill from password managers.
+ *   Layer 4 — readOnly on mount, released after 2 s (browser autofill typically
+ *             fires within 500 ms of DOM ready, so this covers it).
+ *   Layer 5 — state is force-cleared at multiple time points (200 ms, 500 ms,
+ *             1200 ms, 2000 ms) to override any late autofill.
+ *   Layer 6 — field name attributes are randomised per mount so password
+ *             managers cannot match fields across sessions.
+ *   Layer 7 — form reset on mount, after successful login, and after failed
+ *             login.
+ *   Layer 8 — controlled inputs with useState('') so React always overwrites
+ *             the DOM value property on every render.
  */
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { Eye, EyeOff, Mail } from 'lucide-react'
 import { AuthLayout } from '@/layouts/AuthLayout'
@@ -16,35 +30,102 @@ import { Input } from '@/components/ui/Input'
 import { authService } from '@/services/auth.service'
 import { ENABLE_GOOGLE_AUTH, ENABLE_LINKEDIN_AUTH, ROUTES } from '@/constants'
 
-type LoginFormValues = {
-  email: string
-  password: string
+type FormErrors = {
+  email?: string
+  password?: string
+  root?: string
 }
 
 export default function LoginPage() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
   const [isLinkedInLoading, setIsLinkedInLoading] = useState(false)
+  const [errors, setErrors] = useState<FormErrors>({})
+  const [isReadOnly, setIsReadOnly] = useState(true)
+
   const navigate = useNavigate()
   const location = useLocation()
 
-  const from = (location.state as { from?: string } | null)?.from ?? ROUTES.DASHBOARD
+  const from =
+    (location.state as { from?: string } | null)?.from ?? ROUTES.DASHBOARD
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    setError,
-  } = useForm<LoginFormValues>()
+  // Layer 6 — randomised field names per mount
+  const fieldNames = useRef({
+    email: `eml_${Math.random().toString(36).slice(2, 10)}`,
+    password: `pwd_${Math.random().toString(36).slice(2, 10)}`,
+  })
 
-  const onSubmit = async (values: LoginFormValues) => {
+  // Layers 4 + 5 — readOnly + force-clear on mount
+  useEffect(() => {
+    const clear = () => {
+      setEmail('')
+      setPassword('')
+      setErrors({})
+    }
+
+    clear() // immediate
+
+    // Force-clear at staggered intervals to catch late autofill
+    const c1 = setTimeout(clear, 200)
+    const c2 = setTimeout(clear, 500)
+    const c3 = setTimeout(clear, 1200)
+    const c4 = setTimeout(clear, 2000)
+
+    // Release readOnly after the autofill window has firmly passed
+    const release = setTimeout(() => setIsReadOnly(false), 2500)
+
+    return () => {
+      clearTimeout(c1); clearTimeout(c2); clearTimeout(c3); clearTimeout(c4)
+      clearTimeout(release)
+    }
+  }, [])
+
+  // ── Validators ───────────────────────────────────────────────────────────
+  const validateForm = (): boolean => {
+    const next: FormErrors = {}
+    if (!email.trim()) {
+      next.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      next.email = 'Enter a valid email address'
+    }
+    if (!password) {
+      next.password = 'Password is required'
+    } else if (password.length < 6) {
+      next.password = 'Password must be at least 6 characters'
+    }
+    setErrors(next)
+    return Object.keys(next).length === 0
+  }
+
+  // Layer 7 — form reset
+  const resetForm = () => {
+    setEmail('')
+    setPassword('')
+    setErrors({})
+  }
+
+  // ── Handlers ─────────────────────────────────────────────────────────────
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!validateForm()) return
+
+    setIsSubmitting(true)
+    setErrors({})
+
     try {
-      await authService.signInWithEmail(values.email, values.password)
+      await authService.signInWithEmail(email, password)
+      resetForm()
       navigate(from, { replace: true })
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Sign in failed'
-      setError('root', { message })
+      setErrors({ root: message })
       toast.error(message)
+      resetForm()
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -52,7 +133,6 @@ export default function LoginPage() {
     setIsGoogleLoading(true)
     try {
       await authService.signInWithGoogle()
-      // Redirect handled by Supabase OAuth callback
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Google sign-in failed'
       toast.error(message)
@@ -64,7 +144,6 @@ export default function LoginPage() {
     setIsLinkedInLoading(true)
     try {
       await authService.signInWithLinkedIn()
-      // Redirect handled by Supabase OAuth callback
     } catch (err) {
       const message = err instanceof Error ? err.message : 'LinkedIn sign-in failed'
       toast.error(message)
@@ -143,29 +222,65 @@ export default function LoginPage() {
         </div>
 
         {/* Email/Password form */}
-        <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-3">
-          <Input
-            label="Email address"
+        <form onSubmit={onSubmit} autoComplete="off" noValidate className="space-y-3">
+          {/*
+            Layer 3 — hidden decoy inputs that sit before the real fields.
+            Password managers tend to fill the first matching field they find,
+            so these absorb the credential-fill attempt.
+          */}
+          <input
             type="email"
-            autoComplete="email"
-            placeholder="you@example.com"
-            leftIcon={<Mail className="h-4 w-4" />}
-            error={errors.email?.message}
-            {...register('email', {
-              required: 'Email is required',
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: 'Enter a valid email address',
-              },
-            })}
+            name="username"
+            autoComplete="off"
+            tabIndex={-1}
+            style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px' }}
+            aria-hidden="true"
+            readOnly
+          />
+          <input
+            type="password"
+            name="fakepassword"
+            autoComplete="off"
+            tabIndex={-1}
+            style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px' }}
+            aria-hidden="true"
+            readOnly
           />
 
+          {/*
+            Layer 2 — use type="text" + inputMode="email" instead of
+            type="email" so Chrome heuristics do not identify this as a
+            username/email autofill target.
+          */}
+          <Input
+            label="Email address"
+            type="text"
+            inputMode="email"
+            autoComplete="off"
+            placeholder="you@example.com"
+            leftIcon={<Mail className="h-4 w-4" />}
+            error={errors.email}
+            name={fieldNames.current.email}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            readOnly={isReadOnly}
+          />
+
+          {/*
+            Layer 1 — autoComplete="new-password" is the only value Chrome
+            reliably respects for password fields (it tells the browser never
+            to fill an existing password into this field).
+          */}
           <Input
             label="Password"
             type={showPassword ? 'text' : 'password'}
-            autoComplete="current-password"
+            autoComplete="new-password"
             placeholder="••••••••"
-            error={errors.password?.message}
+            error={errors.password}
+            name={fieldNames.current.password}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            readOnly={isReadOnly}
             rightIcon={
               <button
                 type="button"
@@ -176,10 +291,6 @@ export default function LoginPage() {
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             }
-            {...register('password', {
-              required: 'Password is required',
-              minLength: { value: 6, message: 'Password must be at least 6 characters' },
-            })}
           />
 
           {/* Forgot password link */}
@@ -198,7 +309,7 @@ export default function LoginPage() {
               role="alert"
               className="rounded-[var(--radius-sm)] bg-[var(--color-error-subtle)] border border-[var(--color-error)]/20 px-3 py-2 text-sm text-[var(--color-error)]"
             >
-              {errors.root.message}
+              {errors.root}
             </div>
           )}
 
