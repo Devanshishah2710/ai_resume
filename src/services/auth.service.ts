@@ -228,7 +228,7 @@ export const authService = {
 
     try {
       const result = await supabase.auth.signInWithOAuth({
-        provider: 'linkedin',
+        provider: 'linkedin_oidc',
         options: {
           redirectTo: `${window.location.origin}${ROUTES.AUTH_CALLBACK}`,
           queryParams: {

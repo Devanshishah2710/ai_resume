@@ -22,6 +22,6 @@ CREATE TABLE IF NOT EXISTS public.auth_provider_configs (
 );
 
 INSERT INTO public.auth_provider_configs (provider, enabled, notes)
-VALUES ('linkedin', true, 'LinkedIn OAuth configured for user sign-in via Sign In with LinkedIn API')
+VALUES ('linkedin_oidc', true, 'LinkedIn (OIDC) configured for user sign-in via Sign In with LinkedIn OpenID Connect')
 ON CONFLICT (provider) DO UPDATE
   SET enabled = true, updated_at = now();

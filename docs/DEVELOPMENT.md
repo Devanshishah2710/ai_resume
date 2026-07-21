@@ -129,31 +129,39 @@ domain).
   persists via `persistSession: true`.
 - Email/password auth is unaffected.
 
-## LinkedIn OAuth Setup
+## LinkedIn OIDC Setup
 
-The setup mirrors Google's — create a LinkedIn app and configure it in Supabase.
+LinkedIn migrated to the OpenID Connect (OIDC) standard. Supabase now exposes it as
+**LinkedIn (OIDC)** under **Authentication → Providers** (not the regular social
+login list).
 
 ### 1. LinkedIn Developer Portal
 
 1. Go to [developer.linkedin.com](https://developer.linkedin.com) → **My Apps → Create App**.
-2. Fill in the app name, LinkedIn Page (or create a company page), and **App logo** (optional).
-3. Under **Products**, select **Sign In with LinkedIn** (free).
-4. Go to **Auth** tab:
+2. Fill in the app name, LinkedIn Page (or create a company page), and **App logo**.
+3. Under **Products**, select **Sign In with LinkedIn using OpenID Connect** (free).
+4. Go to the **Auth** tab:
    - **Authorized redirect URLs** — add:
      - `https://<your-project>.supabase.co/auth/v1/callback`
+   - Note the required **OAuth 2.0 scopes**: `openid`, `profile`, `email`
 5. Copy the **Client ID** and **Client Secret**.
 
 ### 2. Supabase Dashboard
 
-1. **Authentication → Providers → LinkedIn** → toggle **Enabled**.
+1. **Authentication → Providers → LinkedIn (OIDC)** → toggle **Enabled**.
 2. Paste the LinkedIn **Client ID** and **Client Secret**.
-3. Leave the default **Redirect URL** as `https://<your-project>.supabase.co/auth/v1/callback`.
+3. The **Redirect URL** auto-fills to `https://<your-project>.supabase.co/auth/v1/callback`.
 4. Save.
 
-### 3. Feature flag
+### 3. Provider name in code
+
+The provider ID is `linkedin_oidc` (not `linkedin`). This is already configured in
+`auth.service.ts:signInWithLinkedIn()`.
+
+### 4. Feature flag
 
 Set `VITE_ENABLE_LINKEDIN_AUTH=false` in your `.env.local` to hide the LinkedIn button
-if the provider is not yet configured in Supabase (it's enabled by default).
+if the provider is not yet configured (it's enabled by default).
 
 ## Running the OpenCode GitHub agent
 
