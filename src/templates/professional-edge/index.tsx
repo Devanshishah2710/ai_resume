@@ -10,11 +10,9 @@ import type { TemplateProps } from '@/types/template'
 import { formatDateRange, formatMonthYear } from '@/utils/date'
 import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
 import { renderRichText } from '@/utils/sanitize'
+import { FONT_SIZE_MAP, LINE_HEIGHT_MAP, SPACING_MAP } from '@/constants/typography'
 import { EDGE_DATA } from '@/templates/sampleData'
 
-const FONT_SIZE_MAP = { sm: '12.5px', md: '13.5px', lg: '14.5px' }
-const LINE_HEIGHT_MAP = { tight: 1.4, normal: 1.6, relaxed: 1.75 }
-const SPACING_MAP = { compact: '14px', normal: '20px', spacious: '26px' }
 
 export default function ProfessionalEdgeTemplate({ theme }: TemplateProps) {
   const { personal, experience, education, projects, skills, certifications, achievements, languages, awards, publications, volunteer } = EDGE_DATA

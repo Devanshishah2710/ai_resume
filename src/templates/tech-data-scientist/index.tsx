@@ -2,10 +2,8 @@ import type { TemplateProps } from '@/types/template'
 import { formatDateRange, formatMonthYear } from '@/utils/date'
 import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
 import { renderRichText } from '@/utils/sanitize'
+import { FONT_SIZE_MAP, LINE_HEIGHT_MAP, SPACING_MAP } from '@/constants/typography'
 
-const FONT_SIZE_MAP = { sm: '12px', md: '12.5px', lg: '13.5px' }
-const LINE_HEIGHT_MAP = { tight: 1.4, normal: 1.55, relaxed: 1.75 }
-const SPACING_MAP = { compact: '10px', normal: '14px', spacious: '20px' }
 
 export default function TechDataScientistTemplate({ data, theme, sections }: TemplateProps) {
   const { personal, experience, education, projects, skills, certifications, languages, achievements, interests, awards, publications, volunteer, references } = data

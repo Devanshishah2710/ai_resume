@@ -14,10 +14,8 @@ import type { TemplateProps } from '@/types/template'
 import { formatDateRange, formatMonthYear } from '@/utils/date'
 import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
 import { renderRichText } from '@/utils/sanitize'
+import { FONT_SIZE_MAP, LINE_HEIGHT_MAP, SPACING_MAP } from '@/constants/typography'
 
-const FONT_SIZE_MAP = { sm: '12.5px', md: '13.5px', lg: '14.5px' }
-const LINE_HEIGHT_MAP = { tight: 1.45, normal: 1.65, relaxed: 1.85 }
-const SPACING_MAP = { compact: '14px', normal: '22px', spacious: '30px' }
 
 export default function MinimalEditorialTemplate({ data, theme, sections }: TemplateProps) {
   const { personal, experience, education, projects, skills, certifications, languages, achievements, interests, awards, publications, volunteer, references } = data

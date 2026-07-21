@@ -10,11 +10,9 @@ import type { TemplateProps } from '@/types/template'
 import { formatDateRange, formatMonthYear } from '@/utils/date'
 import { FONT_OPTIONS, LANGUAGE_PROFICIENCY_LABELS } from '@/constants'
 import { renderRichText } from '@/utils/sanitize'
+import { FONT_SIZE_MAP, LINE_HEIGHT_MAP, SPACING_MAP } from '@/constants/typography'
 import { CADENCE_DATA } from '@/templates/sampleData'
 
-const FONT_SIZE_MAP = { sm: '12.5px', md: '13px', lg: '14px' }
-const LINE_HEIGHT_MAP = { tight: 1.35, normal: 1.55, relaxed: 1.7 }
-const SPACING_MAP = { compact: '12px', normal: '16px', spacious: '22px' }
 
 export default function ProfessionalCadenceTemplate({ theme }: TemplateProps) {
   const { personal, experience, education, projects, skills, certifications, languages, achievements, awards, volunteer } = CADENCE_DATA
