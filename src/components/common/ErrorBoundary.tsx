@@ -27,7 +27,12 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   componentDidCatch(error: Error, info: ErrorInfo): void {
-    console.error('[ErrorBoundary] uncaught render error', error, info.componentStack)
+    console.error('[ErrorBoundary] ========== UNCAUGHT RENDER ERROR ==========')
+    console.error('[ErrorBoundary] message:', error.message)
+    console.error('[ErrorBoundary] name:', error.name)
+    console.error('[ErrorBoundary] stack:', error.stack)
+    console.error('[ErrorBoundary] componentStack:', info.componentStack)
+    console.error('[ErrorBoundary] ==========================================')
   }
 
   handleReset = (): void => {
@@ -48,9 +53,14 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             An unexpected error occurred. You can try again — your data is safe.
           </p>
           {import.meta.env.DEV && (
-            <pre className="mt-4 max-h-40 overflow-auto rounded-[var(--radius-md)] bg-[var(--color-bg-secondary)] p-3 text-left text-xs text-[var(--color-error)]">
-              {error.message}
-            </pre>
+            <div className="mt-4 text-left">
+              <pre className="max-h-40 overflow-auto rounded-[var(--radius-md)] bg-[var(--color-bg-secondary)] p-3 text-xs text-[var(--color-error)]">
+                {error.message}
+              </pre>
+              <pre className="mt-2 max-h-60 overflow-auto rounded-[var(--radius-md)] bg-[var(--color-bg-secondary)] p-3 text-xs text-[var(--color-text-secondary)]">
+                {error.stack}
+              </pre>
+            </div>
           )}
           <div className="mt-6 flex justify-center gap-3">
             <Button variant="primary" onClick={this.handleReset}>

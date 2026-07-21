@@ -8,7 +8,6 @@
 import { supabase, isSupabaseReady, supabaseConfigError } from '@/lib/supabase'
 import { ROUTES } from '@/constants'
 import { useAuthStore } from '@/store/auth.store'
-import { profileService } from '@/services/profile.service'
 import type { AuthUser } from '@/types/auth'
 
 function normalizeEmail(email: string): string {
@@ -89,40 +88,12 @@ function getFriendlyAuthErrorMessage(error: unknown): string {
   return rawMessage
 }
 
-async function syncAuthStateFromSession(session: Awaited<ReturnType<typeof supabase.auth.signInWithPassword>>['data']['session']) {
-  const store = useAuthStore.getState()
-
-  if (!session?.user) {
-    store.setUser(null)
-    store.setProfile(null)
-    store.setLoading(false)
-    return
-  }
-
-  const authUser: AuthUser = {
-    id: session.user.id,
-    email: session.user.email ?? '',
-    emailVerified: !!session.user.email_confirmed_at,
-    createdAt: session.user.created_at,
-  }
-
-  store.setUser(authUser)
-  store.setLoading(true)
-
-  try {
-    const profile = await profileService.getProfile(session.user.id)
-    store.setProfile(profile)
-  } catch (error) {
-    console.warn('[auth] failed to load profile after sign-in', error)
-    store.setProfile(null)
-  } finally {
-    store.setLoading(false)
-  }
-}
-
 export const authService = {
   /**
    * Sign in with email and password.
+   *
+   * Auth state (user, isAuthenticated, isLoading) is managed by the
+   * onAuthStateChange callback in auth.store.ts — no manual sync needed.
    */
   async signInWithEmail(email: string, password: string): Promise<void> {
     if (!isSupabaseReady) {
@@ -134,7 +105,7 @@ export const authService = {
     store.setLoading(true)
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email: normalizedEmail, password })
+      const { error } = await supabase.auth.signInWithPassword({ email: normalizedEmail, password })
       if (error) {
         store.setUser(null)
         store.setProfile(null)
@@ -142,7 +113,8 @@ export const authService = {
         throw new Error(getFriendlyAuthErrorMessage(error))
       }
 
-      await syncAuthStateFromSession(data.session)
+      // Profile fetch happens in the onAuthStateChange callback's microtask.
+      // Setting isLoading:false is handled by the microtask's .finally().
     } catch (error) {
       store.setUser(null)
       store.setProfile(null)
