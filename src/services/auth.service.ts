@@ -75,7 +75,7 @@ function getFriendlyAuthErrorMessage(error: unknown): string {
   }
 
   if (message.includes('provider is not enabled') || message.includes('unsupported provider') || message.includes('invalid provider')) {
-    return 'Google sign-in is not enabled for this project. Please enable Google in Supabase Auth providers or use email/password instead.'
+    return 'OAuth sign-in is not enabled for this project. Please enable the provider in Supabase Auth providers or use email/password instead.'
   }
 
   if (message.includes('not configured') || message.includes('missing') || message.includes('disabled')) {
@@ -207,6 +207,62 @@ export const authService = {
     }
 
     // Browser may block the navigation (e.g. aggressive popup blockers).
+    try {
+      window.location.assign(data.url)
+    } catch {
+      window.open(data.url, '_self')
+    }
+  },
+
+  /**
+   * Sign in with LinkedIn OAuth.
+   * Redirects the user to LinkedIn, then back to /dashboard.
+   */
+  async signInWithLinkedIn(): Promise<void> {
+    if (!isSupabaseReady) {
+      throw new Error(supabaseConfigError?.message ?? 'Authentication is not configured correctly')
+    }
+
+    let data: { url: string | null }
+    let error: { message: string } | null
+
+    try {
+      const result = await supabase.auth.signInWithOAuth({
+        provider: 'linkedin',
+        options: {
+          redirectTo: `${window.location.origin}${ROUTES.AUTH_CALLBACK}`,
+          queryParams: {
+            prompt: 'select_account',
+          },
+        },
+      })
+      data = result.data
+      error = result.error
+    } catch (err) {
+      if (err instanceof Error && /timeout|network|fetch/i.test(err.message)) {
+        throw new Error('Network error. Please check your connection and try again.')
+      }
+      console.error('[auth] LinkedIn OAuth initiation failed', err)
+      throw new Error(getFriendlyAuthErrorMessage(err))
+    }
+
+    if (error) {
+      const message = error.message.toLowerCase()
+      if (message.includes('not enabled') || message.includes('unsupported provider') || message.includes('provider')) {
+        console.error('[auth] LinkedIn provider not enabled in Supabase', error)
+        throw new Error(
+          'LinkedIn sign-in is currently unavailable. Please try again later or contact the administrator. ' +
+            'You can also sign in with email and password.'
+        )
+      }
+      console.error('[auth] LinkedIn OAuth initiation failed', error)
+      throw new Error(getFriendlyAuthErrorMessage(error))
+    }
+
+    if (!data.url) {
+      throw new Error('Unable to start LinkedIn sign-in. Please try again or use email/password.')
+    }
+
     try {
       window.location.assign(data.url)
     } catch {

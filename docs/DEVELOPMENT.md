@@ -129,6 +129,32 @@ domain).
   persists via `persistSession: true`.
 - Email/password auth is unaffected.
 
+## LinkedIn OAuth Setup
+
+The setup mirrors Google's — create a LinkedIn app and configure it in Supabase.
+
+### 1. LinkedIn Developer Portal
+
+1. Go to [developer.linkedin.com](https://developer.linkedin.com) → **My Apps → Create App**.
+2. Fill in the app name, LinkedIn Page (or create a company page), and **App logo** (optional).
+3. Under **Products**, select **Sign In with LinkedIn** (free).
+4. Go to **Auth** tab:
+   - **Authorized redirect URLs** — add:
+     - `https://<your-project>.supabase.co/auth/v1/callback`
+5. Copy the **Client ID** and **Client Secret**.
+
+### 2. Supabase Dashboard
+
+1. **Authentication → Providers → LinkedIn** → toggle **Enabled**.
+2. Paste the LinkedIn **Client ID** and **Client Secret**.
+3. Leave the default **Redirect URL** as `https://<your-project>.supabase.co/auth/v1/callback`.
+4. Save.
+
+### 3. Feature flag
+
+Set `VITE_ENABLE_LINKEDIN_AUTH=false` in your `.env.local` to hide the LinkedIn button
+if the provider is not yet configured in Supabase (it's enabled by default).
+
 ## Running the OpenCode GitHub agent
 
 See `.github/workflows/opencode.yml`. Install the

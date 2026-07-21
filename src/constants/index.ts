@@ -10,6 +10,10 @@ export const APP_URL = 'https://resumeforge.vercel.app'
 // hide the button (e.g. before the Google provider is configured in Supabase).
 export const ENABLE_GOOGLE_AUTH = import.meta.env.VITE_ENABLE_GOOGLE_AUTH !== 'false'
 
+// LinkedIn OAuth is enabled by default. Set VITE_ENABLE_LINKEDIN_AUTH=false to
+// hide the button (e.g. before the LinkedIn provider is configured in Supabase).
+export const ENABLE_LINKEDIN_AUTH = import.meta.env.VITE_ENABLE_LINKEDIN_AUTH !== 'false'
+
 // ─── Routes ──────────────────────────────────────────────────────────────────
 
 export const ROUTES = {
