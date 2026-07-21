@@ -6,12 +6,13 @@
  * Zoom controls let users inspect the resume closely.
  */
 
-import { useRef, useEffect } from 'react'
+import { Suspense, useRef, useEffect } from 'react'
 import { ZoomIn, ZoomOut, Maximize2 } from 'lucide-react'
 import { useResumeBuilderStore, useResume, useResumeTheme, useResumeSections } from '@/store/resume-builder.store'
 import { templateRegistry } from '@/templates/registry'
 import { Button } from '@/components/ui/Button'
 import { Tooltip } from '@/components/ui/Tooltip'
+import { Spinner } from '@/components/ui/Spinner'
 import { PDF_CONFIG } from '@/constants'
 
 const MIN_SCALE = 0.35
@@ -117,12 +118,14 @@ export function BuilderPreviewPanel() {
             style={{ backgroundColor: theme.backgroundColor }}
           >
             {TemplateComponent ? (
-              <TemplateComponent
-                data={resume.data}
-                theme={theme}
-                sections={sections}
-                isPreview
-              />
+              <Suspense fallback={<div className="flex items-center justify-center h-96"><Spinner size="md" /></div>}>
+                <TemplateComponent
+                  data={resume.data}
+                  theme={theme}
+                  sections={sections}
+                  isPreview
+                />
+              </Suspense>
             ) : (
               <div className="flex items-center justify-center h-96 text-[var(--color-text-tertiary)] text-sm">
                 Template "{resume.templateId}" not found
