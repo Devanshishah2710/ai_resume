@@ -4,8 +4,8 @@
  * or asks to create a new resume with that template.
  */
 
-import { useState, useMemo, Suspense } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useMemo, useEffect, Suspense } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { toast } from 'sonner'
 import { AppLayout } from '@/layouts/AppLayout'
@@ -20,10 +20,38 @@ import { ROUTES, TEMPLATE_CATEGORIES } from '@/constants'
 import { SAMPLE_RESUME_DATA, DEFAULT_THEME, DEFAULT_SECTION_CONFIGS } from '@/types/resume'
 import type { TemplateMetadata } from '@/types/template'
 
+const SCROLL_KEY = 'tf:scrollY'
+
 export default function TemplatesPage() {
   const navigate = useNavigate()
-  const [search, setSearch] = useState('')
-  const [activeCategory, setActiveCategory] = useState('all')
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const search = searchParams.get('search') || ''
+  const activeCategory = searchParams.get('category') || 'all'
+
+  const setSearch = (value: string) => {
+    const next = new URLSearchParams(searchParams)
+    if (value) next.set('search', value)
+    else next.delete('search')
+    setSearchParams(next, { replace: true })
+  }
+
+  const setActiveCategory = (value: string) => {
+    const next = new URLSearchParams(searchParams)
+    if (value !== 'all') next.set('category', value)
+    else next.delete('category')
+    setSearchParams(next, { replace: true })
+  }
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem(SCROLL_KEY)
+    if (saved) {
+      sessionStorage.removeItem(SCROLL_KEY)
+      const y = Number(saved)
+      requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo({ top: y })))
+    }
+  }, [])
+
   const templates = getTemplateList()
 
   const filtered = useMemo(() => {
@@ -44,6 +72,7 @@ export default function TemplatesPage() {
   }, [templates, search, activeCategory])
 
   const handleSelect = async (template: TemplateMetadata) => {
+    sessionStorage.setItem(SCROLL_KEY, String(window.scrollY))
     const toastId = toast.loading(`Creating resume with ${template.name}…`)
     try {
       const resume = await resumeService.createResume(`My ${template.name} Resume`, template.id)

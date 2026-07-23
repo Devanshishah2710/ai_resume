@@ -3,6 +3,7 @@
  * Supports both grid (card) and list (row) view modes.
  */
 
+import { memo } from 'react'
 import {
   FileText,
   Edit3,
@@ -19,6 +20,7 @@ import {
 import { Dropdown, type DropdownItem } from '@/components/ui/Dropdown'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { ResumePreviewThumbnail } from '@/components/dashboard/ResumePreviewThumbnail'
 import { timeAgo } from '@/utils/date'
 import type { Resume } from '@/types/resume'
 
@@ -36,7 +38,7 @@ type ResumeCardProps = {
   onDownload: (format: 'pdf' | 'docx') => void
 }
 
-export function ResumeCard({
+export const ResumeCard = memo(function ResumeCard({
   resume,
   viewMode,
   onEdit,
@@ -136,27 +138,45 @@ export function ResumeCard({
     <div className="group rounded-[var(--radius-lg)] bg-[var(--color-bg-elevated)] border border-[var(--color-border)] overflow-hidden hover:shadow-[var(--shadow-lg)] transition-all duration-200 flex flex-col">
       {/* Preview area */}
       <div
-        className="relative h-44 bg-gradient-to-br from-[var(--color-bg-tertiary)] to-[var(--color-bg-secondary)] flex items-center justify-center cursor-pointer overflow-hidden"
+        className="relative h-44 bg-white cursor-pointer overflow-hidden"
         onClick={onEdit}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => e.key === 'Enter' && onEdit()}
         aria-label={`Edit ${resume.title}`}
       >
-        {/* Resume mini-preview placeholder */}
-        <div className="w-24 h-32 bg-white rounded shadow-[var(--shadow-md)] p-2 flex flex-col gap-1.5 opacity-80">
-          <div className="h-2 bg-gray-800 rounded-full w-3/4" />
-          <div className="h-1 bg-gray-300 rounded-full w-1/2" />
-          <div className="mt-1 space-y-1">
-            {[100, 85, 90, 70, 80].map((w, i) => (
-              <div key={i} className="h-0.5 bg-gray-200 rounded-full" style={{ width: `${w}%` }} />
-            ))}
+        {/* Real template preview */}
+        {resume.templateId ? (
+          <div className="transition-transform duration-300 ease-out group-hover:scale-105 w-full h-full">
+            <ResumePreviewThumbnail
+              templateId={resume.templateId}
+              data={resume.data}
+              theme={resume.theme}
+              sections={resume.sections}
+            />
           </div>
-        </div>
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--color-bg-tertiary)] to-[var(--color-bg-secondary)]">
+            <div className="w-24 h-32 bg-white rounded shadow-[var(--shadow-md)] p-2 flex flex-col gap-1.5 opacity-80">
+              <div className="h-2 bg-gray-800 rounded-full w-3/4" />
+              <div className="h-1 bg-gray-300 rounded-full w-1/2" />
+              <div className="mt-1 space-y-1">
+                {[100, 85, 90, 70, 80].map((w, i) => (
+                  <div key={i} className="h-0.5 bg-gray-200 rounded-full" style={{ width: `${w}%` }} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
-          <Button size="sm" onClick={onEdit} leftIcon={<Edit3 className="h-3.5 w-3.5" />}>
+        {/* Hover overlay — edit button fades in on hover */}
+        <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+          <Button
+            size="sm"
+            onClick={onEdit}
+            leftIcon={<Edit3 className="h-3.5 w-3.5" />}
+            className="pointer-events-auto shadow-[var(--shadow-lg)]"
+          >
             Edit
           </Button>
         </div>
@@ -181,4 +201,4 @@ export function ResumeCard({
       </div>
     </div>
   )
-}
+})

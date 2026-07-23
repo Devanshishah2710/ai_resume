@@ -153,13 +153,14 @@ export default function LoginPage() {
 
   return (
     <AuthLayout title="Welcome back" subtitle="Sign in to your account to continue">
-      <div className="space-y-4">
+      <div className="space-y-5">
         {ENABLE_GOOGLE_AUTH ? (
           <Button
             variant="secondary"
             fullWidth
             isLoading={isGoogleLoading}
             onClick={handleGoogleSignIn}
+            className="bg-white hover:-translate-y-0.5 hover:shadow-md transition-all duration-200"
             leftIcon={
               <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
                 <path
@@ -184,7 +185,7 @@ export default function LoginPage() {
             Continue with Google
           </Button>
         ) : (
-          <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-4 text-sm text-[var(--color-text-secondary)]">
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-4 text-sm text-[var(--color-text-secondary)]">
             Google sign-in is not enabled for this project. Use email and password to continue.
           </div>
         )}
@@ -195,6 +196,7 @@ export default function LoginPage() {
             fullWidth
             isLoading={isLinkedInLoading}
             onClick={handleLinkedInSignIn}
+            className="bg-white hover:-translate-y-0.5 hover:shadow-md transition-all duration-200"
             leftIcon={
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -204,25 +206,25 @@ export default function LoginPage() {
             Continue with LinkedIn
           </Button>
         ) : (
-          <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-4 text-sm text-[var(--color-text-secondary)]">
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-4 text-sm text-[var(--color-text-secondary)]">
             LinkedIn sign-in is not enabled for this project. Use email and password to continue.
           </div>
         )}
 
         {/* Divider */}
-        <div className="relative">
+        <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-[var(--color-border)]" />
           </div>
           <div className="relative flex justify-center">
-            <span className="bg-[var(--color-bg-primary)] px-3 text-xs text-[var(--color-text-tertiary)]">
+            <span className="bg-[var(--color-bg-elevated)] px-4 text-xs text-[var(--color-text-tertiary)]">
               or continue with email
             </span>
           </div>
         </div>
 
         {/* Email/Password form */}
-        <form onSubmit={onSubmit} autoComplete="off" noValidate className="space-y-3">
+        <form onSubmit={onSubmit} autoComplete="off" noValidate className="space-y-4">
           {/*
             Layer 3 — hidden decoy inputs that sit before the real fields.
             Password managers tend to fill the first matching field they find,
@@ -264,6 +266,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             readOnly={isReadOnly}
+            className="h-11 rounded-lg border-gray-200 focus:border-indigo-400 focus:ring-indigo-400/20 transition-all duration-200"
           />
 
           {/*
@@ -281,6 +284,7 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             readOnly={isReadOnly}
+            className="h-11 rounded-lg border-gray-200 focus:border-indigo-400 focus:ring-indigo-400/20 transition-all duration-200"
             rightIcon={
               <button
                 type="button"
@@ -294,10 +298,10 @@ export default function LoginPage() {
           />
 
           {/* Forgot password link */}
-          <div className="flex justify-end">
+          <div className="flex justify-end -mt-1">
             <Link
               to={ROUTES.FORGOT_PASSWORD}
-              className="text-xs text-[var(--color-accent)] hover:underline"
+              className="text-xs font-medium text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors"
             >
               Forgot your password?
             </Link>
@@ -307,21 +311,26 @@ export default function LoginPage() {
           {errors.root && (
             <div
               role="alert"
-              className="rounded-[var(--radius-sm)] bg-[var(--color-error-subtle)] border border-[var(--color-error)]/20 px-3 py-2 text-sm text-[var(--color-error)]"
+              className="rounded-lg bg-[var(--color-error-subtle)] border border-[var(--color-error)]/20 px-4 py-3 text-sm text-[var(--color-error)]"
             >
               {errors.root}
             </div>
           )}
 
-          <Button type="submit" fullWidth isLoading={isSubmitting}>
+          <Button
+            type="submit"
+            fullWidth
+            isLoading={isSubmitting}
+            className="h-12 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-200 rounded-xl text-base font-semibold"
+          >
             Sign in
           </Button>
         </form>
 
         {/* Register link */}
-        <p className="text-center text-sm text-[var(--color-text-secondary)]">
+        <p className="text-center text-sm text-[var(--color-text-secondary)] pt-1">
           Don&apos;t have an account?{' '}
-          <Link to={ROUTES.REGISTER} className="text-[var(--color-accent)] font-medium hover:underline">
+          <Link to={ROUTES.REGISTER} className="text-[var(--color-accent)] font-semibold hover:text-[var(--color-accent-hover)] transition-colors">
             Create one free
           </Link>
         </p>
