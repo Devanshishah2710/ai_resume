@@ -126,14 +126,49 @@ export async function importLinkedInProfile(): Promise<LinkedInImportResult | nu
   const raw: Record<string, unknown> = {}
 
   // 1. Basic data from Supabase user_metadata / identity_data
+  //    LinkedIn OIDC returns: sub, name, given_name, family_name, picture,
+  //    locale, email, email_verified
+  const pictureUrl = metadata.picture ?? identityData.picture ?? metadata.avatar_url ?? null
   raw.name = metadata.name ?? identityData.name ?? ''
   raw.given_name = metadata.given_name ?? identityData.given_name ?? metadata.full_name?.split(' ')[0] ?? ''
   raw.family_name = metadata.family_name ?? identityData.family_name ?? metadata.full_name?.split(' ').slice(1).join(' ') ?? ''
   raw.email = metadata.email ?? identityData.email ?? user.email ?? ''
-  raw.picture = metadata.picture ?? identityData.picture ?? metadata.avatar_url ?? null
+  raw.picture = pictureUrl
   raw.headline = metadata.headline ?? identityData.headline ?? null
   raw.locale = metadata.locale ?? identityData.locale ?? null
   raw.location = metadata.location ?? identityData.location ?? null
+  raw.sub = identityData.sub ?? metadata.sub ?? metadata.provider_id ?? null
+  raw.vanity_name = metadata.vanity_name ?? identityData.vanity_name ?? metadata.user_name ?? null
+
+  // Construct LinkedIn profile URL from sub or vanity name
+  if (raw.vanity_name) {
+    raw.linkedin_url = `https://www.linkedin.com/in/${raw.vanity_name}/`
+  } else if (raw.sub) {
+    raw.linkedin_url = `https://www.linkedin.com/in/${raw.sub}/`
+  }
+
+  // Extract location from locale (e.g. "en-US" -> "United States")
+  if (!raw.location && raw.locale) {
+    const localeStr = String(raw.locale)
+    const parts = localeStr.split('-')
+    if (parts.length > 1) {
+      const countryNames: Record<string, string> = {
+        US: 'United States', GB: 'United Kingdom', CA: 'Canada',
+        AU: 'Australia', IN: 'India', DE: 'Germany', FR: 'France',
+        ES: 'Spain', IT: 'Italy', NL: 'Netherlands', BR: 'Brazil',
+        JP: 'Japan', CN: 'China', KR: 'South Korea', SG: 'Singapore',
+        NZ: 'New Zealand', IE: 'Ireland', SE: 'Sweden', NO: 'Norway',
+        DK: 'Denmark', FI: 'Finland', CH: 'Switzerland', AT: 'Austria',
+        BE: 'Belgium', PT: 'Portugal', MX: 'Mexico', AR: 'Argentina',
+        CL: 'Chile', CO: 'Colombia', ZA: 'South Africa', IL: 'Israel',
+        AE: 'UAE', SA: 'Saudi Arabia', HK: 'Hong Kong', TW: 'Taiwan',
+        PH: 'Philippines', MY: 'Malaysia', ID: 'Indonesia', TH: 'Thailand',
+        VN: 'Vietnam', RU: 'Russia', PL: 'Poland', TR: 'Turkey',
+      }
+      const countryCode = parts[1]!.toUpperCase()
+      raw.location = countryNames[countryCode] ?? parts[1]!
+    }
+  }
 
   // 2. Extended data from LinkedIn OIDC userinfo endpoint
   if (token) {
@@ -144,96 +179,90 @@ export async function importLinkedInProfile(): Promise<LinkedInImportResult | nu
       if (!raw.family_name) raw.family_name = userinfo.data.family_name ?? ''
       if (!raw.email) raw.email = userinfo.data.email ?? ''
       if (!raw.picture) raw.picture = userinfo.data.picture ?? null
+      if (!raw.sub) raw.sub = userinfo.data.sub ?? null
     }
 
-    // 3. Try the v2/me endpoint for profile headline etc.
+    // 3. Try the v2/me endpoint for richer profile data.
+    //    Requires the r_liteprofile scope (now requested in auth.service.ts).
     const meResp = await callLinkedInAPI<LinkedInMeResponse>(
-      '/v2/me?projection=(id,localizedFirstName,localizedLastName,profilePicture,headline)',
+      '/v2/me?projection=(id,localizedFirstName,localizedLastName,profilePicture(displayImage~:playableStreams),headline,vanityName,industry)',
       token,
     )
     if (meResp.ok) {
       if (!raw.headline) raw.headline = meResp.data.headline ?? null
+      if (!raw.vanity_name) raw.vanity_name = meResp.data.vanityName ?? null
+      if (meResp.data.industry) raw.industry = meResp.data.industry
+      if (!raw.linkedin_url && meResp.data.vanityName) {
+        raw.linkedin_url = `https://www.linkedin.com/in/${meResp.data.vanityName}/`
+      }
+
+      // Extract profile photo from the displayImage~ stream if available
+      if (!raw.picture && meResp.data.profilePicture) {
+        try {
+          const pic = meResp.data.profilePicture
+          const stream = (pic as Record<string, unknown>)['displayImage~']
+          if (stream && typeof stream === 'object') {
+            const elements = (stream as Record<string, unknown>).elements as Array<Record<string, unknown>> | undefined
+            if (elements && elements.length > 0) {
+              const largest = elements[elements.length - 1]!
+              const identifiers = largest.identifiers as Array<Record<string, unknown>> | undefined
+              if (identifiers && identifiers.length > 0) {
+                const first = identifiers[0]!
+                raw.picture = (first.identifier as string) ?? null
+              }
+            }
+          }
+        } catch {
+          // silently ignore picture extraction failure
+        }
+      }
     }
 
     // 4. Try LinkedIn REST API endpoints for richer profile data.
     //    These require the LinkedIn app to have the appropriate scopes
-    //    configured in the Supabase provider. Failures are silent.
-    const positionsResp = await callLinkedInAPI<{ elements?: LinkedInPosition[] }>(
-      '/rest/positions',
-      token,
-    )
+    //    configured and approved through LinkedIn's partner program.
+    //    Failures are silent. All calls run in parallel for speed.
+    const [positionsResp, educationsResp, skillsResp, certsResp, langsResp,
+      projResp, honorsResp, volResp, pubsResp, summaryResp] = await Promise.all([
+      callLinkedInAPI<{ elements?: LinkedInPosition[] }>('/rest/positions', token),
+      callLinkedInAPI<{ elements?: LinkedInEducation[] }>('/rest/educations', token),
+      callLinkedInAPI<{ elements?: LinkedInSkill[] }>('/rest/skills', token),
+      callLinkedInAPI<{ elements?: LinkedInCertification[] }>('/rest/certifications', token),
+      callLinkedInAPI<{ elements?: LinkedInLanguage[] }>('/rest/languages', token),
+      callLinkedInAPI<{ elements?: LinkedInProject[] }>('/rest/projects', token),
+      callLinkedInAPI<{ elements?: LinkedInHonor[] }>('/rest/honors', token),
+      callLinkedInAPI<{ elements?: LinkedInVolunteer[] }>('/rest/volunteer', token),
+      callLinkedInAPI<{ elements?: LinkedInPublication[] }>('/rest/publications', token),
+      callLinkedInAPI<{ summary?: string }>('/v2/me?projection=(summary)', token),
+    ])
+
     if (positionsResp.ok && positionsResp.data.elements) {
       raw.positions = positionsResp.data.elements
     }
-
-    const educationsResp = await callLinkedInAPI<{ elements?: LinkedInEducation[] }>(
-      '/rest/educations',
-      token,
-    )
     if (educationsResp.ok && educationsResp.data.elements) {
       raw.educations = educationsResp.data.elements
     }
-
-    const skillsResp = await callLinkedInAPI<{ elements?: LinkedInSkill[] }>(
-      '/rest/skills',
-      token,
-    )
     if (skillsResp.ok && skillsResp.data.elements) {
       raw.skills = skillsResp.data.elements
     }
-
-    const certsResp = await callLinkedInAPI<{ elements?: LinkedInCertification[] }>(
-      '/rest/certifications',
-      token,
-    )
     if (certsResp.ok && certsResp.data.elements) {
       raw.certifications = certsResp.data.elements
     }
-
-    const langsResp = await callLinkedInAPI<{ elements?: LinkedInLanguage[] }>(
-      '/rest/languages',
-      token,
-    )
     if (langsResp.ok && langsResp.data.elements) {
       raw.languages = langsResp.data.elements
     }
-
-    const projResp = await callLinkedInAPI<{ elements?: LinkedInProject[] }>(
-      '/rest/projects',
-      token,
-    )
     if (projResp.ok && projResp.data.elements) {
       raw.projects = projResp.data.elements
     }
-
-    const honorsResp = await callLinkedInAPI<{ elements?: LinkedInHonor[] }>(
-      '/rest/honors',
-      token,
-    )
     if (honorsResp.ok && honorsResp.data.elements) {
       raw.honors = honorsResp.data.elements
     }
-
-    const volResp = await callLinkedInAPI<{ elements?: LinkedInVolunteer[] }>(
-      '/rest/volunteer',
-      token,
-    )
     if (volResp.ok && volResp.data.elements) {
       raw.volunteer = volResp.data.elements
     }
-
-    const pubsResp = await callLinkedInAPI<{ elements?: LinkedInPublication[] }>(
-      '/rest/publications',
-      token,
-    )
     if (pubsResp.ok && pubsResp.data.elements) {
       raw.publications = pubsResp.data.elements
     }
-
-    const summaryResp = await callLinkedInAPI<{ summary?: string }>(
-      '/v2/me?projection=(summary)',
-      token,
-    )
     if (summaryResp.ok && summaryResp.data.summary) {
       raw.summary = summaryResp.data.summary
     }
@@ -261,10 +290,10 @@ function mapToResumeData(raw: Record<string, unknown>): ResumeData {
     lastName: familyName || fullName.split(' ').slice(1).join(' ') || '',
     headline: normalizeString(raw.headline as string) || '',
     email: normalizeString(raw.email as string) || '',
-    phone: '',
+    phone: normalizeString(raw.phone as string) || '',
     location: extractLocation(raw),
-    website: '',
-    linkedin: '',
+    website: normalizeString(raw.website as string) || '',
+    linkedin: normalizeString(raw.linkedin_url as string) || '',
     github: '',
     summary: '',
     avatarUrl: (raw.picture as string) ?? null,
@@ -540,6 +569,8 @@ type LinkedInMeResponse = {
   localizedLastName?: string
   profilePicture?: Record<string, unknown>
   headline?: string
+  vanityName?: string
+  industry?: string
 }
 
 type LinkedInPosition = {

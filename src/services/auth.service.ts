@@ -203,6 +203,7 @@ export const authService = {
         provider: 'linkedin_oidc',
         options: {
           redirectTo: `${window.location.origin}${ROUTES.AUTH_CALLBACK}`,
+          scopes: 'openid profile email r_liteprofile r_emailaddress',
           queryParams: {
             prompt: 'select_account',
           },
