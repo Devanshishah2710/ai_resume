@@ -33,7 +33,7 @@ export function Card({
         PADDING_CLASSES[padding],
         hover
           ? 'transition-all duration-[var(--transition-normal)] ' +
-            'hover:-translate-y-0.5 hover:border-[var(--color-accent)]/20 ' +
+            'hover:-translate-y-0.5 hover:border-[var(--color-accent)]/30 ' +
             'hover:shadow-[var(--shadow-md)] cursor-pointer'
           : '',
         className,

@@ -68,7 +68,7 @@ export function Modal({
           transition={{ duration: 0.15 }}
           onClick={handleBackdropClick}
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}
+          style={{ backgroundColor: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(12px)' }}
           role="dialog"
           aria-modal="true"
           aria-labelledby={title ? 'modal-title' : undefined}

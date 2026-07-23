@@ -49,7 +49,7 @@ export function Tooltip({ content, children, side = 'top', delay = 300 }: Toolti
             className={[
               'absolute z-50 pointer-events-none whitespace-nowrap',
               'bg-[var(--color-text-primary)] text-[var(--color-text-inverse)]',
-              'text-xs px-2.5 py-1.5 rounded-[var(--radius-md)] shadow-lg',
+               'text-xs px-2.5 py-1.5 rounded-[var(--radius-md)] shadow-[var(--shadow-lg)]',
               POSITION[side],
             ].join(' ')}
           >

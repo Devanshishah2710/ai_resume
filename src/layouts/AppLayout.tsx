@@ -94,8 +94,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     <div className="min-h-dvh flex flex-col bg-[var(--color-bg-secondary)]">
       {/* ── Top Bar ── */}
       <header
-        className="h-[var(--topbar-height)] shrink-0 flex items-center justify-between px-4 lg:px-6 border-b border-[var(--color-border)] bg-[var(--color-bg-elevated)] sticky top-0 z-40"
-        style={{ boxShadow: 'var(--shadow-sm)' }}
+        className="h-[var(--topbar-height)] shrink-0 flex items-center justify-between px-4 lg:px-6 border-b border-[var(--color-border)] bg-[var(--color-bg-elevated)]/95 backdrop-blur-sm sticky top-0 z-40"
       >
         {/* Left: Logo + mobile menu */}
         <div className="flex items-center gap-3">
@@ -162,16 +161,16 @@ export function AppLayout({ children }: AppLayoutProps) {
       <div className="flex flex-1 overflow-hidden">
         {/* ── Desktop Sidebar ── */}
         <aside className="hidden lg:flex flex-col w-[var(--sidebar-width)] shrink-0 border-r border-[var(--color-border)] bg-[var(--color-bg-elevated)] py-4">
-          <nav className="flex-1 px-3 space-y-0.5">
+          <nav className="flex-1 px-3 space-y-1">
             {NAV_ITEMS.map(({ label, icon: Icon, to }) => (
               <Link
                 key={to}
                 to={to}
                 className={[
                   'flex items-center gap-3 px-3 py-2.5 rounded-[var(--radius-md)] text-sm font-medium',
-                  'transition-colors duration-[var(--transition-fast)]',
+                  'transition-all duration-[var(--transition-fast)]',
                   isActive(to)
-                    ? 'bg-[var(--color-accent-subtle)] text-[var(--color-accent)]'
+                    ? 'bg-[var(--color-accent-subtle)] text-[var(--color-accent)] shadow-sm'
                     : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)] hover:text-[var(--color-text-primary)]',
                 ].join(' ')}
               >
@@ -182,7 +181,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           </nav>
 
           {/* Sidebar footer — user profile snippet */}
-          <div className="px-3 pt-4 border-t border-[var(--color-border)] mt-4">
+          <div className="px-3 pt-4 border-t border-[var(--color-border)] mt-2">
             <div className="flex items-center gap-3 px-3 py-2">
               <div className="h-8 w-8 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-xs font-semibold shrink-0">
                 {initials}

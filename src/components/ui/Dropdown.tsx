@@ -88,11 +88,11 @@ function DropdownMenu({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: direction === 'up' ? 4 : -4 }}
             transition={{ duration: 0.12, ease: [0.16, 1, 0.3, 1] }}
-            className={[
-              'absolute z-50 min-w-[200px]',
-              'bg-[var(--color-bg-elevated)] rounded-[var(--radius-lg)]',
-              'border border-[var(--color-border)] shadow-[var(--shadow-xl)]',
-              'py-1.5 overflow-visible',
+          className={[
+               'absolute z-50 min-w-[200px]',
+               'bg-[var(--color-bg-elevated)] rounded-[var(--radius-lg)]',
+               'border border-[var(--color-border)] shadow-[var(--shadow-xl)]',
+               'py-1 overflow-visible',
               align === 'right' ? 'right-0' : 'left-0',
               direction === 'up' ? 'bottom-full mb-1' : 'top-full mt-1',
             ].join(' ')}
@@ -177,8 +177,8 @@ function SubmenuItem({
         <div
           className={[
             'absolute top-0 z-50 min-w-[180px]',
-            'bg-[var(--color-bg-elevated)] rounded-[var(--radius-md)]',
-            'border border-[var(--color-border)] shadow-[var(--shadow-lg)] py-1',
+            'bg-[var(--color-bg-elevated)] rounded-[var(--radius-lg)]',
+            'border border-[var(--color-border)] shadow-[var(--shadow-xl)] py-1',
             align === 'right' ? 'left-full ml-1' : 'right-full mr-1',
           ].join(' ')}
           role="menu"
