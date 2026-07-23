@@ -9,11 +9,12 @@ export function Skeleton({ className = '', width, height, rounded = false }: Ske
   return (
     <div
       className={[
-        'animate-pulse bg-[var(--color-bg-tertiary)]',
-        rounded ? 'rounded-full' : 'rounded-[var(--radius-sm)]',
+        'animate-pulse bg-gradient-to-r from-[var(--color-bg-tertiary)] via-[var(--color-bg-secondary)] to-[var(--color-bg-tertiary)]',
+        'bg-[length:200%_100%]',
+        rounded ? 'rounded-full' : 'rounded-[var(--radius-md)]',
         className,
       ].join(' ')}
-      style={{ width, height }}
+      style={{ width, height, animation: 'shimmer 1.5s ease-in-out infinite' }}
       aria-hidden="true"
     />
   )

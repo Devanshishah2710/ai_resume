@@ -44,17 +44,22 @@ export const resumeService = {
     return rowToResume(data as ResumeRow)
   },
 
-  async createResume(title: string, templateId = 'classic-professional'): Promise<Resume> {
+  async createResume(
+    title: string,
+    templateId = 'classic-professional',
+    data?: ResumeData,
+  ): Promise<Resume> {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) throw new Error('Not authenticated')
     const slug = await generateUniqueSlug(title, user.id)
-    const { data, error } = await resumeTable().insert({
+    const resumeData = data ?? DEFAULT_RESUME_DATA
+    const { data: row, error } = await resumeTable().insert({
       user_id: user.id, title, slug, template_id: templateId,
-      theme: DEFAULT_THEME, sections: DEFAULT_SECTION_CONFIGS, data: DEFAULT_RESUME_DATA,
+      theme: DEFAULT_THEME, sections: DEFAULT_SECTION_CONFIGS, data: resumeData,
       is_public: false, metadata: { targetRole: '', targetCompany: '', notes: '' },
     }).select().single()
     if (error) throw new Error(error.message)
-    return rowToResume(data as ResumeRow)
+    return rowToResume(row as ResumeRow)
   },
 
   async updateResume(id: string, updates: Partial<{

@@ -27,11 +27,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             ref={ref}
             id={id}
             className={[
-              'w-full h-9 pl-3 pr-9 text-sm appearance-none',
+              'w-full h-10 pl-3.5 pr-10 text-sm appearance-none',
               'bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]',
-              'border rounded-[var(--radius-sm)]',
-              'transition-colors duration-[var(--transition-fast)]',
-              'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]',
+              'border rounded-[var(--radius-md)]',
+              'transition-all duration-[var(--transition-fast)]',
+              'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/20',
               error
                 ? 'border-[var(--color-error)]'
                 : 'border-[var(--color-border)] hover:border-[var(--color-border-strong)]',
@@ -47,7 +47,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
               </option>
             ))}
           </select>
-          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--color-text-tertiary)] pointer-events-none" />
+          <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--color-text-tertiary)] pointer-events-none" />
         </div>
         {error && <p role="alert" className="text-xs text-[var(--color-error)]">{error}</p>}
       </div>

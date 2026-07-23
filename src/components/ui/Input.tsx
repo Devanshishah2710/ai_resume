@@ -62,17 +62,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               error ? `${id}-error` : helperText ? `${id}-helper` : undefined
             }
             className={[
-              'w-full h-9 px-3 text-sm',
+              'w-full h-10 px-3.5 text-sm',
               'bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]',
-              'border rounded-[var(--radius-sm)]',
+              'border rounded-[var(--radius-md)]',
               'placeholder:text-[var(--color-text-tertiary)]',
-              'transition-colors duration-[var(--transition-fast)]',
-              'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-offset-0',
+              'transition-all duration-[var(--transition-fast)]',
+              'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/20 focus:ring-offset-0',
               error
-                ? 'border-[var(--color-error)] focus:ring-[var(--color-error)]'
+                ? 'border-[var(--color-error)] focus:ring-[var(--color-error)]/20'
                 : 'border-[var(--color-border)] hover:border-[var(--color-border-strong)] focus:border-[var(--color-accent)]',
-              leftIcon ? 'pl-9' : '',
-              rightIcon ? 'pr-9' : '',
+              leftIcon ? 'pl-10' : '',
+              rightIcon ? 'pr-10' : '',
               'disabled:opacity-50 disabled:cursor-not-allowed',
               className,
             ].join(' ')}

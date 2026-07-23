@@ -21,7 +21,7 @@ export function Badge({ variant = 'default', size = 'sm', children, className = 
     <span
       className={[
         'inline-flex items-center font-medium rounded-[var(--radius-full)]',
-        size === 'sm' ? 'text-xs px-2 py-0.5' : 'text-sm px-2.5 py-1',
+        size === 'sm' ? 'text-xs px-2.5 py-0.5' : 'text-sm px-3 py-1',
         VARIANT_CLASSES[variant],
         className,
       ].join(' ')}

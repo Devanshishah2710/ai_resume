@@ -28,29 +28,33 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
     'bg-[var(--color-accent)] text-white shadow-sm ' +
-    'hover:bg-[var(--color-accent-hover)] active:scale-[0.98] disabled:opacity-50',
+    'border border-[var(--color-accent)] ' +
+    'hover:bg-[var(--color-accent-hover)] hover:border-[var(--color-accent-hover)] hover:-translate-y-0.5 hover:shadow-md ' +
+    'active:translate-y-0 active:scale-[0.97] disabled:opacity-50',
   secondary:
     'bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] ' +
     'border border-[var(--color-border)] shadow-sm ' +
-    'hover:bg-[var(--color-bg-secondary)] hover:border-[var(--color-border-strong)] ' +
-    'active:scale-[0.98] disabled:opacity-50',
+    'hover:bg-[var(--color-bg-secondary)] hover:border-[var(--color-border-strong)] hover:-translate-y-0.5 hover:shadow-md ' +
+    'active:translate-y-0 active:scale-[0.97] disabled:opacity-50',
   ghost:
     'bg-transparent text-[var(--color-text-secondary)] ' +
     'hover:bg-[var(--color-bg-tertiary)] hover:text-[var(--color-text-primary)] ' +
-    'active:scale-[0.98] disabled:opacity-50',
+    'active:scale-[0.97] disabled:opacity-50',
   danger:
-    'bg-[var(--color-error)] text-white shadow-sm hover:bg-[var(--color-error)]/90 ' +
-    'active:scale-[0.98] disabled:opacity-50',
+    'bg-[var(--color-error)] text-white shadow-sm border border-[var(--color-error)] ' +
+    'hover:bg-[var(--color-error)]/90 hover:-translate-y-0.5 hover:shadow-md ' +
+    'active:translate-y-0 active:scale-[0.97] disabled:opacity-50',
   white:
-    'bg-white text-[var(--color-text-primary)] shadow-sm ' +
-    'hover:bg-white/90 active:scale-[0.98] disabled:opacity-50',
+    'bg-white text-[var(--color-text-primary)] shadow-sm border border-[var(--color-border)] ' +
+    'hover:bg-white/90 hover:-translate-y-0.5 hover:shadow-md ' +
+    'active:translate-y-0 active:scale-[0.97] disabled:opacity-50',
 }
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'h-9 px-3.5 text-sm gap-1.5 rounded-[var(--radius-sm)]',
-  md: 'h-10 px-4 text-sm gap-2 rounded-[var(--radius-md)]',
-  lg: 'h-12 px-6 text-base gap-2 rounded-[var(--radius-md)]',
-  icon: 'h-10 w-10 rounded-[var(--radius-md)]',
+  sm: 'h-9 px-4 text-sm gap-1.5 rounded-[var(--radius-md)]',
+  md: 'h-10 px-5 text-sm gap-2 rounded-[var(--radius-lg)]',
+  lg: 'h-12 px-7 text-base gap-2 rounded-[var(--radius-lg)]',
+  icon: 'h-10 w-10 rounded-[var(--radius-lg)]',
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

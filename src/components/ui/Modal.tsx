@@ -68,7 +68,7 @@ export function Modal({
           transition={{ duration: 0.15 }}
           onClick={handleBackdropClick}
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(2px)' }}
+          style={{ backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}
           role="dialog"
           aria-modal="true"
           aria-labelledby={title ? 'modal-title' : undefined}
@@ -84,6 +84,7 @@ export function Modal({
               'flex flex-col max-h-[90dvh]',
               SIZE_CLASSES[size],
             ].join(' ')}
+            style={{ boxShadow: '0 25px 50px -12px rgba(0,0,0,0.15)' }}
           >
             {/* Header */}
             {(title || !persistent) && (

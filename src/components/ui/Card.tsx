@@ -27,13 +27,13 @@ export function Card({
   return (
     <Tag
       className={[
-        'bg-[var(--color-bg-elevated)] rounded-[var(--radius-lg)]',
+        'bg-[var(--color-bg-elevated)] rounded-[var(--radius-xl)]',
         'border border-[var(--color-border)]',
         'shadow-[var(--shadow-card)]',
         PADDING_CLASSES[padding],
         hover
-          ? 'transition-all duration-[var(--transition-fast)] ' +
-            'hover:-translate-y-0.5 hover:border-[var(--color-accent)]/30 ' +
+          ? 'transition-all duration-[var(--transition-normal)] ' +
+            'hover:-translate-y-0.5 hover:border-[var(--color-accent)]/20 ' +
             'hover:shadow-[var(--shadow-md)] cursor-pointer'
           : '',
         className,

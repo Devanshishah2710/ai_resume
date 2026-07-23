@@ -67,30 +67,30 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           </label>
         )}
 
-        <textarea
-          ref={setRefs}
-          id={id}
-          rows={minRows}
-          aria-invalid={!!error}
-          aria-describedby={
-            error ? `${id}-error` : helperText ? `${id}-helper` : undefined
-          }
-          onChange={handleChange}
-          className={[
-            'w-full px-3 py-2 text-sm resize-none',
-            'bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]',
-            'border rounded-[var(--radius-sm)]',
-            'placeholder:text-[var(--color-text-tertiary)]',
-            'transition-colors duration-[var(--transition-fast)]',
-            'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-offset-0',
-            error
-              ? 'border-[var(--color-error)] focus:ring-[var(--color-error)]'
-              : 'border-[var(--color-border)] hover:border-[var(--color-border-strong)] focus:border-[var(--color-accent)]',
-            'disabled:opacity-50 disabled:cursor-not-allowed',
-            className,
-          ].join(' ')}
-          {...props}
-        />
+          <textarea
+            ref={setRefs}
+            id={id}
+            rows={minRows}
+            aria-invalid={!!error}
+            aria-describedby={
+              error ? `${id}-error` : helperText ? `${id}-helper` : undefined
+            }
+            onChange={handleChange}
+            className={[
+              'w-full px-3.5 py-2.5 text-sm resize-none',
+              'bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]',
+              'border rounded-[var(--radius-md)]',
+              'placeholder:text-[var(--color-text-tertiary)]',
+              'transition-all duration-[var(--transition-fast)]',
+              'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/20 focus:ring-offset-0',
+              error
+                ? 'border-[var(--color-error)] focus:ring-[var(--color-error)]/20'
+                : 'border-[var(--color-border)] hover:border-[var(--color-border-strong)] focus:border-[var(--color-accent)]',
+              'disabled:opacity-50 disabled:cursor-not-allowed',
+              className,
+            ].join(' ')}
+            {...props}
+          />
 
         {error && (
           <p id={`${id}-error`} role="alert" className="text-xs text-[var(--color-error)]">
