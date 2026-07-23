@@ -180,7 +180,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
       </div>
 
       {/* ── Right Panel (form) ── */}
-      <div className="flex-1 flex flex-col justify-center items-center p-6 lg:p-12 bg-gradient-to-br from-blue-50/80 to-indigo-50/60">
+      <div className="flex-1 flex flex-col justify-center items-center p-6 lg:p-12 bg-[var(--color-bg-primary)]">
         {/* Mobile logo */}
         <Link
           to={ROUTES.HOME}

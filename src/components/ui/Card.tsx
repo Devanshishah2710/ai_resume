@@ -33,8 +33,8 @@ export function Card({
         PADDING_CLASSES[padding],
         hover
           ? 'transition-all duration-[var(--transition-normal)] ' +
-            'hover:-translate-y-0.5 hover:border-[var(--color-accent)]/30 ' +
-            'hover:shadow-[var(--shadow-md)] cursor-pointer'
+            'hover:-translate-y-1 hover:border-[var(--color-accent)]/20 ' +
+            'hover:shadow-[var(--shadow-elevated)] cursor-pointer'
           : '',
         className,
       ].join(' ')}
@@ -67,7 +67,7 @@ export function CardTitle({
   children: React.ReactNode
 }) {
   return (
-    <h3 className={['text-base font-semibold text-[var(--color-text-primary)]', className].join(' ')}>
+    <h3 className={['text-base font-semibold text-[var(--color-text-primary)] tracking-tight', className].join(' ')}>
       {children}
     </h3>
   )

@@ -8,13 +8,18 @@
 
 :root {
   /* ── Colors — Light Mode ── */
-  --color-bg-primary: #fcfcfd;
-  --color-bg-secondary: #f8faff;
-  --color-bg-tertiary: #f1f4f9;
+  --color-bg-primary: #f8faff;
+  --color-bg-secondary: #fdfdff;
+  --color-bg-tertiary: #f3f6ff;
   --color-bg-elevated: #ffffff;
 
-  --color-border: #e5e7eb;
-  --color-border-strong: #d1d5db;
+  --color-bg-soft-blue: #eef4ff;
+  --color-bg-soft-lavender: #f6f2ff;
+  --color-bg-soft-pink: #fff6fa;
+  --color-bg-soft-mint: #f3fff9;
+
+  --color-border: #e9edf5;
+  --color-border-strong: #dde1eb;
 
   --color-text-primary: #111827;
   --color-text-secondary: #6b7280;
@@ -38,6 +43,7 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.03);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.03);
   --shadow-card: 0 0 0 1px rgb(0 0 0 / 0.04), 0 1px 3px rgb(0 0 0 / 0.04);
+  --shadow-elevated: 0 4px 12px -2px rgb(79 70 229 / 0.08), 0 2px 6px -1px rgb(0 0 0 / 0.03);
 
   /* ── Border Radius ── */
   --radius-sm: 8px;
@@ -64,18 +70,23 @@
 /* ── Dark Mode ──────────────────────────────────────────────────────────────── */
 
 [data-theme="dark"] {
-  --color-bg-primary: #0f1117;
-  --color-bg-secondary: #161b22;
-  --color-bg-tertiary: #1c2333;
-  --color-bg-elevated: #1c2333;
+  --color-bg-primary: #0d111c;
+  --color-bg-secondary: #141926;
+  --color-bg-tertiary: #1b2233;
+  --color-bg-elevated: #1b2233;
 
-  --color-border: #30363d;
-  --color-border-strong: #484f58;
+  --color-bg-soft-blue: #171f30;
+  --color-bg-soft-lavender: #1d1830;
+  --color-bg-soft-pink: #2a1820;
+  --color-bg-soft-mint: #182620;
+
+  --color-border: #2d3443;
+  --color-border-strong: #3d4555;
 
   --color-text-primary: #e6edf3;
   --color-text-secondary: #8b949e;
   --color-text-tertiary: #6e7681;
-  --color-text-inverse: #0f1117;
+  --color-text-inverse: #0d111c;
 
   --color-accent: #6366f1;
   --color-accent-hover: #818cf8;
@@ -92,6 +103,7 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.3);
   --shadow-card: 0 0 0 1px rgb(255 255 255 / 0.05), 0 1px 3px rgb(0 0 0 / 0.4);
+  --shadow-elevated: 0 4px 12px -2px rgb(99 102 241 / 0.12), 0 2px 6px -1px rgb(0 0 0 / 0.3);
 }
 
 /* ── Base Reset & Typography ────────────────────────────────────────────────── */
@@ -177,6 +189,42 @@ body {
   }
 }
 
+/* ── Decorative Background Utilities ────────────────────────────────────────── */
+
+.bg-radial-accent {
+  background: radial-gradient(ellipse at 50% 0%, var(--color-accent-subtle) 0%, transparent 60%);
+}
+
+.bg-radial-soft-blue {
+  background: radial-gradient(ellipse at 50% 0%, var(--color-bg-soft-blue) 0%, transparent 60%);
+}
+
+.bg-radial-soft-lavender {
+  background: radial-gradient(ellipse at 0% 50%, var(--color-bg-soft-lavender) 0%, transparent 60%);
+}
+
+.bg-radial-soft-mint {
+  background: radial-gradient(ellipse at 100% 100%, var(--color-bg-soft-mint) 0%, transparent 60%);
+}
+
+.bg-blob-soft {
+  background: radial-gradient(circle, var(--color-bg-soft-blue) 0%, transparent 70%);
+}
+
+/* ── Glass Effect ──────────────────────────────────────────────────────────── */
+
+.glass {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-strong {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
 /* ── Animation Utilities ────────────────────────────────────────────────────── */
 
 @keyframes float {
@@ -206,6 +254,21 @@ body {
   100% { background-position: -200% 0; }
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUpSm {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
@@ -222,6 +285,18 @@ body {
 .animate-blob-delayed {
   animation: blob-delayed 8s ease-in-out infinite;
   animation-delay: 2s;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.4s ease forwards;
+}
+
+.animate-slideUpSm {
+  animation: slideUpSm 0.25s ease forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
