@@ -35,14 +35,14 @@ export function DesignPanel() {
                 className={[
                   'text-left rounded-[var(--radius-md)] border p-2.5 transition-colors',
                   active
-                    ? 'border-[var(--color-accent)] bg-[var(--color-accent-subtle)]'
+                    ? 'border-[var(--color-primary)] bg-[var(--color-primary-subtle)]'
                     : 'border-[var(--color-border)] hover:bg-[var(--color-bg-secondary)]',
                 ].join(' ')}
                 aria-pressed={active}
               >
                 <span className={[
                   'block text-xs font-semibold',
-                  active ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-primary)]',
+                  active ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-primary)]',
                 ].join(' ')}>
                   {tpl.name}
                 </span>
@@ -70,7 +70,7 @@ export function DesignPanel() {
                 className={[
                   'h-8 w-8 rounded-full transition-transform hover:scale-110',
                   theme.primaryColor === opt.value
-                    ? 'ring-2 ring-offset-2 ring-[var(--color-accent)] scale-110'
+                    ? 'ring-2 ring-offset-2 ring-[var(--color-primary)] scale-110'
                     : '',
                 ].join(' ')}
                 style={{ backgroundColor: opt.value }}
@@ -121,7 +121,7 @@ export function DesignPanel() {
                 className={[
                   'flex-1 py-1.5 text-xs rounded-[var(--radius-sm)] border transition-colors font-medium',
                   theme.fontSize === size
-                    ? 'border-[var(--color-accent)] bg-[var(--color-accent-subtle)] text-[var(--color-accent)]'
+                    ? 'border-[var(--color-primary)] bg-[var(--color-primary-subtle)] text-[var(--color-primary)]'
                     : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]',
                 ].join(' ')}
               >
@@ -143,7 +143,7 @@ export function DesignPanel() {
                 className={[
                   'flex-1 py-1.5 text-xs rounded-[var(--radius-sm)] border transition-colors font-medium capitalize',
                   theme.lineHeight === lh
-                    ? 'border-[var(--color-accent)] bg-[var(--color-accent-subtle)] text-[var(--color-accent)]'
+                    ? 'border-[var(--color-primary)] bg-[var(--color-primary-subtle)] text-[var(--color-primary)]'
                     : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]',
                 ].join(' ')}
               >
@@ -168,7 +168,7 @@ export function DesignPanel() {
                 className={[
                   'flex-1 py-1.5 text-xs rounded-[var(--radius-sm)] border transition-colors font-medium capitalize',
                   theme.spacing === spacing
-                    ? 'border-[var(--color-accent)] bg-[var(--color-accent-subtle)] text-[var(--color-accent)]'
+                    ? 'border-[var(--color-primary)] bg-[var(--color-primary-subtle)] text-[var(--color-primary)]'
                     : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]',
                 ].join(' ')}
               >
@@ -203,7 +203,7 @@ export function DesignPanel() {
                 className={[
                   'flex-1 py-1.5 text-xs rounded-[var(--radius-sm)] border transition-colors font-medium',
                   theme.columns === cols
-                    ? 'border-[var(--color-accent)] bg-[var(--color-accent-subtle)] text-[var(--color-accent)]'
+                    ? 'border-[var(--color-primary)] bg-[var(--color-primary-subtle)] text-[var(--color-primary)]'
                     : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]',
                 ].join(' ')}
               >

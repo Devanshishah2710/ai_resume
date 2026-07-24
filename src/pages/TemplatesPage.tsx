@@ -112,7 +112,7 @@ export default function TemplatesPage() {
                 className={[
                   'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
                   activeCategory === value
-                    ? 'bg-[var(--color-accent)] text-white'
+                    ? 'bg-[var(--color-primary)] text-white'
                     : 'bg-[var(--color-bg-tertiary)] text-[var(--color-text-secondary)] hover:bg-[var(--color-border)]',
                 ].join(' ')}
               >

@@ -27,27 +27,28 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    'bg-[var(--color-accent)] text-white shadow-sm ' +
-    'border border-[var(--color-accent)] ' +
-    'hover:bg-[var(--color-accent-hover)] hover:border-[var(--color-accent-hover)] hover:-translate-y-0.5 hover:shadow-md ' +
-    'active:translate-y-0 active:scale-[0.97] disabled:opacity-50',
+    'bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white ' +
+    'border border-[var(--color-primary)]/20 shadow-sm ' +
+    'hover:-translate-y-0.5 hover:shadow-md hover:from-[var(--color-primary-hover)] hover:to-[var(--color-secondary-hover)] ' +
+    'active:translate-y-0 active:scale-[0.98] disabled:opacity-50',
   secondary:
-    'bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] ' +
-    'border border-[var(--color-border)] shadow-sm ' +
-    'hover:bg-[var(--color-bg-secondary)] hover:border-[var(--color-border-strong)] hover:-translate-y-0.5 hover:shadow-md ' +
-    'active:translate-y-0 active:scale-[0.97] disabled:opacity-50',
+    'bg-[var(--color-bg-elevated)] text-[var(--color-text-primary)] ' +
+    'border border-[var(--color-border)] shadow-[var(--shadow-card)] ' +
+    'hover:bg-[var(--color-bg-secondary)] hover:border-[var(--color-border-strong)] hover:-translate-y-0.5 ' +
+    'active:translate-y-0 active:scale-[0.98] disabled:opacity-50',
   ghost:
     'bg-transparent text-[var(--color-text-secondary)] ' +
     'hover:bg-[var(--color-bg-tertiary)] hover:text-[var(--color-text-primary)] ' +
-    'active:scale-[0.97] disabled:opacity-50',
+    'active:scale-[0.98] disabled:opacity-50',
   danger:
-    'bg-[var(--color-error)] text-white shadow-sm border border-[var(--color-error)] ' +
+    'bg-[var(--color-error)] text-white shadow-sm border border-[var(--color-error)]/20 ' +
     'hover:bg-[var(--color-error)]/90 hover:-translate-y-0.5 hover:shadow-md ' +
-    'active:translate-y-0 active:scale-[0.97] disabled:opacity-50',
+    'active:translate-y-0 active:scale-[0.98] disabled:opacity-50',
   white:
-    'bg-white text-[var(--color-text-primary)] shadow-sm border border-[var(--color-border)] ' +
-    'hover:bg-white/90 hover:-translate-y-0.5 hover:shadow-md ' +
-    'active:translate-y-0 active:scale-[0.97] disabled:opacity-50',
+    'bg-white text-[var(--color-text-primary)] shadow-[var(--shadow-card)] ' +
+    'border border-[var(--color-border)]/50 ' +
+    'hover:bg-white hover:-translate-y-0.5 hover:shadow-md ' +
+    'active:translate-y-0 active:scale-[0.98] disabled:opacity-50',
 }
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
@@ -81,10 +82,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isDisabled}
         className={[
           'inline-flex items-center justify-center font-medium',
-          'transition-all duration-[var(--transition-fast)]',
+          'transition-all duration-[var(--transition-normal)]',
           'select-none cursor-pointer disabled:cursor-not-allowed',
-    'focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]/50 focus-visible:ring-offset-2',
-    'focus-visible:ring-offset-[var(--color-bg-primary)]',
+    'focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/50 focus-visible:ring-offset-2',
+    'focus-visible:ring-offset-[var(--color-bg-elevated)]',
           VARIANT_CLASSES[variant],
           SIZE_CLASSES[size],
           fullWidth ? 'w-full' : '',

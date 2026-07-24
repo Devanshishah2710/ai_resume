@@ -107,7 +107,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           </button>
 
           <Link to={ROUTES.DASHBOARD} className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-[var(--radius-sm)] bg-[var(--color-accent)] flex items-center justify-center">
+            <div className="h-7 w-7 rounded-[var(--radius-sm)] bg-[var(--color-primary)] flex items-center justify-center">
               <FileText className="h-4 w-4 text-white" />
             </div>
             <span className="font-bold text-sm text-[var(--color-text-primary)] hidden sm:block">
@@ -138,7 +138,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                   className="flex items-center gap-2 rounded-[var(--radius-md)] px-2 py-1.5 hover:bg-[var(--color-bg-tertiary)] transition-colors"
                   aria-label="User menu"
                 >
-                  <div className="h-7 w-7 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-xs font-semibold">
+                  <div className="h-7 w-7 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white text-xs font-semibold">
                     {profile?.avatarUrl ? (
                       <img
                         src={profile.avatarUrl}
@@ -170,7 +170,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                   'flex items-center gap-3 px-3 py-2.5 rounded-[var(--radius-md)] text-sm font-medium',
                   'transition-all duration-[var(--transition-fast)]',
                   isActive(to)
-                    ? 'bg-[var(--color-accent-subtle)] text-[var(--color-accent)] shadow-sm'
+                    ? 'bg-[var(--color-primary-subtle)] text-[var(--color-primary)] shadow-sm'
                     : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)] hover:text-[var(--color-text-primary)]',
                 ].join(' ')}
               >
@@ -183,7 +183,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           {/* Sidebar footer — user profile snippet */}
           <div className="px-3 pt-4 border-t border-[var(--color-border)] mt-2">
             <div className="flex items-center gap-3 px-3 py-2">
-              <div className="h-8 w-8 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-xs font-semibold shrink-0">
+              <div className="h-8 w-8 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white text-xs font-semibold shrink-0">
                 {initials}
               </div>
               <div className="min-w-0">
@@ -216,7 +216,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               >
                 <div className="flex items-center justify-between px-4 mb-4">
                   <Link to={ROUTES.DASHBOARD} className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
-                    <div className="h-7 w-7 rounded-[var(--radius-sm)] bg-[var(--color-accent)] flex items-center justify-center">
+                    <div className="h-7 w-7 rounded-[var(--radius-sm)] bg-[var(--color-primary)] flex items-center justify-center">
                       <FileText className="h-4 w-4 text-white" />
                     </div>
                     <span className="font-bold text-sm">{APP_NAME}</span>
@@ -236,7 +236,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                         'flex items-center gap-3 px-3 py-2.5 rounded-[var(--radius-md)] text-sm font-medium',
                         'transition-colors duration-[var(--transition-fast)]',
                         isActive(to)
-                          ? 'bg-[var(--color-accent-subtle)] text-[var(--color-accent)]'
+                          ? 'bg-[var(--color-primary-subtle)] text-[var(--color-primary)]'
                           : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]',
                       ].join(' ')}
                     >

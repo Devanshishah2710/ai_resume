@@ -30,10 +30,10 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
   return (
     <div className="min-h-dvh flex">
       {/* ── Left Hero Panel ── */}
-      <div className="hidden lg:flex lg:w-[55%] flex-col justify-between p-12 relative overflow-hidden bg-gradient-to-br from-indigo-950 via-indigo-900 to-purple-950">
+      <div className="hidden lg:flex lg:w-[55%] flex-col justify-between p-12 relative overflow-hidden bg-gradient-to-br from-[var(--color-primary)]/10 via-[var(--color-primary)]/5 to-[var(--color-primary-subtle)]/10">
         {/* Background blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-          <div className="absolute -top-48 -right-48 w-96 h-96 rounded-full bg-indigo-500/20 blur-3xl animate-blob" />
+          <div className="absolute -top-48 -right-48 w-96 h-96 rounded-full bg-[var(--color-primary)]/10 blur-3xl animate-blob" />
           <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-purple-500/15 blur-3xl animate-blob-delayed" />
           <div className="absolute top-1/3 left-1/4 w-64 h-64 rounded-full bg-blue-500/10 blur-3xl" />
           {/* Floating particles */}
@@ -55,22 +55,22 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
         {/* Top section — logo + badges */}
         <div className="relative z-10">
           <Link to={ROUTES.HOME} className="flex items-center gap-2.5 w-fit">
-            <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+            <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center shadow-lg shadow-[var(--color-primary)]/10">
               <FileText className="h-5 w-5 text-white" />
             </div>
             <span className="text-xl font-bold text-white">{APP_NAME}</span>
           </Link>
 
           <div className="flex flex-wrap gap-2 mt-8">
-            <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full bg-white/10 text-white/90 backdrop-blur-sm border border-white/10">
+            <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full bg-white/10 text-[var(--color-text-primary)] backdrop-blur-sm border border-white/10">
               <Sparkles className="h-3 w-3" />
               AI Powered
             </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full bg-white/10 text-white/90 backdrop-blur-sm border border-white/10">
+            <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full bg-white/10 text-[var(--color-text-primary)] backdrop-blur-sm border border-white/10">
               <Target className="h-3 w-3" />
               ATS Optimized
             </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full bg-white/10 text-white/90 backdrop-blur-sm border border-white/10">
+            <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full bg-white/10 text-[var(--color-text-primary)] backdrop-blur-sm border border-white/10">
               <CheckCircle2 className="h-3 w-3" />
               Role Specific
             </span>
@@ -98,7 +98,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
         <div className="relative z-10 h-44">
           {/* Laptop mockup */}
           <div className="absolute bottom-0 left-0 w-56 animate-float">
-            <div className="bg-gray-800 rounded-t-lg rounded-b-sm p-2 pb-0 shadow-2xl">
+            <div className="bg-gray-800 rounded-t-lg rounded-b-sm p-2 pb-0 shadow-[0_10px_40px_rgba(15,23,42,0.05)]">
               {/* Screen */}
               <div className="bg-white rounded-t aspect-[4/3] p-2 flex flex-col gap-1.5">
                 <div className="flex items-center gap-1.5">
@@ -129,7 +129,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
 
           {/* Floating resume preview card */}
           <div className="absolute bottom-8 left-48 w-32 animate-float-delayed">
-            <div className="bg-white rounded-lg shadow-xl p-3 flex flex-col gap-1.5">
+            <div className="bg-white rounded-2xl shadow-[0_10px_40px_rgba(15,23,42,0.05)] p-3 flex flex-col gap-1.5">
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 rounded bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center">
                   <FileText className="h-3 w-3 text-white" />
@@ -151,14 +151,14 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
 
           {/* AI Robot assistant */}
           <div className="absolute bottom-4 right-4 w-14 h-14 animate-float" style={{ animationDelay: '1.5s' }}>
-            <div className="w-full h-full rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 ring-2 ring-white/20">
+            <div className="w-full h-full rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-600 flex items-center justify-center shadow-lg shadow-[var(--color-primary)]/10 ring-2 ring-white/20">
               <Bot className="h-7 w-7 text-white" />
             </div>
           </div>
 
           {/* Floating ATS score badge */}
           <div className="absolute top-0 right-12 w-24 animate-float-delayed">
-            <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/10 p-3">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-[var(--color-border)] p-3">
               <div className="flex items-center gap-2">
                 <TrendingUp className="h-3.5 w-3.5 text-green-400" />
                 <span className="text-[10px] font-medium text-white/80">ATS Score</span>

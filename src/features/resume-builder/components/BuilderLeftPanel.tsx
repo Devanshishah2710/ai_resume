@@ -33,7 +33,7 @@ export function BuilderLeftPanel() {
             className={[
               'flex-1 flex flex-col items-center gap-1 py-3 text-xs font-medium transition-colors',
               activePanel === id
-                ? 'text-[var(--color-accent)] border-b-2 border-[var(--color-accent)] -mb-px'
+                ? 'text-[var(--color-primary)] border-b-2 border-[var(--color-primary)] -mb-px'
                 : 'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)]',
             ].join(' ')}
             aria-selected={activePanel === id}
@@ -71,7 +71,7 @@ function SettingsPanel() {
         </p>
         <button
           onClick={() => setActivePanel('design')}
-          className="mt-2 text-xs font-medium text-[var(--color-accent)] hover:underline"
+          className="mt-2 text-xs font-medium text-[var(--color-primary)] hover:underline"
         >
           Switch template in Design tab →
         </button>
@@ -89,7 +89,7 @@ function SettingsPanel() {
             value={resume?.metadata.targetRole ?? ''}
             onChange={(e) => updateMetadata({ targetRole: e.target.value })}
             placeholder="e.g. Senior Frontend Engineer"
-            className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1.5 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-accent)]"
+            className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1.5 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-primary)]"
           />
         </div>
         <div>
@@ -100,7 +100,7 @@ function SettingsPanel() {
             value={resume?.metadata.targetCompany ?? ''}
             onChange={(e) => updateMetadata({ targetCompany: e.target.value })}
             placeholder="e.g. Acme Inc."
-            className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1.5 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-accent)]"
+            className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1.5 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-primary)]"
           />
         </div>
         <div>
@@ -112,7 +112,7 @@ function SettingsPanel() {
             onChange={(e) => updateMetadata({ notes: e.target.value })}
             placeholder="Private notes about this resume"
             rows={3}
-            className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1.5 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-accent)] resize-none"
+            className="w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1.5 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-primary)] resize-none"
           />
         </div>
       </div>

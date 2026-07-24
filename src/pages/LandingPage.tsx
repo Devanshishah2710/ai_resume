@@ -75,7 +75,7 @@ const FOOTER_LINKS = [
 function Logo() {
   return (
     <Link to={ROUTES.HOME} className="flex items-center gap-2 shrink-0" aria-label={APP_NAME + ' home'}>
-      <span className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-accent)] shadow-sm">
+      <span className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary)] shadow-sm">
         <FileText className="h-4 w-4 text-white" />
       </span>
       <span className="text-base font-bold tracking-tight text-[var(--color-text-primary)]">
@@ -88,7 +88,7 @@ function Logo() {
 function BrandMark({ className = '' }: { className?: string }) {
   return (
     <Link to={ROUTES.HOME} className={`flex items-center gap-2 ${className}`} aria-label={APP_NAME + ' home'}>
-      <span className="flex h-7 w-7 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-accent)]">
+      <span className="flex h-7 w-7 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary)]">
         <FileText className="h-3.5 w-3.5 text-white" />
       </span>
       <span className="text-sm font-bold text-[var(--color-text-primary)]">{APP_NAME}</span>
@@ -178,7 +178,7 @@ export default function LandingPage() {
           {/* Soft accent glow */}
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-0 -z-0 h-[420px] w-[min(820px,90vw)] -translate-x-1/2 rounded-full bg-[var(--color-accent)]/5 blur-3xl"
+            className="pointer-events-none absolute left-1/2 top-0 -z-0 h-[420px] w-[min(820px,90vw)] -translate-x-1/2 rounded-full bg-[var(--color-primary)]/5 blur-3xl"
           />
           <Container size="narrow" className="relative px-4 py-20 text-center sm:py-24 lg:py-28">
             <motion.div
@@ -187,7 +187,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="mx-auto flex max-w-3xl flex-col items-center"
             >
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-accent-subtle)] px-3 py-1 text-xs font-medium text-[var(--color-accent)]">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-primary-subtle)] px-3 py-1 text-xs font-medium text-[var(--color-primary)]">
                 <Zap className="h-3 w-3" /> Free forever · No credit card required
               </span>
 
@@ -225,7 +225,7 @@ export default function LandingPage() {
         {/* ── Features ─────────────────────────────────────────────────────── */}
         <Section id="features" className="scroll-mt-20">
           <div className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wide text-[var(--color-accent)]">
+            <span className="text-sm font-semibold uppercase tracking-wide text-[var(--color-primary)]">
               Features
             </span>
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
@@ -246,8 +246,8 @@ export default function LandingPage() {
                 transition={{ duration: 0.4, delay: i * 0.05 }}
               >
                 <Card hover padding="lg" className="h-full">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-accent-subtle)]">
-                    <Icon className="h-5 w-5 text-[var(--color-accent)]" />
+                  <div className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary-subtle)]">
+                    <Icon className="h-5 w-5 text-[var(--color-primary)]" />
                   </div>
                   <h3 className="mt-5 font-semibold text-[var(--color-text-primary)]">{title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">{desc}</p>
@@ -274,7 +274,7 @@ export default function LandingPage() {
         {/* ── CTA ──────────────────────────────────────────────────────────── */}
         <Section id="pricing" className="scroll-mt-20">
           <Container>
-            <div className="relative overflow-hidden rounded-[var(--radius-xl)] bg-[var(--color-accent)] px-6 py-16 text-center shadow-[var(--shadow-lg)] sm:px-12 sm:py-20">
+            <div className="relative overflow-hidden rounded-[var(--radius-xl)] bg-[var(--color-primary)] px-6 py-16 text-center shadow-[var(--shadow-lg)] sm:px-12 sm:py-20">
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-0 opacity-20"

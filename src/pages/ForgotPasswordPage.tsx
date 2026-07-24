@@ -78,7 +78,7 @@ export default function ForgotPasswordPage() {
 
         <p className="text-center text-sm text-[var(--color-text-secondary)]">
           Remember your password?{' '}
-          <Link to={ROUTES.LOGIN} className="text-[var(--color-accent)] font-medium hover:underline">
+          <Link to={ROUTES.LOGIN} className="text-[var(--color-primary)] font-medium hover:underline">
             Sign in
           </Link>
         </p>

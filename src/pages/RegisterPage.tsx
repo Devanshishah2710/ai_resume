@@ -246,7 +246,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-sm text-[var(--color-text-secondary)]">
           Already have an account?{' '}
-          <Link to={ROUTES.LOGIN} className="text-[var(--color-accent)] font-medium hover:underline">
+          <Link to={ROUTES.LOGIN} className="text-[var(--color-primary)] font-medium hover:underline">
             Sign in
           </Link>
         </p>

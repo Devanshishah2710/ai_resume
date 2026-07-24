@@ -67,10 +67,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               'border rounded-[var(--radius-md)]',
               'placeholder:text-[var(--color-text-tertiary)]',
               'transition-all duration-[var(--transition-fast)]',
-              'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/20 focus:ring-offset-0',
+              'focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:ring-offset-0',
               error
                 ? 'border-[var(--color-error)] focus:ring-[var(--color-error)]/20'
-                : 'border-[var(--color-border)] hover:border-[var(--color-border-strong)] focus:border-[var(--color-accent)]',
+                : 'border-[var(--color-border)] hover:border-[var(--color-border-strong)] focus:border-[var(--color-primary)]',
               leftIcon ? 'pl-10' : '',
               rightIcon ? 'pr-10' : '',
               'disabled:opacity-50 disabled:cursor-not-allowed',

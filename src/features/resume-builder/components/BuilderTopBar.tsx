@@ -92,7 +92,7 @@ export function BuilderTopBar({ onToggleEditor }: BuilderTopBarProps) {
             onBlur={commitTitle}
             onKeyDown={handleTitleKeyDown}
             maxLength={100}
-            className="text-sm font-semibold text-[var(--color-text-primary)] bg-[var(--color-bg-tertiary)] rounded-[var(--radius-sm)] px-2 py-1 min-w-0 w-48 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
+            className="text-sm font-semibold text-[var(--color-text-primary)] bg-[var(--color-bg-tertiary)] rounded-[var(--radius-sm)] px-2 py-1 min-w-0 w-48 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             autoFocus
             aria-label="Resume title"
           />

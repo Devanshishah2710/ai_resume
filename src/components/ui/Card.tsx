@@ -33,15 +33,16 @@ export function Card({
         PADDING_CLASSES[padding],
         hover
           ? 'transition-all duration-[var(--transition-normal)] ' +
-            'hover:-translate-y-1 hover:border-[var(--color-accent)]/20 ' +
-            'hover:shadow-[var(--shadow-elevated)] cursor-pointer'
+            'hover:-translate-y-2 hover:border-[var(--color-primary)]/20 ' +
+            'hover:shadow-[0_20px_40px_rgba(15,23,42,0.08)] cursor-pointer'
           : '',
         className,
       ].join(' ')}
       {...props}
     >
       {children}
-    </Tag>
+    </Tag
+>
   )
 }
 
@@ -53,7 +54,7 @@ export function CardHeader({
   children: React.ReactNode
 }) {
   return (
-    <div className={['flex items-center justify-between mb-4', className].join(' ')}>
+    <div className={['flex items-center justify-between mb-5', className].join(' ')}>
       {children}
     </div>
   )

@@ -74,7 +74,7 @@ export const ResumeCard = memo(function ResumeCard({
     { label: 'Rename Resume', icon: <Edit3 className="h-3.5 w-3.5" />, onClick: onRename },
     {
       label: resume.isFavorite ? 'Remove Favorite' : 'Set as Favorite',
-      icon: <Star className="h-3.5 w-3.5" style={resume.isFavorite ? { fill: 'currentColor', color: 'var(--color-accent)' } : undefined} />,
+      icon: <Star className="h-3.5 w-3.5" style={resume.isFavorite ? { fill: 'currentColor', color: 'var(--color-primary)' } : undefined} />,
       onClick: onToggleFavorite,
     },
     {
@@ -95,8 +95,8 @@ export const ResumeCard = memo(function ResumeCard({
     return (
       <div className="flex items-center gap-4 p-4 rounded-[var(--radius-lg)] bg-[var(--color-bg-elevated)] border border-[var(--color-border)] hover:shadow-[var(--shadow-md)] transition-shadow group">
         {/* Icon */}
-        <div className="h-10 w-10 rounded-[var(--radius-md)] bg-[var(--color-accent-subtle)] flex items-center justify-center shrink-0">
-          <FileText className="h-5 w-5 text-[var(--color-accent)]" />
+        <div className="h-10 w-10 rounded-[var(--radius-md)] bg-[var(--color-primary-subtle)] flex items-center justify-center shrink-0">
+          <FileText className="h-5 w-5 text-[var(--color-primary)]" />
         </div>
 
         {/* Info */}
