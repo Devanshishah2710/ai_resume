@@ -3,7 +3,7 @@
  *
  * Sections: sticky Navbar (with mobile menu), Hero, Features, Stats,
  * CTA, Footer. Built from shared UI primitives (Container, Section,
- * Button, Card) with one consistent vertical rhythm (py-20 lg:py-24)
+ * Button, Card) with one consistent vertical rhythm (py-16)
  * and a single max-w-7xl content edge so every section aligns.
  */
 
@@ -75,7 +75,7 @@ const FOOTER_LINKS = [
 function Logo() {
   return (
     <Link to={ROUTES.HOME} className="flex items-center gap-2 shrink-0" aria-label={APP_NAME + ' home'}>
-      <span className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary)] shadow-sm">
+      <span className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-accent)] shadow-sm">
         <FileText className="h-4 w-4 text-white" />
       </span>
       <span className="text-base font-bold tracking-tight text-[var(--color-text-primary)]">
@@ -88,7 +88,7 @@ function Logo() {
 function BrandMark({ className = '' }: { className?: string }) {
   return (
     <Link to={ROUTES.HOME} className={`flex items-center gap-2 ${className}`} aria-label={APP_NAME + ' home'}>
-      <span className="flex h-7 w-7 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary)]">
+      <span className="flex h-7 w-7 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-accent)]">
         <FileText className="h-3.5 w-3.5 text-white" />
       </span>
       <span className="text-sm font-bold text-[var(--color-text-primary)]">{APP_NAME}</span>
@@ -100,9 +100,9 @@ export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div className="flex min-h-dvh flex-col bg-[var(--color-bg-primary)]">
+    <div className="flex min-h-dvh flex-col bg-white">
       {/* ── Navbar ─────────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg-primary)]/80 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-white/80 ">
         <Container className="flex h-16 items-center justify-between">
           <Logo />
 
@@ -146,7 +146,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             transition={{ duration: 0.2 }}
-            className="border-t border-[var(--color-border)] bg-[var(--color-bg-primary)] md:hidden"
+            className="border-t border-[var(--color-border)] bg-white md:hidden"
           >
             <Container className="flex flex-col gap-1 py-4">
               {NAV_LINKS.map((link) => (
@@ -178,7 +178,7 @@ export default function LandingPage() {
           {/* Soft accent glow */}
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-0 -z-0 h-[420px] w-[min(820px,90vw)] -translate-x-1/2 rounded-full bg-[var(--color-primary)]/5 blur-3xl"
+            className="pointer-events-none absolute left-1/2 top-0 -z-0 h-[420px] w-[min(820px,90vw)] -translate-x-1/2 rounded-full bg-[var(--color-accent)]/5 blur-3xl"
           />
           <Container size="narrow" className="relative px-4 py-20 text-center sm:py-24 lg:py-28">
             <motion.div
@@ -187,7 +187,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="mx-auto flex max-w-3xl flex-col items-center"
             >
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-primary-subtle)] px-3 py-1 text-xs font-medium text-[var(--color-primary)]">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-accent-subtle)] px-3 py-1 text-xs font-medium text-[var(--color-accent)]">
                 <Zap className="h-3 w-3" /> Free forever · No credit card required
               </span>
 
@@ -225,7 +225,7 @@ export default function LandingPage() {
         {/* ── Features ─────────────────────────────────────────────────────── */}
         <Section id="features" className="scroll-mt-20">
           <div className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wide text-[var(--color-primary)]">
+            <span className="text-sm font-semibold uppercase tracking-wide text-[var(--color-accent)]">
               Features
             </span>
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-[var(--color-text-primary)] sm:text-4xl">
@@ -246,8 +246,8 @@ export default function LandingPage() {
                 transition={{ duration: 0.4, delay: i * 0.05 }}
               >
                 <Card hover padding="lg" className="h-full">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary-subtle)]">
-                    <Icon className="h-5 w-5 text-[var(--color-primary)]" />
+                  <div className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-accent-subtle)]">
+                    <Icon className="h-5 w-5 text-[var(--color-accent)]" />
                   </div>
                   <h3 className="mt-5 font-semibold text-[var(--color-text-primary)]">{title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">{desc}</p>
@@ -274,7 +274,7 @@ export default function LandingPage() {
         {/* ── CTA ──────────────────────────────────────────────────────────── */}
         <Section id="pricing" className="scroll-mt-20">
           <Container>
-            <div className="relative overflow-hidden rounded-[var(--radius-xl)] bg-[var(--color-primary)] px-6 py-16 text-center shadow-[var(--shadow-lg)] sm:px-12 sm:py-20">
+            <div className="relative overflow-hidden rounded-lg bg-[var(--color-accent)] px-6 py-16 text-center shadow-[var(--shadow-lg)] sm:px-12 sm:py-20">
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-0 opacity-20"
@@ -291,7 +291,7 @@ export default function LandingPage() {
                 <h2 className="mt-5 text-3xl font-bold tracking-tight text-white sm:text-4xl">
                   Ready to land your next role?
                 </h2>
-                <p className="mx-auto mt-4 max-w-xl text-white/80">
+                <p className="mx-auto mt-4 max-w-xl text-inherit">
                   Join thousands of job seekers who built their resume with {APP_NAME}.
                 </p>
                 <div className="mt-8 flex justify-center">
@@ -308,7 +308,7 @@ export default function LandingPage() {
       </main>
 
       {/* ── Footer ─────────────────────────────────────────────────────────── */}
-      <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg-primary)]">
+      <footer className="border-t border-[var(--color-border)] bg-white">
         <Container className="py-14">
           <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
             <div className="col-span-2 sm:col-span-3 lg:col-span-1">

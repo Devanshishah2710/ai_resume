@@ -301,7 +301,7 @@ export default function LoginPage() {
           <div className="flex justify-end -mt-1">
             <Link
               to={ROUTES.FORGOT_PASSWORD}
-              className="text-xs font-medium text-[var(--color-primary)] hover:text-[var(--color-accent-hover)] transition-colors"
+              className="text-xs font-medium text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors"
             >
               Forgot your password?
             </Link>
@@ -330,7 +330,7 @@ export default function LoginPage() {
         {/* Register link */}
         <p className="text-center text-sm text-[var(--color-text-secondary)] pt-1">
           Don&apos;t have an account?{' '}
-          <Link to={ROUTES.REGISTER} className="text-[var(--color-primary)] font-semibold hover:text-[var(--color-accent-hover)] transition-colors">
+          <Link to={ROUTES.REGISTER} className="text-[var(--color-accent)] font-semibold hover:text-[var(--color-accent-hover)] transition-colors">
             Create one free
           </Link>
         </p>

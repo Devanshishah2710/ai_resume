@@ -27,14 +27,12 @@ export function Card({
   return (
     <Tag
       className={[
-        'bg-[var(--color-bg-elevated)] rounded-[var(--radius-xl)]',
+        'bg-[var(--color-bg-elevated)] rounded-lg',
         'border border-[var(--color-border)]',
-        'shadow-[var(--shadow-card)]',
+        'shadow-md',
         PADDING_CLASSES[padding],
         hover
-          ? 'transition-all duration-[var(--transition-normal)] ' +
-            'hover:-translate-y-2 hover:border-[var(--color-primary)]/20 ' +
-            'hover:shadow-[0_20px_40px_rgba(15,23,42,0.08)] cursor-pointer'
+? 'transition-all duration-[var(--transition-normal)] hover:bg-[var(--color-bg-secondary)] cursor-pointer'
           : '',
         className,
       ].join(' ')}
@@ -54,7 +52,7 @@ export function CardHeader({
   children: React.ReactNode
 }) {
   return (
-    <div className={['flex items-center justify-between mb-5', className].join(' ')}>
+    <div className={['flex items-center justify-between mb-4', className].join(' ')}>
       {children}
     </div>
   )

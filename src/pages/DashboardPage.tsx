@@ -223,7 +223,7 @@ export default function DashboardPage() {
                   className={[
                     'p-2 transition-colors',
                     viewMode === 'grid'
-                      ? 'bg-[var(--color-primary-subtle)] text-[var(--color-primary)]'
+                      ? 'bg-[var(--color-accent-subtle)] text-[var(--color-accent)]'
                       : 'text-[var(--color-text-tertiary)] hover:bg-[var(--color-bg-secondary)]',
                   ].join(' ')}
                 >
@@ -235,7 +235,7 @@ export default function DashboardPage() {
                   className={[
                     'p-2 transition-colors',
                     viewMode === 'list'
-                      ? 'bg-[var(--color-primary-subtle)] text-[var(--color-primary)]'
+                      ? 'bg-[var(--color-accent-subtle)] text-[var(--color-accent)]'
                       : 'text-[var(--color-text-tertiary)] hover:bg-[var(--color-bg-secondary)]',
                   ].join(' ')}
                 >

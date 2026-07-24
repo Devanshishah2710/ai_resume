@@ -31,7 +31,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
               'bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]',
               'border rounded-[var(--radius-md)]',
               'transition-all duration-[var(--transition-fast)]',
-              'focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20',
+              'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/20',
               error
                 ? 'border-[var(--color-error)]'
                 : 'border-[var(--color-border)] hover:border-[var(--color-border-strong)]',

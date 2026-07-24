@@ -90,11 +90,11 @@ function DropdownMenu({
             transition={{ duration: 0.12, ease: [0.16, 1, 0.3, 1] }}
           className={[
                'absolute z-50 min-w-[200px]',
-               'bg-[var(--color-bg-elevated)] rounded-[var(--radius-xl)]',
-               'border border-[var(--color-border)]/50 shadow-[var(--shadow-card)]',
+               'bg-[var(--color-bg-elevated)] rounded-lg',
+               'border border-[var(--color-border)]/50 shadow-md',
                'py-1 overflow-visible',
               align === 'right' ? 'right-0' : 'left-0',
-              direction === 'up' ? 'bottom-full mb-1' : 'top-full mt-1',
+              direction === 'up' ? 'bottom-full mb-1' : 'top-full mt-0',
             ].join(' ')}
             role="menu"
           >
@@ -177,8 +177,8 @@ function SubmenuItem({
         <div
           className={[
             'absolute top-0 z-50 min-w-[180px]',
-            'bg-[var(--color-bg-elevated)] rounded-[var(--radius-xl)]',
-            'border border-[var(--color-border)]/50 shadow-[var(--shadow-card)] py-1',
+            'bg-[var(--color-bg-elevated)] rounded-lg',
+            'border border-[var(--color-border)]/50 shadow-md py-1',
             align === 'right' ? 'left-full ml-1' : 'right-full mr-1',
           ].join(' ')}
           role="menu"

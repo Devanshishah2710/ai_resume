@@ -92,7 +92,7 @@ export default function SettingsPage() {
                     className="h-14 w-14 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="h-14 w-14 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white text-lg font-semibold">
+                  <div className="h-14 w-14 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-lg font-semibold">
                     <User className="h-5 w-5" />
                   </div>
                 )}
@@ -100,7 +100,7 @@ export default function SettingsPage() {
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isUploadingAvatar}
-                  className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-[var(--color-bg-elevated)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] hover:text-[var(--color-primary)]"
+                  className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-[var(--color-bg-elevated)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] hover:text-[var(--color-accent)]"
                   aria-label="Change photo"
                 >
                   <Upload className="h-3 w-3" />
@@ -144,7 +144,7 @@ export default function SettingsPage() {
           </CardHeader>
           <div className="space-y-3">
             <div className="flex items-center gap-3 p-3 rounded-[var(--radius-md)] bg-[var(--color-bg-secondary)]">
-              <div className="h-9 w-9 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white text-sm font-semibold shrink-0">
+              <div className="h-9 w-9 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-sm font-semibold shrink-0">
                 <User className="h-4 w-4" />
               </div>
               <div>
@@ -175,7 +175,7 @@ export default function SettingsPage() {
                   className={[
                     'flex-1 flex flex-col items-center gap-2 p-4 rounded-[var(--radius-md)] border-2 transition-colors text-sm font-medium',
                     theme === value
-                      ? 'border-[var(--color-primary)] bg-[var(--color-primary-subtle)] text-[var(--color-primary)]'
+                      ? 'border-[var(--color-accent)] bg-[var(--color-accent-subtle)] text-[var(--color-accent)]'
                       : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]',
                   ].join(' ')}
                 >

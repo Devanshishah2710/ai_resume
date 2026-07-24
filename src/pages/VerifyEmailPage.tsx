@@ -38,7 +38,7 @@ export default function VerifyEmailPage() {
     return (
       <AuthLayout title="Verifying your email…" subtitle="Please wait a moment">
         <div className="text-center">
-          <span className="mx-auto block h-8 w-8 rounded-full border-2 border-[var(--color-primary)] border-t-transparent animate-spin" />
+          <span className="mx-auto block h-8 w-8 rounded-full border-2 border-[var(--color-accent)] border-t-transparent animate-spin" />
         </div>
       </AuthLayout>
     )

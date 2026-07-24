@@ -65,7 +65,7 @@ export function Section({
 }: SectionProps) {
   return (
     <Tag
-      className={['py-16 sm:py-20 lg:py-24', className].join(' ')}
+      className={['py-12 sm:py-16 lg:py-20', className].join(' ')}
       {...props}
     >
       {contained ? (

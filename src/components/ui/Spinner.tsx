@@ -8,7 +8,7 @@ export function Spinner({ size = 'md', className = '' }: SpinnerProps) {
   return (
     <Loader2
       className={[
-        'animate-spin text-[var(--color-primary)]',
+        'animate-spin text-[var(--color-accent)]',
         SIZE_CLASSES[size],
         className,
       ].join(' ')}

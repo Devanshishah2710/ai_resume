@@ -17,10 +17,10 @@ export function Switch({ checked, onChange, label, disabled = false, size = 'md'
         onClick={() => onChange(!checked)}
         className={[
           'relative inline-flex shrink-0 rounded-full transition-colors duration-200',
-          'focus-visible:outline-2 focus-visible:outline-[var(--color-primary)]',
+          'focus-visible:outline-2 focus-visible:outline-[var(--color-accent)]',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           size === 'sm' ? 'h-5 w-9' : 'h-6 w-11',
-          checked ? 'bg-[var(--color-primary)]' : 'bg-[var(--color-bg-tertiary)]',
+          checked ? 'bg-[var(--color-accent)]' : 'bg-[var(--color-bg-tertiary)]',
         ].join(' ')}
       >
         <span

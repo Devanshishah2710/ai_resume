@@ -12,7 +12,7 @@ const VARIANT_CLASSES: Record<BadgeVariant, string> = {
   success: 'bg-[var(--color-success-subtle)] text-[var(--color-success)]',
   warning: 'bg-[var(--color-warning-subtle)] text-[var(--color-warning)]',
   error: 'bg-[var(--color-error-subtle)] text-[var(--color-error)]',
-  accent: 'bg-[var(--color-primary-subtle)] text-[var(--color-primary)]',
+  accent: 'bg-[var(--color-accent-subtle)] text-[var(--color-accent)]',
   outline: 'border border-[var(--color-border)] text-[var(--color-text-secondary)] bg-transparent',
 }
 

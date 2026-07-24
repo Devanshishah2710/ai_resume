@@ -151,7 +151,7 @@ export default function RegisterPage() {
             <div className="w-full border-t border-[var(--color-border)]" />
           </div>
           <div className="relative flex justify-center">
-            <span className="bg-[var(--color-bg-primary)] px-3 text-xs text-[var(--color-text-tertiary)]">
+            <span className="bg-white px-3 text-xs text-[var(--color-text-tertiary)]">
               or register with email
             </span>
           </div>
@@ -246,7 +246,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-sm text-[var(--color-text-secondary)]">
           Already have an account?{' '}
-          <Link to={ROUTES.LOGIN} className="text-[var(--color-primary)] font-medium hover:underline">
+          <Link to={ROUTES.LOGIN} className="text-[var(--color-accent)] font-medium hover:underline">
             Sign in
           </Link>
         </p>

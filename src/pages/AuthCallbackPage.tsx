@@ -197,7 +197,7 @@ export default function AuthCallbackPage() {
           {/* Animated logo */}
           <div className="flex justify-center">
             <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
-              <Loader2 className="h-6 w-6 text-white animate-spin" />
+              <Loader2 className="h-6 w-6 inherit animate-spin" />
             </div>
           </div>
 
@@ -212,7 +212,7 @@ export default function AuthCallbackPage() {
                     {isDone ? (
                       <CheckCircle2 className="h-5 w-5 text-[var(--color-success)]" />
                     ) : isActive ? (
-                      <Loader2 className="h-5 w-5 text-[var(--color-primary)] animate-spin" />
+                      <Loader2 className="h-5 w-5 text-[var(--color-accent)] animate-spin" />
                     ) : (
                       <div className="h-5 w-5 rounded-full border-2 border-[var(--color-border)]" />
                     )}
@@ -241,7 +241,7 @@ export default function AuthCallbackPage() {
   // ── Default loading state ──
   return (
     <div className="min-h-dvh flex items-center justify-center bg-[var(--color-bg-primary)]">
-      <Loader2 className="h-8 w-8 text-[var(--color-primary)] animate-spin" />
+      <Loader2 className="h-8 w-8 text-[var(--color-accent)] animate-spin" />
     </div>
   )
 }
